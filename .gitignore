@@ -1,0 +1,25 @@
+# 本机授权与凭据
+*.lic
+.env
+.env.*
+!.env.example
+settings.xml
+*-settings.xml
+*.pem
+*.key
+*.p12
+*.pfx
+# 登录态与工具缓存
+.playwright-cli/
+**/*auth-state*.json
+node_modules/
+__pycache__/
+.idea/
+.vscode/
+# 原始日志、构建输出与本机临时文件
+*.log
+原始日志/
+私有备份/
+**/target/
+.DS_Store
+Thumbs.db

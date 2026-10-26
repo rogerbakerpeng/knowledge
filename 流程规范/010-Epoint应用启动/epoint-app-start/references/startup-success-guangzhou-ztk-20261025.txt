@@ -1,0 +1,16 @@
+Epoint 本地启动成功案例（脱敏摘要，不是完整运行日志）
+日期：2026-10-25；方式：JRebel + Maven tomcat7:run；JDK 8。
+仅保留原日志关键时间与事件，不包含数据库连接、凭据、业务数据、内网地址或授权内容。
+
+21:54:56  首条 JRebel 日志。
+21:57:49  Spring 激活 normal 配置。
+21:58:49  Root WebApplicationContext 初始化完成。
+22:00:16  Started FrameEsfApplication in 167.577 seconds (JVM running for 324.657)。
+           后续初始化仍在进行，这一行不代表最终就绪。
+22:08:56  FrameworkServlet：Completed initialization in 506944 ms。
+22:08:57  Starting ProtocolHandler ["http-bio-8081"]。
+22:09:04  授权验证成功（机器码、文件名已脱敏）。
+
+首条 JRebel 日志到监听约 14 分 1 秒，到授权验证成功约 14 分 8 秒。
+原案例随后确认登录页、投标人身份和首页可用，但未记录浏览器验收精确时间。
+参考中存在数据库升级脚本与数据质量告警；是否影响另一个工程，必须结合实际异常和功能验证判断。
