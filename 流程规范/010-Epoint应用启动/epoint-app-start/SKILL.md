@@ -30,8 +30,8 @@ description: 启动和排查 Epoint 新点传统 Java/Maven Web 应用，采用 
 - 使用目标 WAR 的标准 pom.xml，目标为 tomcat7:run；IDEA VM options 设置 -Dmaven.tomcat.port=<空闲端口>，不只修改 Maven goal。
 - 命令行启动使用参数数组/正确 shell 引号，把一份 JRebel agent 加入运行 Maven 的 JVM；保留工程必需参数，不复制其他电脑的未知 agent。
 - 不生成几百个 systemPath 依赖、不用 target/local-libs 替代正常 Maven 解析、不继续用遗留的 pom-verify.xml。用户明确要求且确有必要的临时 POM 要记录用途及 clean 后果，不能成为默认运行配置。
-- rebel.xml 必须监控当前工程及需要热部署的本地模块。Maven 生成步骤可能覆盖人工映射，检查实际加载的映射；不能监控旧 checkout 或其他电脑路径。
-- Java 修改后仍需编译为 class。META-INF/resources 修改后编译/同步，并确认实例挂载了模块 target/classes 或相应 JRebel 资源映射；通过实际 HTTP 内容确认生效。不支持的变更按仓库规则重启。
+- **热部署完整性必检**：先列出本工程实际待改的业务/公共/登录等本地模块，核对源码与target的rebel.xml及运行实例日志，不能只监控WAR。把映射固化到生成器配置或启动脚本，并重复生成确认不丢失；不要只补手工XML。跨项目的配置、前台挂载和验证方法见[热部署完整性](references/hot-deployment.md)。
+- Java修改后编译所属模块并验证同PID热替换；不能因代码在JAR模块就一律要求重启。前台按实际模式处理：源码挂载可直接刷新，target映射需编译/同步；分别实测JS/CSS/HTML，排除缓存、404和登录重定向。不支持的变更仍按仓库JRebel边界判断。
 - 日志保存到不会被 clean 删除的位置，不覆盖用户原始日志。**依赖已齐全的同类应用，启动先预留 10–20 分钟**；参考案例从首条 JRebel 日志到端口监听、授权通过约 14 分钟。全新工程另计依赖下载、编译和 IDEA 导入耗时，不能承诺 20 分钟内完成；后续重启也先沿用此预算，积累本机数据后再调整。
 - 启动前告知时间预期，并分别记录准备耗时、JVM 启动时间、容器监听时间及登录验证完成时间。Started FrameEsfApplication 不是最终就绪。15 分钟仍有初始化进展可继续等；20 分钟仍不可用应检查日志、线程及外部依赖，不盲目重启。明确阻断异常立即排查，完整时间线与等待策略见[启动耗时预期](references/startup-log-guide.md#启动耗时预期与等待策略)。
 

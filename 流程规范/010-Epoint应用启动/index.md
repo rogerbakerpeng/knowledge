@@ -10,6 +10,7 @@
 | 判断要等多久、是否真正成功 | [启动耗时与日志判读](epoint-app-start/references/startup-log-guide.md) |
 | 缺类、缺方法、刷新一个陈旧 JAR | [依赖修复](epoint-app-start/references/dependency-repair.md) |
 | 新工程 IDEA 导入、JRebel、Redis、授权 | [环境准备](epoint-app-start/references/idea-and-environment.md) |
+| 检查业务Java与前台资源热部署、防止映射被覆盖 | [热部署完整性](epoint-app-start/references/hot-deployment.md) |
 | 执行辅助命令 | [脚本用法](epoint-app-start/references/helpers.md) |
 | 对照启动阶段时间 | [脱敏日志摘要](epoint-app-start/references/startup-success-guangzhou-ztk-20261025.txt) |
 
