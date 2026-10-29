@@ -1,0 +1,52 @@
+{
+  "title": "广西省各公共资源交易中心信息化建设情况",
+  "document_path": "030-广西专题/010-广西交易中心信息化现状.md",
+  "source_summary": "广西省各公共资源交易中心信息化建设情况.md",
+  "original_source": "\"E:/产品及地区战略情况/广西省各公共资源交易中心信息化建设情况.xlsx\"",
+  "tags": [
+    "广西",
+    "公共资源交易中心",
+    "信息化现状",
+    "区域地图",
+    "竞争格局",
+    "智能辅助评标",
+    "数字见证",
+    "统一建设"
+  ],
+  "summary": "广西基础交易和监管平台已呈现自治区统建、全区共用的格局，但AI应用仍处在局部试点阶段。当前最适合的策略是依托已有统一平台做省级能力复用，而不是各地重复建设独立底座。",
+  "bytes": 2950,
+  "sha256": "0c599d5c29bf65f6a0799c67bf896f9ff40f6f06effce8c1ab0dd8341b0fec45",
+  "sections": [
+    {
+      "title": "广西省各公共资源交易中心信息化建设情况",
+      "level": 1,
+      "line_start": 6,
+      "line_end": 40
+    },
+    {
+      "title": "核心结论",
+      "level": 2,
+      "line_start": 8,
+      "line_end": 14
+    },
+    {
+      "title": "关键论据",
+      "level": 2,
+      "line_start": 15,
+      "line_end": 24
+    },
+    {
+      "title": "方法论名称",
+      "level": 2,
+      "line_start": 25,
+      "line_end": 32
+    },
+    {
+      "title": "可复用模板",
+      "level": 2,
+      "line_start": 33,
+      "line_end": 40
+    }
+  ],
+  "section_index": "索引/010-广西交易中心信息化现状.pageindex.json"
+}

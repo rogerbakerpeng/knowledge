@@ -1,0 +1,52 @@
+{
+  "title": "AI模型建设需求与投入估算表",
+  "document_path": "040-实施与资源/010-AI模型需求与投入估算.md",
+  "source_summary": "AI模型建设需求与投入估算表.md",
+  "original_source": "\"E:/产品及地区战略情况/AI模型建设需求与投入估算表.xlsx\"",
+  "tags": [
+    "广西",
+    "公共资源交易",
+    "人工智能",
+    "模型建设",
+    "投入估算",
+    "算力规划",
+    "综合监管",
+    "产品规划"
+  ],
+  "summary": "规划以统一的“人工智能+综合监管”能力底座支撑场所调度、远程异地评标、见证、档案、问答、专家、围串标、信用、协同监管和投诉处理等模块，再按业务场景复用。",
+  "bytes": 3072,
+  "sha256": "b722ffe6edab4592b15033b8b8cd901978223cc941c664cc7132a2de053f5459",
+  "sections": [
+    {
+      "title": "AI模型建设需求与投入估算表",
+      "level": 1,
+      "line_start": 6,
+      "line_end": 39
+    },
+    {
+      "title": "核心结论",
+      "level": 2,
+      "line_start": 8,
+      "line_end": 14
+    },
+    {
+      "title": "关键论据",
+      "level": 2,
+      "line_start": 15,
+      "line_end": 23
+    },
+    {
+      "title": "方法论名称",
+      "level": 2,
+      "line_start": 24,
+      "line_end": 31
+    },
+    {
+      "title": "可复用模板",
+      "level": 2,
+      "line_start": 32,
+      "line_end": 39
+    }
+  ],
+  "section_index": "索引/010-AI模型需求与投入估算.pageindex.json"
+}

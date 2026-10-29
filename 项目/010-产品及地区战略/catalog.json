@@ -1,0 +1,682 @@
+{
+  "schema_version": 1,
+  "index_type": "heading_and_line",
+  "documents": [
+    {
+      "title": "《公共资源交易中心招标投标现场管理暂行办法》2026年第43号令浅要探析",
+      "document_path": "010-政策与产品/010-43号令现场管理解读.md",
+      "source_summary": "20260802-《公共资源交易中心招标投标现场管理暂行办法》 2026年第43号令浅要探析-V1.5.md",
+      "original_source": "\"E:/产品方案/20260802-《公共资源交易中心招标投标现场管理暂行办法》 2026年第43号令浅要探析-V1.5.pptx\"",
+      "tags": [
+        "43号令",
+        "公共资源交易中心",
+        "现场管理",
+        "服务保障",
+        "全过程记录",
+        "异常行为提醒",
+        "违法线索报告",
+        "智能辅助评标",
+        "智慧见证",
+        "围串标",
+        "电子档案",
+        "实施规划"
+      ],
+      "summary": "该演示文稿将43号令概括为“一个定位、四大职责、三条红线、一条主线”：交易中心是招标投标“第一现场”的管理者和辅助监管执行者，承担服务保障、全过程记录、异常行为提醒、违法线索报告；同时不得替代招标人、不得替代行政监督部门、不得行使许可备案检查处罚权；数智技术贯穿履职全过程。",
+      "bytes": 10879,
+      "sha256": "8a80652eb97e2123ea41b46030003ad462dfe0451e3c1fe97965e3107978ff4a",
+      "sections": [
+        {
+          "title": "《公共资源交易中心招标投标现场管理暂行办法》2026年第43号令浅要探析",
+          "level": 1,
+          "line_start": 9,
+          "line_end": 96
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 11,
+          "line_end": 18
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 19,
+          "line_end": 64
+        },
+        {
+          "title": "制度框架与责任边界",
+          "level": 3,
+          "line_start": 21,
+          "line_end": 29
+        },
+        {
+          "title": "服务保障的数智方案",
+          "level": 3,
+          "line_start": 30,
+          "line_end": 40
+        },
+        {
+          "title": "全过程记录与长期保存",
+          "level": 3,
+          "line_start": 41,
+          "line_end": 47
+        },
+        {
+          "title": "异常提醒与违法线索报告",
+          "level": 3,
+          "line_start": 48,
+          "line_end": 57
+        },
+        {
+          "title": "实施节奏与趋势判断",
+          "level": 3,
+          "line_start": 58,
+          "line_end": 64
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 65,
+          "line_end": 76
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 77,
+          "line_end": 85
+        },
+        {
+          "title": "关联文档",
+          "level": 2,
+          "line_start": 86,
+          "line_end": 96
+        }
+      ],
+      "section_index": "索引/010-43号令现场管理解读.pageindex.json"
+    },
+    {
+      "title": "2026年公共资源AI+远程异地+见证产品地图（1）",
+      "document_path": "020-全国市场/020-2026公共资源产品地图-重复来源.md",
+      "source_summary": "2026年公共资源AI+远程异地+见证产品地图 (1).md",
+      "original_source": "\"E:/产品及地区战略情况/2026年公共资源AI+远程异地+见证产品地图 (1).xlsx\"",
+      "tags": [
+        "2026产品地图",
+        "公共资源交易",
+        "人工智能",
+        "远程异地评标",
+        "数字见证",
+        "区域市场",
+        "建设覆盖",
+        "新点"
+      ],
+      "summary": "已填报地区的存量建设集中在政府采购、商城、技术标暗标评审、跨省远程异地评标、分散评标、总控平台、数字见证和档案等成熟能力；2026年增量规划明显转向智能辅助评标、公平性审查、围串标识别及投标文件分析。",
+      "duplicate_of": "020-全国市场/010-2026公共资源产品地图.md",
+      "bytes": 3316,
+      "sha256": "f8fc47d1c59d3fdac58d9ba57b9c85e34fdd5315f7c85380894b41906b59e4ce",
+      "sections": [
+        {
+          "title": "2026年公共资源AI+远程异地+见证产品地图（1）",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 41
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 25
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 26,
+          "line_end": 33
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 34,
+          "line_end": 41
+        }
+      ],
+      "section_index": "索引/020-2026公共资源产品地图-重复来源.pageindex.json"
+    },
+    {
+      "title": "2026年公共资源AI+远程异地+见证产品地图",
+      "document_path": "020-全国市场/010-2026公共资源产品地图.md",
+      "source_summary": "2026年公共资源AI+远程异地+见证产品地图.md",
+      "original_source": "\"E:/产品及地区战略情况/2026年公共资源AI+远程异地+见证产品地图.xlsx\"",
+      "tags": [
+        "2026产品地图",
+        "公共资源交易",
+        "人工智能",
+        "远程异地评标",
+        "数字见证",
+        "区域市场",
+        "建设覆盖",
+        "新点"
+      ],
+      "summary": "已填报地区的存量建设集中在政府采购、商城、技术标暗标评审、跨省远程异地评标、分散评标、总控平台、数字见证和档案等成熟能力；2026年增量规划明显转向智能辅助评标、公平性审查、围串标识别及投标文件分析。",
+      "bytes": 3302,
+      "sha256": "29faf5ad16543b62301e0fe7930aacec0b84b84934c1f1f412980ed7935cdca9",
+      "sections": [
+        {
+          "title": "2026年公共资源AI+远程异地+见证产品地图",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 41
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 25
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 26,
+          "line_end": 33
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 34,
+          "line_end": 41
+        }
+      ],
+      "section_index": "索引/010-2026公共资源产品地图.pageindex.json"
+    },
+    {
+      "title": "AI模型建设需求与投入估算表",
+      "document_path": "040-实施与资源/010-AI模型需求与投入估算.md",
+      "source_summary": "AI模型建设需求与投入估算表.md",
+      "original_source": "\"E:/产品及地区战略情况/AI模型建设需求与投入估算表.xlsx\"",
+      "tags": [
+        "广西",
+        "公共资源交易",
+        "人工智能",
+        "模型建设",
+        "投入估算",
+        "算力规划",
+        "综合监管",
+        "产品规划"
+      ],
+      "summary": "规划以统一的“人工智能+综合监管”能力底座支撑场所调度、远程异地评标、见证、档案、问答、专家、围串标、信用、协同监管和投诉处理等模块，再按业务场景复用。",
+      "bytes": 3072,
+      "sha256": "b722ffe6edab4592b15033b8b8cd901978223cc941c664cc7132a2de053f5459",
+      "sections": [
+        {
+          "title": "AI模型建设需求与投入估算表",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 39
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 23
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 24,
+          "line_end": 31
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 32,
+          "line_end": 39
+        }
+      ],
+      "section_index": "索引/010-AI模型需求与投入估算.pageindex.json"
+    },
+    {
+      "title": "《关于加快招标投标领域人工智能推广应用的实施意见》产品清单",
+      "document_path": "010-政策与产品/020-AI政策产品清单.md",
+      "source_summary": "《关于加快招标投标领域人工智能推广应用的实施意见》产品清单.md",
+      "original_source": "\"E:/产品及地区战略情况/《关于加快招标投标领域人工智能推广应用的实施意见》产品清单.xlsx\"",
+      "tags": [
+        "招标投标",
+        "人工智能",
+        "政策产品清单",
+        "产品组合",
+        "报价体系",
+        "智能评标",
+        "公平竞争审查",
+        "全生命周期"
+      ],
+      "summary": "产品组合已覆盖招标策划、文件编制与解析、投标、开标、评标、定标、合同、现场、档案和监管全生命周期，但各环节成熟度差异很大，不能以一套销售与交付策略统一推进。",
+      "bytes": 4589,
+      "sha256": "9beb03da726a6ad76b4de63a092223207da03d07353cb5bf3ed5eb6c860a8633",
+      "sections": [
+        {
+          "title": "《关于加快招标投标领域人工智能推广应用的实施意见》产品清单",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 46
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 27
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 28,
+          "line_end": 37
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 38,
+          "line_end": 46
+        }
+      ],
+      "section_index": "索引/020-AI政策产品清单.pageindex.json"
+    },
+    {
+      "title": "公平性审查流程",
+      "document_path": "040-实施与资源/030-公平性审查流程.md",
+      "source_summary": "公平性审查流程.md",
+      "original_source": "\"E:/产品及地区战略情况/公平性审查流程.pos\"",
+      "tags": [
+        "公平性审查",
+        "流程图",
+        "招标文件",
+        "文本解析",
+        "SeqGPT",
+        "模型训练",
+        "人机协同",
+        "规则引擎",
+        "白名单",
+        "黑名单"
+      ],
+      "summary": "该流程把公平性审查拆成两条闭环：线上审查链路负责文件下载、解析、检测点匹配、语义判断和结果输出；离线训练链路负责历史数据标注、模型训练、指标评估和规则迭代。",
+      "bytes": 3253,
+      "sha256": "6a50c8ffed16a4faa640107c9a918c51e8e2e56d1658fc7fbd6a26f475c8e044",
+      "sections": [
+        {
+          "title": "公平性审查流程",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 42
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 24
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 25,
+          "line_end": 33
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 34,
+          "line_end": 42
+        }
+      ],
+      "section_index": "索引/030-公平性审查流程.pageindex.json"
+    },
+    {
+      "title": "关于推进省级优化会议系统功能 分散评标功能建设 四合一点位规划工作汇报",
+      "document_path": "040-实施与资源/040-省级分散评标与点位规划.md",
+      "source_summary": "关于推进省级优化会议系统功能、分散评标功能建设、四合一点位规划工作汇报-20260513.md",
+      "original_source": "\"E:\\\\产品及地区战略情况\\\\关于推进省级优化会议系统功能、分散评标功能建设、四合一点位规划工作汇报-20260513.docx\"",
+      "tags": [
+        "公共资源交易",
+        "分散评标",
+        "远程异地评标",
+        "会议系统",
+        "省市县一体化",
+        "评标点位",
+        "音视频监管",
+        "一标一档",
+        "硬件规划",
+        "广西"
+      ],
+      "summary": "建设目标是形成全省统一的分散评标体系，核心抓手包括会议系统智能化、省级核心能力优先落地、省市县三级联动和评标点位标准化。",
+      "bytes": 4268,
+      "sha256": "fd874ec199de6cd35fae33c3f472c7161b7105c8c458e76927375dc9aa651828",
+      "sections": [
+        {
+          "title": "关于推进省级优化会议系统功能 分散评标功能建设 四合一点位规划工作汇报",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 43
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 15
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 16,
+          "line_end": 25
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 26,
+          "line_end": 34
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 35,
+          "line_end": 43
+        }
+      ],
+      "section_index": "索引/040-省级分散评标与点位规划.pageindex.json"
+    },
+    {
+      "title": "各产品应用清单、服务器标准资源及资源测算公式整理（副本）",
+      "document_path": "040-实施与资源/020-服务器资源与容量测算.md",
+      "source_summary": "各产品应用清单、服务器标准资源及资源测算公式整理 (2) - 副本.md",
+      "original_source": "\"E:/产品及地区战略情况/各产品应用清单、服务器标准资源及资源测算公式整理 (2) - 副本.xlsx\"",
+      "tags": [
+        "产品应用清单",
+        "服务器资源",
+        "容量规划",
+        "算力测算",
+        "GPU",
+        "数据库",
+        "存储",
+        "中间件",
+        "部署规范",
+        "性能基线"
+      ],
+      "summary": "该工作簿是一套覆盖28类产品、41个工作表的部署规划知识库，核心价值是把应用选型、服务器合并、容量测算、AI算力、数据库、存储和中间件统一到一张可计算的资源蓝图中。",
+      "bytes": 4845,
+      "sha256": "0fe513018d21bd3f393c549db5370d0ea9a21bf8016eccb298ed694cd1113d08",
+      "sections": [
+        {
+          "title": "各产品应用清单、服务器标准资源及资源测算公式整理（副本）",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 49
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 15
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 16,
+          "line_end": 28
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 29,
+          "line_end": 39
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 40,
+          "line_end": 49
+        }
+      ],
+      "section_index": "索引/020-服务器资源与容量测算.pageindex.json"
+    },
+    {
+      "title": "各省建设竞争情况及人工智能交易监管应用（1）",
+      "document_path": "020-全国市场/030-各省平台竞争与AI监管应用.md",
+      "source_summary": "各省建设竞争情况及人工智能交易监管应用 (1).md",
+      "original_source": "\"E:/产品及地区战略情况/各省建设竞争情况及人工智能交易监管应用 (1).xlsx\"",
+      "tags": [
+        "全国市场",
+        "竞争格局",
+        "公共资源交易",
+        "交易平台",
+        "监管平台",
+        "人工智能",
+        "智能辅助评标",
+        "围串标",
+        "市场占有"
+      ],
+      "summary": "数据集显示新点在公共资源交易、服务和监管平台的项目数量上均居首，但市场并非单一厂商垄断：博思、政采云、广联达、筑龙以及大量区域厂商在不同省份和业务领域形成分散竞争。",
+      "bytes": 3818,
+      "sha256": "abe56fb39d01314781a676e053472a21947ebd8446b3e281ef31f9c5d53ebbba",
+      "sections": [
+        {
+          "title": "各省建设竞争情况及人工智能交易监管应用（1）",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 43
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 25
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 26,
+          "line_end": 34
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 35,
+          "line_end": 43
+        }
+      ],
+      "section_index": "索引/030-各省平台竞争与AI监管应用.pageindex.json"
+    },
+    {
+      "title": "广西住建厅人工智能辅助招标投标系统调研清单",
+      "document_path": "030-广西专题/030-广西住建AI辅助招投标调研.md",
+      "source_summary": "广西住建厅人工智能辅助招标投标系统_调研清单（传新点） (1).md",
+      "original_source": "\"E:\\\\产品及地区战略情况\\\\广西住建厅人工智能辅助招标投标系统_调研清单（传新点） (1).docx\"",
+      "tags": [
+        "广西住建",
+        "人工智能",
+        "招标文件合规审查",
+        "智能辅助评标",
+        "本地化部署",
+        "人机协同",
+        "数据治理",
+        "模型验收",
+        "等保三级",
+        "国产化适配",
+        "调研清单",
+        "公共资源交易"
+      ],
+      "summary": "项目首期聚焦房屋建筑和市政基础设施工程的施工项目，建设招标文件合规审查和智能辅助评标两大场景；总体业务范围还包括工程总承包、监理、检测、全过程工程咨询和勘察设计。",
+      "bytes": 7605,
+      "sha256": "34bd4871da9242fc1a65bf81ab3431402998dc7de20ae49256a945679efa759e",
+      "sections": [
+        {
+          "title": "广西住建厅人工智能辅助招标投标系统调研清单",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 59
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 16
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 17,
+          "line_end": 35
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 36,
+          "line_end": 46
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 47,
+          "line_end": 59
+        }
+      ],
+      "section_index": "索引/030-广西住建AI辅助招投标调研.pageindex.json"
+    },
+    {
+      "title": "广西省各公共资源交易中心信息化建设情况",
+      "document_path": "030-广西专题/010-广西交易中心信息化现状.md",
+      "source_summary": "广西省各公共资源交易中心信息化建设情况.md",
+      "original_source": "\"E:/产品及地区战略情况/广西省各公共资源交易中心信息化建设情况.xlsx\"",
+      "tags": [
+        "广西",
+        "公共资源交易中心",
+        "信息化现状",
+        "区域地图",
+        "竞争格局",
+        "智能辅助评标",
+        "数字见证",
+        "统一建设"
+      ],
+      "summary": "广西基础交易和监管平台已呈现自治区统建、全区共用的格局，但AI应用仍处在局部试点阶段。当前最适合的策略是依托已有统一平台做省级能力复用，而不是各地重复建设独立底座。",
+      "bytes": 2950,
+      "sha256": "0c599d5c29bf65f6a0799c67bf896f9ff40f6f06effce8c1ab0dd8341b0fec45",
+      "sections": [
+        {
+          "title": "广西省各公共资源交易中心信息化建设情况",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 40
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 24
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 25,
+          "line_end": 32
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 33,
+          "line_end": 40
+        }
+      ],
+      "section_index": "索引/010-广西交易中心信息化现状.pageindex.json"
+    },
+    {
+      "title": "广西规划—产品匹配表",
+      "document_path": "030-广西专题/020-广西规划与产品匹配.md",
+      "source_summary": "广西规划-产品匹配表.md",
+      "original_source": "\"E:/产品及地区战略情况/广西规划-产品匹配表.xlsx\"",
+      "tags": [
+        "广西",
+        "产品规划",
+        "产品匹配",
+        "公共资源交易",
+        "人工智能",
+        "算力配置",
+        "报价",
+        "落地案例"
+      ],
+      "summary": "广西规划可以形成“成熟产品先落地、AI能力重点试点、空白产品补规划”的组合：总控平台、数字见证、远程见证、智能问答等已有案例；档案智能管理、行业问答、投诉处理等仍有明显产品或案例缺口。",
+      "bytes": 3370,
+      "sha256": "c52673f51fe55174ca868b8fcdfe96e7b0b4f7e2d362613891c97188fe135459",
+      "sections": [
+        {
+          "title": "广西规划—产品匹配表",
+          "level": 1,
+          "line_start": 6,
+          "line_end": 41
+        },
+        {
+          "title": "核心结论",
+          "level": 2,
+          "line_start": 8,
+          "line_end": 14
+        },
+        {
+          "title": "关键论据",
+          "level": 2,
+          "line_start": 15,
+          "line_end": 24
+        },
+        {
+          "title": "方法论名称",
+          "level": 2,
+          "line_start": 25,
+          "line_end": 33
+        },
+        {
+          "title": "可复用模板",
+          "level": 2,
+          "line_start": 34,
+          "line_end": 41
+        }
+      ],
+      "section_index": "索引/020-广西规划与产品匹配.pageindex.json"
+    }
+  ]
+}

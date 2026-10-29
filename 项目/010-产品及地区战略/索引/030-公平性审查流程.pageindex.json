@@ -1,0 +1,54 @@
+{
+  "title": "公平性审查流程",
+  "document_path": "040-实施与资源/030-公平性审查流程.md",
+  "source_summary": "公平性审查流程.md",
+  "original_source": "\"E:/产品及地区战略情况/公平性审查流程.pos\"",
+  "tags": [
+    "公平性审查",
+    "流程图",
+    "招标文件",
+    "文本解析",
+    "SeqGPT",
+    "模型训练",
+    "人机协同",
+    "规则引擎",
+    "白名单",
+    "黑名单"
+  ],
+  "summary": "该流程把公平性审查拆成两条闭环：线上审查链路负责文件下载、解析、检测点匹配、语义判断和结果输出；离线训练链路负责历史数据标注、模型训练、指标评估和规则迭代。",
+  "bytes": 3253,
+  "sha256": "6a50c8ffed16a4faa640107c9a918c51e8e2e56d1658fc7fbd6a26f475c8e044",
+  "sections": [
+    {
+      "title": "公平性审查流程",
+      "level": 1,
+      "line_start": 6,
+      "line_end": 42
+    },
+    {
+      "title": "核心结论",
+      "level": 2,
+      "line_start": 8,
+      "line_end": 14
+    },
+    {
+      "title": "关键论据",
+      "level": 2,
+      "line_start": 15,
+      "line_end": 24
+    },
+    {
+      "title": "方法论名称",
+      "level": 2,
+      "line_start": 25,
+      "line_end": 33
+    },
+    {
+      "title": "可复用模板",
+      "level": 2,
+      "line_start": 34,
+      "line_end": 42
+    }
+  ],
+  "section_index": "索引/030-公平性审查流程.pageindex.json"
+}

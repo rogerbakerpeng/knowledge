@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "imported_at": "2026-10-29",
+  "source_directory": "E:/产品及地区战略情况/summaries",
+  "source_count": 14,
+  "content_count": 12,
+  "items": [
+    {
+      "source_file": "20260802-《公共资源交易中心招标投标现场管理暂行办法》 2026年第43号令浅要探析-V1.5.md",
+      "target_file": "010-政策与产品/010-43号令现场管理解读.md",
+      "source_sha256": "1932ede1f530c83a70dc4f65717854d90817faf223b414da3beeee4f2a17fbf0",
+      "target_sha256": "8a80652eb97e2123ea41b46030003ad462dfe0451e3c1fe97965e3107978ff4a",
+      "changes": "仅按归档位置修正内部链接"
+    },
+    {
+      "source_file": "20260802-《公共资源交易中心招标投标现场管理暂行办法》 2026年第43号令浅要探析-V1.5.pageindex.json",
+      "target_file": "索引/原始43号令.pageindex.json",
+      "source_sha256": "ea34097956af5e164b1e180c9629e288ff65af9c6f957986a93bd38c4d578251",
+      "target_sha256": "e827720cae321a13be396024106cd5b2e1ad65cd3cc1211aa579317f04de9427",
+      "changes": "调整摘要和关联文档路径"
+    },
+    {
+      "source_file": "2026年公共资源AI+远程异地+见证产品地图 (1).md",
+      "target_file": "020-全国市场/020-2026公共资源产品地图-重复来源.md",
+      "source_sha256": "f8fc47d1c59d3fdac58d9ba57b9c85e34fdd5315f7c85380894b41906b59e4ce",
+      "target_sha256": "f8fc47d1c59d3fdac58d9ba57b9c85e34fdd5315f7c85380894b41906b59e4ce",
+      "changes": "正文保持原样",
+      "duplicate_of": "020-全国市场/010-2026公共资源产品地图.md"
+    },
+    {
+      "source_file": "2026年公共资源AI+远程异地+见证产品地图.md",
+      "target_file": "020-全国市场/010-2026公共资源产品地图.md",
+      "source_sha256": "29faf5ad16543b62301e0fe7930aacec0b84b84934c1f1f412980ed7935cdca9",
+      "target_sha256": "29faf5ad16543b62301e0fe7930aacec0b84b84934c1f1f412980ed7935cdca9",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "AI模型建设需求与投入估算表.md",
+      "target_file": "040-实施与资源/010-AI模型需求与投入估算.md",
+      "source_sha256": "b722ffe6edab4592b15033b8b8cd901978223cc941c664cc7132a2de053f5459",
+      "target_sha256": "b722ffe6edab4592b15033b8b8cd901978223cc941c664cc7132a2de053f5459",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "INDEX.md",
+      "target_file": "来源索引.md",
+      "source_sha256": "4437224dbf2f0c36eb03405d6d8c49802c735662bae93582b27a4c962f3eefe5",
+      "target_sha256": "aff26fb39a4bfc8d35365982d2a22d35d6cd055c200d2ba897470ae469d3f217",
+      "changes": "仅按归档位置修正内部链接"
+    },
+    {
+      "source_file": "《关于加快招标投标领域人工智能推广应用的实施意见》产品清单.md",
+      "target_file": "010-政策与产品/020-AI政策产品清单.md",
+      "source_sha256": "9beb03da726a6ad76b4de63a092223207da03d07353cb5bf3ed5eb6c860a8633",
+      "target_sha256": "9beb03da726a6ad76b4de63a092223207da03d07353cb5bf3ed5eb6c860a8633",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "公平性审查流程.md",
+      "target_file": "040-实施与资源/030-公平性审查流程.md",
+      "source_sha256": "6a50c8ffed16a4faa640107c9a918c51e8e2e56d1658fc7fbd6a26f475c8e044",
+      "target_sha256": "6a50c8ffed16a4faa640107c9a918c51e8e2e56d1658fc7fbd6a26f475c8e044",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "关于推进省级优化会议系统功能、分散评标功能建设、四合一点位规划工作汇报-20260513.md",
+      "target_file": "040-实施与资源/040-省级分散评标与点位规划.md",
+      "source_sha256": "fd874ec199de6cd35fae33c3f472c7161b7105c8c458e76927375dc9aa651828",
+      "target_sha256": "fd874ec199de6cd35fae33c3f472c7161b7105c8c458e76927375dc9aa651828",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "各产品应用清单、服务器标准资源及资源测算公式整理 (2) - 副本.md",
+      "target_file": "040-实施与资源/020-服务器资源与容量测算.md",
+      "source_sha256": "0fe513018d21bd3f393c549db5370d0ea9a21bf8016eccb298ed694cd1113d08",
+      "target_sha256": "0fe513018d21bd3f393c549db5370d0ea9a21bf8016eccb298ed694cd1113d08",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "各省建设竞争情况及人工智能交易监管应用 (1).md",
+      "target_file": "020-全国市场/030-各省平台竞争与AI监管应用.md",
+      "source_sha256": "abe56fb39d01314781a676e053472a21947ebd8446b3e281ef31f9c5d53ebbba",
+      "target_sha256": "abe56fb39d01314781a676e053472a21947ebd8446b3e281ef31f9c5d53ebbba",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "广西住建厅人工智能辅助招标投标系统_调研清单（传新点） (1).md",
+      "target_file": "030-广西专题/030-广西住建AI辅助招投标调研.md",
+      "source_sha256": "34bd4871da9242fc1a65bf81ab3431402998dc7de20ae49256a945679efa759e",
+      "target_sha256": "34bd4871da9242fc1a65bf81ab3431402998dc7de20ae49256a945679efa759e",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "广西省各公共资源交易中心信息化建设情况.md",
+      "target_file": "030-广西专题/010-广西交易中心信息化现状.md",
+      "source_sha256": "0c599d5c29bf65f6a0799c67bf896f9ff40f6f06effce8c1ab0dd8341b0fec45",
+      "target_sha256": "0c599d5c29bf65f6a0799c67bf896f9ff40f6f06effce8c1ab0dd8341b0fec45",
+      "changes": "正文保持原样"
+    },
+    {
+      "source_file": "广西规划-产品匹配表.md",
+      "target_file": "030-广西专题/020-广西规划与产品匹配.md",
+      "source_sha256": "c52673f51fe55174ca868b8fcdfe96e7b0b4f7e2d362613891c97188fe135459",
+      "target_sha256": "c52673f51fe55174ca868b8fcdfe96e7b0b4f7e2d362613891c97188fe135459",
+      "changes": "正文保持原样"
+    }
+  ]
+}
