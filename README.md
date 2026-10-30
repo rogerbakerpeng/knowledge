@@ -13,6 +13,8 @@
 - [FAQ](FAQ/index.md)：常见问题与解答。
 - [项目](项目/index.md)：按项目归档的背景、需求、方案和进展。
 
+- [技能](skill/index.md)：yuan脑爆调研、yuanskill-pro提示词与技能优化，附Codex安装说明。
+
 ## 使用与维护
 
 ```powershell
