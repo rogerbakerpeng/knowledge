@@ -22,6 +22,17 @@
 - 达梦迁移五大坑：同名函数、序列/触发器不迁移、varchar→clob、row_id 变主键、空串语义。
 - 龙芯镜像：`registry.epoint.com.cn/base_mips64el/tongweb6`，ecloud 流水线构建，四端口错开规划。
 
-来源均为新点 fdoc 在线文档（基础设施研究中心 / 交易BG），原文链接在各文档头部。
+## 原始文档链接（新点 fdoc，需 OA 登录后查看）
+
+| 文档 | 链接 |
+|---|---|
+| 国产化技术选型和对比（01 来源） | <https://fdoc.epoint.com.cn/kmp-web/docshow/docshow?menuguid=031004&columnguid=031&nodeguid=182887f0-7838-408a-ad7e-6395753a761f> |
+| 项目国产化方案模板（02 来源） | <https://fdoc.epoint.com.cn/kmp-web/docshow/docshow?menuguid=031004&columnguid=031&nodeguid=30051166-5923-4056-901d-36c0683c9edf> |
+| 招投标国产化改造文档（03 来源） | <https://fdoc.epoint.com.cn/kmp-web/docshow/docshow?menuguid=018003&columnguid=018&nodeguid=84d4991d-03de-4ad0-9285-329df2c2678c> |
+| 国产化适配说明（相关参考，未全文沉淀） | <https://fdoc.epoint.com.cn/kmp-web/docshow/docshow?menuguid=018003&columnguid=018&nodeguid=004f6117-a3cc-4ba9-8d8b-47540c806b67> |
+
+> 链接规则：`docshow?menuguid=<栏目菜单>&columnguid=<栏目>&nodeguid=<文档guid>`；031=基础设施研究中心/国产化，018003=交易BG。本专题 3 篇正文均于 2026-11-14 抓取沉淀，如与原文有出入以原文为准。
+
+来源均为新点 fdoc 在线文档（基础设施研究中心 / 交易BG）。
 
 返回[技术笔记索引](../index.md)。
