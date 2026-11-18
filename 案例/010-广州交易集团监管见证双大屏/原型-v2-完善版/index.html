@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>广州交易集团 · 监管与见证双屏体系</title>
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  .cover-stage { display: block; }
+  .cover { position: relative; width: 100%; height: 100%; padding: 30px 72px 0; }
+
+  /* ---------- top bar ---------- */
+  .topbar { display: flex; align-items: center; height: 54px; }
+  .topbar .brand { display: flex; align-items: center; gap: 13px; }
+  .topbar .mark { width: 38px; height: 38px; }
+  .topbar .brand-txt .cn { font-size: 17px; letter-spacing: .16em; color: var(--ink); }
+  .topbar .brand-txt .en { font-size: 6.5px; letter-spacing: .24em; color: var(--dim); margin-top: 5px; text-transform: uppercase; }
+  .topbar .divider { width: 1px; height: 26px; background: var(--line-2); margin: 0 20px; }
+  .topbar .org { font-size: 11px; letter-spacing: .2em; color: var(--muted); }
+  .topbar .org small { display: block; font-size: 6px; letter-spacing: .28em; color: var(--dim); margin-top: 4px; }
+  .topbar .mid { margin-left: auto; display: flex; align-items: center; gap: 14px; font-size: 9px; letter-spacing: .34em; color: var(--dim); }
+  .topbar .mid i { width: 46px; height: 1px; background: linear-gradient(90deg, transparent, var(--line-3)); }
+  .topbar .ver { font-family: var(--font-num); font-size: 9px; letter-spacing: .18em; color: var(--muted); border: 1px solid var(--line); padding: 7px 12px; }
+
+  /* ---------- hero ---------- */
+  .hero { position: relative; height: 300px; padding-top: 38px; }
+  .eyebrow { font-size: 8.5px; letter-spacing: .38em; color: var(--teal); text-transform: uppercase; display: flex; align-items: center; gap: 12px; }
+  .eyebrow::before { content: ""; width: 26px; height: 1px; background: var(--teal); opacity: .8; }
+  h1 { margin: 18px 0 0; font-family: "Songti SC", "Source Han Serif SC", "Noto Serif SC", serif; font-weight: 600; font-size: 78px; line-height: 1.16; letter-spacing: .06em; color: var(--ink); }
+  h1 em { font-style: normal; background: linear-gradient(100deg, #fff3df 0%, #e9b96e 52%, #c08a45 100%); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero .sub { margin-top: 18px; font-size: 15px; letter-spacing: .12em; color: var(--muted); }
+  .hero .sub b { color: var(--ink-2); font-weight: 500; }
+
+  .creed { position: absolute; right: 0; top: 44px; width: 620px; padding-left: 26px; border-left: 1px solid rgba(233,185,110,.45); }
+  .creed .k { font-size: 8px; letter-spacing: .3em; color: var(--gold); margin-bottom: 16px; }
+  .creed p { margin: 0; font-family: "Songti SC", "Source Han Serif SC", serif; font-size: 24px; line-height: 1.85; letter-spacing: .05em; color: #d8c6ab; }
+  .creed p b { color: #f3e2c6; font-weight: 600; }
+  .creed .note { margin-top: 16px; font-size: 10px; letter-spacing: .18em; color: var(--dim); display: flex; align-items: center; gap: 12px; }
+  .creed .note::before { content: ""; width: 30px; height: 1px; background: var(--line-2); }
+
+  /* ---------- cards ---------- */
+  .cards { display: grid; grid-template-columns: 1fr 1fr; gap: 44px; margin-top: 34px; }
+  .card { position: relative; display: block; height: 560px; background: #050a12; border: 1px solid var(--line); text-decoration: none; color: inherit; overflow: hidden; transition: transform .5s cubic-bezier(.2,.7,.2,1), border-color .4s; }
+  .card::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 1px; z-index: 3; background: linear-gradient(90deg, transparent, var(--ac), transparent); opacity: .9; }
+  .card:hover { transform: translateY(-5px); border-color: rgba(255,255,255,.18); }
+  .card .thumb { position: relative; height: 478px; overflow: hidden; }
+  .card .thumb img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 1.2s cubic-bezier(.2,.7,.2,1); }
+  .card:hover .thumb img { transform: scale(1.025); }
+  .card .thumb::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(3,6,12,.18), transparent 26%, transparent 70%, rgba(5,10,18,.72)); pointer-events: none; }
+  .card .stamp { position: absolute; top: 18px; left: 20px; z-index: 2; display: flex; align-items: center; gap: 10px; font-family: var(--font-num); font-size: 9px; letter-spacing: .22em; color: var(--ac); background: rgba(3,8,14,.72); border: 1px solid rgba(255,255,255,.09); padding: 7px 11px; backdrop-filter: blur(6px); }
+  .card .stamp b { font-weight: 400; font-size: 11px; }
+  .card .res { position: absolute; top: 18px; right: 20px; z-index: 2; font-family: var(--font-num); font-size: 8px; letter-spacing: .16em; color: rgba(233,242,252,.55); background: rgba(3,8,14,.5); padding: 6px 9px; }
+
+  .card .meta { position: relative; height: 82px; display: flex; align-items: center; justify-content: space-between; padding: 0 22px 0 24px; background: linear-gradient(180deg, #050a12, #060c15); }
+  .card .meta::before { content: ""; position: absolute; left: 24px; right: 24px; top: 0; height: 1px; background: var(--line); }
+  .card .meta h2 { margin: 0; font-size: 21px; font-weight: 500; letter-spacing: .12em; color: var(--ink); }
+  .card .meta h2 span { color: var(--ac); }
+  .card .tags { display: flex; gap: 8px; margin-top: 9px; }
+  .card .tags span { font-size: 9px; letter-spacing: .1em; color: var(--muted); border: 1px solid var(--line); padding: 4px 8px; }
+  .card .go { width: 44px; height: 44px; border: 1px solid var(--ac); color: var(--ac); display: grid; place-items: center; font-size: 16px; flex: 0 0 auto; transition: background .35s, color .35s; }
+  .card:hover .go { background: var(--ac); color: #04100e; }
+
+  .c-reg { --ac: var(--teal); }
+  .c-wit { --ac: var(--gold); }
+
+  /* ---------- footer ---------- */
+  .cover-foot { display: flex; align-items: center; margin-top: 26px; padding-top: 18px; border-top: 1px solid var(--line); }
+  .cover-foot .use { display: flex; align-items: center; gap: 10px; font-size: 9px; letter-spacing: .2em; color: var(--dim); }
+  .cover-foot .use b { font-weight: 400; color: var(--muted); margin-right: 4px; }
+  .cover-foot .pill { font-size: 10px; letter-spacing: .12em; color: var(--ink-2); border: 1px solid var(--line-2); padding: 5px 12px; }
+  .cover-foot .hint { margin-left: auto; font-size: 9px; letter-spacing: .12em; color: var(--dim); }
+  .cover-foot .hint b { font-family: var(--font-num); color: var(--gold); font-weight: 400; border: 1px solid rgba(233,185,110,.3); padding: 3px 6px; margin: 0 3px; }
+
+  .corner-glow { position: absolute; pointer-events: none; border-radius: 50%; filter: blur(90px); opacity: .55; }
+  .cg1 { width: 520px; height: 520px; right: -160px; top: -180px; background: radial-gradient(circle, rgba(233,185,110,.13), transparent 68%); }
+  .cg2 { width: 620px; height: 620px; left: -220px; bottom: -260px; background: radial-gradient(circle, rgba(63,227,207,.10), transparent 68%); }
+</style>
+</head>
+<body>
+<div class="stage cover-stage" style="display:block">
+  <div class="cover">
+    <div class="corner-glow cg1"></div>
+    <div class="corner-glow cg2"></div>
+
+    <div class="topbar">
+      <div class="brand">
+        <div class="mark">
+          <svg viewBox="0 0 40 40" fill="none">
+            <defs>
+              <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1">
+                <stop offset="0" stop-color="#e9b96e"/><stop offset="1" stop-color="#3fe3cf"/>
+              </linearGradient>
+            </defs>
+            <circle cx="20" cy="20" r="18.5" stroke="url(#mg)" stroke-width="1" opacity=".9"/>
+            <path d="M11 24.5 20 15l9 9.5" stroke="#e9b96e" stroke-width="1.6" stroke-linecap="square"/>
+            <path d="M11 17.5 20 8l9 9.5" stroke="#3fe3cf" stroke-width="1" stroke-linecap="square" opacity=".55"/>
+            <path d="M15.5 27.5h9" stroke="#e9b96e" stroke-width="1.5"/>
+          </svg>
+        </div>
+        <div class="brand-txt">
+          <div class="cn">广州交易集团</div>
+          <div class="en">Guangzhou Exchange Group</div>
+        </div>
+      </div>
+      <div class="divider"></div>
+      <div class="org">公共资源交易 · 监管与见证<small>PUBLIC RESOURCE TRADING · SUPERVISION &amp; WITNESS</small></div>
+      <div class="mid"><i></i>DUAL-SCREEN SUITE<i></i></div>
+      <div class="ver">V1.0 / 2026</div>
+    </div>
+
+    <div class="hero">
+      <div class="eyebrow">ONE PLATFORM · TWO PERSPECTIVES</div>
+      <h1>一屏观全域<br><em>一链见全程</em></h1>
+      <div class="sub">广州交易集团 · <b>公共资源交易监管与见证可视化体系</b></div>
+
+      <div class="creed">
+        <div class="k">设计主张 / DESIGN POSITION</div>
+        <p>监管，是让<b>阳光</b>照进每一个环节；<br>见证，是让每一次交易都<b>可回溯</b>。</p>
+        <div class="note">两套界面，同一套交易数字底座</div>
+      </div>
+    </div>
+
+    <div class="cards">
+      <a class="card c-reg" href="regulatory-dashboard.html">
+        <div class="thumb">
+          <img src="screenshots/regulatory.png" alt="阳光交易 · 智慧监管大屏">
+          <div class="stamp"><b>01</b> SUPERVISION / 监管</div>
+          <div class="res">1920 × 1080</div>
+        </div>
+        <div class="meta">
+          <div>
+            <h2>阳光交易 <span>·</span> 智慧监管</h2>
+            <div class="tags"><span>全域态势一张图</span><span>智能预警闭环</span><span>围串标图谱</span></div>
+          </div>
+          <div class="go">↗</div>
+        </div>
+      </a>
+
+      <a class="card c-wit" href="witness-dashboard.html">
+        <div class="thumb">
+          <img src="screenshots/witness.png" alt="数智见证 · 一链可信大屏">
+          <div class="stamp"><b>02</b> WITNESS / 见证</div>
+          <div class="res">1920 × 1080</div>
+        </div>
+        <div class="meta">
+          <div>
+            <h2>数智见证 <span>·</span> 一链可信</h2>
+            <div class="tags"><span>全流程五节点</span><span>128 路视频之眼</span><span>区块链存证</span></div>
+          </div>
+          <div class="go">↗</div>
+        </div>
+      </a>
+    </div>
+
+    <div class="cover-foot">
+      <div class="use"><b>适用</b><span class="pill">客户接待</span><span class="pill">领导汇报</span><span class="pill">对外宣传</span></div>
+      <div class="hint">按 <b>1</b> / <b>2</b> 进入 · <b>F</b> 全屏 · 建议动线 总览 30s → 监管 3min → 见证 3min</div>
+    </div>
+  </div>
+</div>
+<script src="assets/core.js"></script>
+</body>
+</html>

@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>阳光交易 · 智慧监管 — 广州交易集团</title>
+<link rel="stylesheet" href="assets/theme.css">
+<style>
+  .main { grid-template-rows: minmax(0, 1fr) 108px; }
+  .flow { grid-column: 1 / -1; }
+
+  /* ---------- left : year ---------- */
+  .year-top { display: flex; justify-content: space-between; align-items: flex-start; margin-top: 8px; }
+  .year-top .big-num { margin-top: 8px; }
+  .year-badge {
+    flex: none; text-align: right; font-size: 9px; line-height: 1.7;
+    letter-spacing: .12em; color: var(--gold); opacity: .85;
+    border-right: 1px solid rgba(233,185,110,.35); padding-right: 10px; margin-top: 4px;
+  }
+  .year-spark { margin: 14px -4px 10px; }
+  .year .kpis { margin-top: 12px; }
+
+  /* ---------- left : mix ---------- */
+  .mix-top { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 18px; }
+  .mix-top .n { font-family: var(--font-num); font-size: 12px; color: var(--muted); }
+  .mix-note { margin-top: auto; padding-top: 15px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 10px; color: var(--dim); letter-spacing: .06em; }
+  .mix-note b { color: var(--teal); font-weight: 400; }
+
+  /* ---------- left : capacity ---------- */
+  .cap-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 18px; margin-top: 6px; }
+  .cap .v { font-family: var(--font-num); font-size: 23px; color: var(--ink); line-height: 1; }
+  .cap .v small { font-size: 10px; color: var(--muted); margin-left: 2px; }
+  .cap .k { font-size: 9.5px; color: var(--dim); letter-spacing: .1em; margin-top: 6px; }
+  .cap-foot { margin-top: 12px; font-size: 9.5px; letter-spacing: .1em; color: var(--dim); }
+  .cap-foot b { color: var(--gold); font-weight: 400; }
+
+  /* ---------- center : map ---------- */
+  .hero { padding-bottom: 0; }
+  .hero-body { display: flex; gap: 22px; height: 100%; padding: 4px 18px 0 20px; }
+  .map-wrap { position: relative; width: 528px; height: 100%; flex: none; }
+  #gzmap { width: 100%; height: 100%; display: block; overflow: visible; }
+  .district { cursor: pointer; transition: fill .35s ease, opacity .35s ease; }
+  .district:hover { fill: #4be7d4 !important; }
+  .d-label { font-family: var(--font-cn); fill: #f2fafe; font-size: 21px; letter-spacing: 2px; pointer-events: none; filter: drop-shadow(0 0 2px rgba(2,8,14,1)) drop-shadow(0 1px 3px rgba(2,8,14,.95)); }
+  .d-value { font-family: var(--font-num); fill: #c3d8ea; font-size: 15px; letter-spacing: 1px; pointer-events: none; filter: drop-shadow(0 0 2px rgba(2,8,14,1)) drop-shadow(0 1px 2px rgba(2,8,14,.95)); }
+  .d-leader { stroke: rgba(160,200,235,.34); stroke-width: 1; fill: none; pointer-events: none; }
+  .d-halo { fill: none; stroke: rgba(63,227,207,.18); stroke-width: 1; }
+  .map-kpi {
+    position: absolute; left: 0; top: 0; width: 196px;
+    border: 1px solid rgba(150,190,230,.16); background: rgba(5,12,20,.72);
+    padding: 12px 14px; backdrop-filter: blur(4px);
+  }
+  .map-kpi .row { display: flex; justify-content: space-between; align-items: baseline; padding: 5px 0; }
+  .map-kpi .row + .row { border-top: 1px solid rgba(150,190,230,.08); }
+  .map-kpi .k { font-size: 9.5px; color: var(--muted); letter-spacing: .1em; }
+  .map-kpi .v { font-family: var(--font-num); font-size: 19px; color: var(--ink); }
+  .map-kpi .v small { font-size: 9px; color: var(--dim); margin-left: 2px; }
+  .map-kpi .v.hi { color: var(--teal); }
+  .map-legend { position: absolute; left: 0; bottom: 2px; display: flex; align-items: center; gap: 9px; font-size: 9px; color: var(--dim); letter-spacing: .08em; }
+  .legend-bar { width: 96px; height: 3px; background: linear-gradient(90deg, #12303e, #1f7d7a, #3fe3cf); }
+  .map-tip {
+    position: absolute; z-index: 5; width: 158px; pointer-events: none;
+    background: rgba(4,10,17,.94); border: 1px solid rgba(63,227,207,.35);
+    padding: 10px 12px; opacity: 0; transform: translateY(4px); transition: opacity .18s ease, transform .18s ease;
+    box-shadow: 0 12px 30px -12px rgba(0,0,0,.9);
+  }
+  .map-tip.show { opacity: 1; transform: translateY(0); }
+  .map-tip .nm { font-size: 12px; letter-spacing: .1em; color: var(--ink); margin-bottom: 7px; display: flex; justify-content: space-between; }
+  .map-tip .nm em { font-style: normal; font-family: var(--font-num); font-size: 9px; color: var(--teal); }
+  .map-tip .tr { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); padding: 2px 0; }
+  .map-tip .tr b { font-family: var(--font-num); font-weight: 400; color: var(--ink-2); }
+
+  .map-rail { flex: 1; min-width: 0; display: flex; flex-direction: column; padding-bottom: 4px; }
+  .rail-hd { display: flex; align-items: center; justify-content: space-between; padding-bottom: 9px; border-bottom: 1px solid var(--line); }
+  .rail-hd .t { font-size: 11px; letter-spacing: .14em; color: var(--ink-2); }
+  .rail-hd .t em { font-style: normal; font-family: var(--font-num); font-size: 8px; color: var(--dim); margin-left: 6px; letter-spacing: .16em; }
+  .rail-hd .live { padding: 3px 7px; font-size: 8px; }
+  .live-row { display: grid; grid-template-columns: 36px 1fr auto; gap: 9px; align-items: center; padding: 12px 0; border-bottom: 1px solid rgba(150,190,230,.07); }
+  .live-row .tm { font-family: var(--font-num); font-size: 10px; color: var(--dim); }
+  .live-row .nm { font-size: 11px; color: var(--ink-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .live-row .nm i { font-style: normal; font-size: 8.5px; color: var(--teal); border: 1px solid rgba(63,227,207,.3); padding: 1px 3px; margin-right: 5px; }
+  .live-row .amt { font-family: var(--font-num); font-size: 12px; color: var(--gold); }
+  .rail-regions { margin-top: auto; }
+  .region-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--line); margin-top: 12px; }
+  .region-grid div { background: #08111c; padding: 10px 11px; }
+  .region-grid .v { font-family: var(--font-num); font-size: 17px; color: var(--ink); }
+  .region-grid .v small { font-size: 9px; color: var(--muted); margin-left: 2px; }
+  .region-grid .k { font-size: 9px; color: var(--dim); letter-spacing: .1em; margin-top: 4px; }
+  .chain-note { margin-top: 12px; font-size: 9px; color: var(--dim); letter-spacing: .06em; line-height: 1.6; }
+  .chain-note b { color: var(--teal); font-weight: 400; }
+
+  /* ---------- right : alerts ---------- */
+  .al-sum { display: flex; gap: 18px; align-items: flex-end; margin: 4px 0 14px; }
+  .al-sum .n { font-family: var(--font-num); font-size: 44px; line-height: .9; color: var(--ink); }
+  .al-sum .n small { font-size: 10px; color: var(--muted); margin-left: 6px; letter-spacing: .1em; }
+  .al-sum .cap { font-size: 9.5px; color: var(--dim); letter-spacing: .1em; margin-bottom: 4px; }
+  .sev { margin-left: auto; text-align: right; }
+  .sev .nums { display: flex; gap: 12px; font-size: 9px; color: var(--muted); margin-bottom: 7px; }
+  .sev .nums b { font-family: var(--font-num); font-weight: 400; margin-right: 3px; }
+  .sev .nums b.r { color: var(--red); } .sev .nums b.a { color: var(--amber); } .sev .nums b.d { color: var(--dim); }
+  .sev-bar { width: 156px; height: 4px; display: flex; gap: 2px; }
+  .sev-bar i { height: 100%; }
+  .sev-bar .r { background: var(--red); width: 7%; }
+  .sev-bar .a { background: var(--amber); width: 27%; }
+  .sev-bar .d { background: #334a63; width: 66%; }
+  .al-foot { margin-top: 10px; padding-top: 10px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 9px; color: var(--dim); letter-spacing: .08em; }
+  .al-foot b { color: var(--teal); font-weight: 400; }
+
+  /* ---------- right : graph ---------- */
+  .graph-tags { display: flex; gap: 6px; margin-top: 6px; }
+  .graph-tags .tag { font-size: 8px; }
+  .graph-cap { display: flex; justify-content: space-between; font-size: 9px; color: var(--dim); margin-top: 6px; letter-spacing: .06em; }
+
+  /* ---------- flow ---------- */
+  .flow {
+    position: relative; display: grid; grid-template-columns: repeat(4, 1fr);
+    border: 1px solid var(--line); background: linear-gradient(180deg, rgba(12,23,37,.7), rgba(6,12,20,.5));
+    padding: 0 8px; overflow: hidden;
+  }
+  .flow::before {
+    content: ""; position: absolute; left: 3%; right: 3%; top: 31px; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(63,227,207,.4) 10%, rgba(63,227,207,.4) 90%, transparent);
+  }
+  .flow-step { position: relative; padding: 19px 22px 0; }
+  .flow-step + .flow-step { border-left: 1px solid var(--line); }
+  .flow-hd { display: flex; align-items: baseline; gap: 9px; height: 24px; }
+  .flow-hd .no { font-family: var(--font-num); font-size: 9px; color: var(--teal); letter-spacing: .1em; }
+  .flow-hd .tt { font-size: 12px; letter-spacing: .12em; color: var(--ink-2); }
+  .flow-hd .tt b { color: var(--ink); font-weight: 500; }
+  .flow-hd .sp { margin-left: auto; font-size: 8.5px; color: var(--dim); letter-spacing: .14em; font-family: var(--font-num); }
+  .flow-body { display: flex; gap: 26px; margin-top: 14px; }
+  .flow-metric .v { font-family: var(--font-num); font-size: 19px; color: var(--ink); line-height: 1; }
+  .flow-metric .v small { font-size: 9px; color: var(--muted); margin-left: 2px; }
+  .flow-metric .k { font-size: 9px; color: var(--dim); letter-spacing: .08em; margin-top: 6px; white-space: nowrap; }
+  .flow-dot {
+    position: absolute; top: 28.5px; left: 0; width: 5px; height: 5px; border-radius: 50%;
+    background: var(--teal); box-shadow: 0 0 12px var(--teal);
+    animation: travel 9s linear infinite;
+  }
+  @keyframes travel { from { left: 2%; opacity: 0; } 8% { opacity: 1; } 92% { opacity: 1; } to { left: 97%; opacity: 0; } }
+
+  /* map draw-in disabled for deterministic capture */
+  .district { opacity: 1; }
+</style>
+</head>
+<body>
+<div class="stage">
+
+  <!-- ================= HEADER ================= -->
+  <header class="hdr">
+    <div class="brand">
+      <div class="mark">
+        <svg viewBox="0 0 40 40" fill="none">
+          <defs>
+            <linearGradient id="mg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0" stop-color="#e9b96e"/><stop offset="1" stop-color="#3fe3cf"/>
+            </linearGradient>
+          </defs>
+          <circle cx="20" cy="20" r="18.5" stroke="url(#mg)" stroke-width="1" opacity=".9"/>
+          <path d="M11 24.5 20 15l9 9.5" stroke="#e9b96e" stroke-width="1.6" stroke-linecap="square"/>
+          <path d="M11 17.5 20 8l9 9.5" stroke="#3fe3cf" stroke-width="1" stroke-linecap="square" opacity=".55"/>
+          <path d="M15.5 27.5h9" stroke="#e9b96e" stroke-width="1.5"/>
+        </svg>
+      </div>
+      <div class="brand-txt">
+        <div class="cn">广州交易集团</div>
+        <div class="en">Guangzhou Exchange Group</div>
+      </div>
+      <div class="hdr-divider"></div>
+      <div class="hdr-org">公共资源交易<small>PUBLIC RESOURCE TRADING</small></div>
+    </div>
+
+    <div class="hdr-title">
+      <div class="eyebrow">SUNSHINE TRADING · SMART SUPERVISION</div>
+      <h1>阳光交易 <em>·</em> 智慧监管</h1>
+    </div>
+
+    <div class="hdr-right">
+      <div class="live"><i></i>数据实时同步</div>
+      <div class="clock">
+        <div class="time num" data-clock>00:00:00</div>
+        <div class="date" data-date>—</div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN ================= -->
+  <main class="main">
+
+    <!-- LEFT -->
+    <section class="col">
+      <div class="panel year" style="flex:0 0 292px">
+        <div class="p-hd">
+          <div class="left"><span class="p-idx">01</span><span class="p-title">年度交易总览<span class="en">Annual Overview</span></span></div>
+          <div class="p-meta">2026 YTD</div>
+        </div>
+        <div class="p-bd">
+          <div class="year-top">
+            <div>
+              <div class="label">年度累计交易额</div>
+              <div class="big-num"><span class="count" data-to="1.22" data-dec="2">0.00</span><span class="unit">万亿元</span></div>
+              <div class="delta" style="margin-top:9px">
+                <svg viewBox="0 0 10 10"><path d="M5 1 9 7H1Z" fill="currentColor"/></svg>
+                同比 8.6%<span style="color:var(--dim);margin-left:6px">高于全国均值 3.2pt</span>
+              </div>
+            </div>
+            <div class="year-badge">全国首个<br>万亿级交易平台</div>
+          </div>
+          <div class="year-spark" id="spark-year"></div>
+          <div class="kpis">
+            <div class="kpi"><div class="k">交易项目</div><div class="v">8.12<small>万宗</small></div></div>
+            <div class="kpi"><div class="k">节约资金</div><div class="v">315.7<small>亿元</small></div></div>
+            <div class="kpi"><div class="k">增值金额</div><div class="v">124.0<small>亿元</small></div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:0 0 300px">
+        <div class="p-hd">
+          <div class="left"><span class="p-idx">02</span><span class="p-title">业务结构<span class="en">Portfolio</span></span></div>
+          <div class="p-meta">18 类要素</div>
+        </div>
+        <div class="p-bd" style="display:flex;flex-direction:column">
+          <div class="mix-top">
+            <span class="label">交易额占比</span>
+            <span class="n">合计 1.22 万亿</span>
+          </div>
+          <div class="bars">
+            <div class="bar-row"><span class="n">建设工程</span><span class="track"><i class="fill" data-w="41.6"></i></span><span class="p">41.6%</span></div>
+            <div class="bar-row"><span class="n">政府采购</span><span class="track"><i class="fill" data-w="17.8"></i></span><span class="p">17.8%</span></div>
+            <div class="bar-row"><span class="n">自然资源</span><span class="track"><i class="fill" data-w="13.9"></i></span><span class="p">13.9%</span></div>
+            <div class="bar-row"><span class="n">综合产权</span><span class="track"><i class="fill" data-w="11.2"></i></span><span class="p">11.2%</span></div>
+            <div class="bar-row"><span class="n">药品耗材</span><span class="track"><i class="fill" data-w="8.4"></i></span><span class="p">8.4%</span></div>
+            <div class="bar-row"><span class="n">其他要素</span><span class="track"><i class="fill" data-w="7.1"></i></span><span class="p">7.1%</span></div>
+          </div>
+          <div class="mix-note"><span>数据交易 · 航运交易 · 农村产权</span><b>新要素 +21.4%</b></div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:1">
+        <div class="p-hd">
+          <div class="left"><span class="p-idx">03</span><span class="p-title">平台能级<span class="en">Capacity</span></span></div>
+        </div>
+        <div class="p-bd">
+          <div class="cap-grid cap">
+            <div><div class="v">30<small>万+</small></div><div class="k">活跃交易主体</div></div>
+            <div><div class="v">6<small>级</small></div><div class="k">国家至村服务</div></div>
+            <div><div class="v">14<small>万亿</small></div><div class="k">历史累计交易</div></div>
+            <div><div class="v">6<small>万㎡</small></div><div class="k">智能化交易场所</div></div>
+          </div>
+          <div class="cap-foot">服务辐射 <b>华南 · 华中 · 西部</b>，链接境外 3 个服务网点</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CENTER -->
+    <section class="col">
+      <div class="panel hero" style="flex:1">
+        <div class="p-hd">
+          <div class="left"><span class="p-idx">04</span><span class="p-title">全市交易态势一张图<span class="en">One Map</span></span></div>
+          <div class="p-meta">11 区 · 1,284 个监测点</div>
+        </div>
+        <div class="hero-body">
+          <div class="map-wrap">
+            <div class="map-kpi">
+              <div class="row"><span class="k">今日进场</span><span class="v hi">186<small>个</small></span></div>
+              <div class="row"><span class="k">进行中</span><span class="v">42<small>个</small></span></div>
+              <div class="row"><span class="k">今日成交</span><span class="v">23.6<small>亿</small></span></div>
+            </div>
+            <svg id="gzmap" viewBox="0 0 1000 1428" preserveAspectRatio="xMidYMid meet"></svg>
+            <div class="map-tip" id="mapTip"></div>
+            <div class="map-legend"><span>低</span><span class="legend-bar"></span><span>高</span><span style="margin-left:6px">单位：亿元</span></div>
+          </div>
+
+          <aside class="map-rail">
+            <div class="rail-hd"><span class="t">实时交易<em>LIVE DEALS</em></span><span class="live"><i></i>LIVE</span></div>
+            <div class="live-list">
+              <div class="live-row"><span class="tm">16:27</span><span class="nm"><i>建设工程</i>中心城区排水防涝改造</span><span class="amt">3.86亿</span></div>
+              <div class="live-row"><span class="tm">16:25</span><span class="nm"><i>政府采购</i>市属医院影像设备采购</span><span class="amt">1.24亿</span></div>
+              <div class="live-row"><span class="tm">16:21</span><span class="nm"><i>自然资源</i>番禺区商住地块出让</span><span class="amt">8.60亿</span></div>
+              <div class="live-row"><span class="tm">16:18</span><span class="nm"><i>综合产权</i>市属国企物业租赁</span><span class="amt">0.42亿</span></div>
+              <div class="live-row"><span class="tm">16:14</span><span class="nm"><i>药械采购</i>医用耗材集中采购</span><span class="amt">2.15亿</span></div>
+            </div>
+
+            <div class="rail-regions">
+              <div class="rail-hd"><span class="t">跨区域服务<em>NETWORK</em></span><span class="p-meta">覆盖 6 级</span></div>
+              <div class="region-grid">
+                <div><div class="v">21<small>地市</small></div><div class="k">省内服务</div></div>
+                <div><div class="v">4<small>省区</small></div><div class="k">省外协同</div></div>
+                <div><div class="v">3<small>网点</small></div><div class="k">境外布局</div></div>
+                <div><div class="v">38<small>部门</small></div><div class="k">链上协同</div></div>
+              </div>
+              <div class="chain-note">依托 <b>“广智链”</b> 与“穗智链”跨链互通，<br>累计可信存证 <b>286.4 万条</b>，覆盖 71 个应用场景。</div>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <!-- RIGHT -->
+    <section class="col">
+      <div class="panel alert" style="flex:0 0 548px">
+        <div class="p-hd">
+          <div class="left"><span class="p-idx">05</span><span class="p-title">智能预警中心<span class="en">AI Early Warning</span></span></div>
+          <div class="p-meta"><b>80+</b> 监测指标</div>
+        </div>
+        <div class="p-bd" style="display:flex;flex-direction:column">
+          <div class="al-sum">
+            <div>
+              <div class="cap">今日新增预警</div>
+              <div class="n"><span class="count" data-to="128" data-dec="0">0</span><small>条</small></div>
+            </div>
+            <div class="sev">
+              <div class="nums"><span><b class="r">9</b>高</span><span><b class="a">34</b>中</span><span><b class="d">85</b>低</span></div>
+              <div class="sev-bar"><i class="r"></i><i class="a"></i><i class="d"></i></div>
+            </div>
+          </div>
+
+          <div class="alert-list">
+            <div class="alert-row">
+              <span class="t">16:24</span>
+              <span class="body"><span class="ttl">投标文件机器码重合 · 3 家投标人</span><span class="sub">工程建设 <b>GZ2026-1109-0186</b></span></span>
+              <span class="tag red"><span class="dot"></span>待核查</span>
+            </div>
+            <div class="alert-row">
+              <span class="t">16:18</span>
+              <span class="body"><span class="ttl">工程量清单相似度 96.8% · 5 家</span><span class="sub">市政工程 <b>GZ2026-1109-0174</b></span></span>
+              <span class="tag red"><span class="dot"></span>已推送</span>
+            </div>
+            <div class="alert-row">
+              <span class="t">16:07</span>
+              <span class="body"><span class="ttl">投标报价呈规律性浮动</span><span class="sub">房建工程 · 报价离差 <b>0.42%</b></span></span>
+              <span class="tag amber"><span class="dot"></span>核查中</span>
+            </div>
+            <div class="alert-row">
+              <span class="t">15:52</span>
+              <span class="body"><span class="ttl">评标专家打分畸高 · 3 名评委</span><span class="sub">政府采购 <b>GZ2026-1109-0162</b></span></span>
+              <span class="tag teal"><span class="dot"></span>已处置</span>
+            </div>
+            <div class="alert-row">
+              <span class="t">15:36</span>
+              <span class="body"><span class="ttl">投标 IP 地址聚集 · 2 家投标人</span><span class="sub">水利工程 · 同段 IP <b>3 次</b></span></span>
+              <span class="tag dim"><span class="dot"></span>已归档</span>
+            </div>
+            <div class="alert-row">
+              <span class="t">15:21</span>
+              <span class="body"><span class="ttl">招标文件疑似设置倾向性条款</span><span class="sub">AI 合规检测 · 命中 <b>4 项</b></span></span>
+              <span class="tag teal"><span class="dot"></span>已退回</span>
+            </div>
+          </div>
+
+          <div class="al-foot"><span>累计预警 <b>1,286</b> 条 · 线索移交 <b>27</b> 条</span><span>闭环率 92.6% →</span></div>
+        </div>
+      </div>
+
+      <div class="panel" style="flex:1">
+        <div class="p-hd">
+          <div class="left"><span class="p-idx">06</span><span class="p-title">围串标关系图谱<span class="en">Relation Graph</span></span></div>
+          <div class="p-meta">模型命中 <b>12</b> 组</div>
+        </div>
+        <div class="p-bd" style="display:flex;flex-direction:column">
+          <svg viewBox="0 0 340 158" style="width:100%;flex:1;min-height:0">
+            <defs>
+              <radialGradient id="nodeGlow"><stop offset="0" stop-color="#3fe3cf" stop-opacity=".35"/><stop offset="1" stop-color="#3fe3cf" stop-opacity="0"/></radialGradient>
+            </defs>
+            <g stroke="rgba(150,190,230,.18)" stroke-width="1">
+              <line x1="170" y1="79" x2="62" y2="36"/><line x1="170" y1="79" x2="70" y2="128"/>
+              <line x1="170" y1="79" x2="272" y2="38"/><line x1="170" y1="79" x2="268" y2="126"/>
+              <line x1="170" y1="79" x2="170" y2="20"/>
+            </g>
+            <g stroke="#ff6168" stroke-opacity=".65" stroke-width="1" stroke-dasharray="3 3">
+              <line x1="62" y1="36" x2="70" y2="128"/><line x1="62" y1="36" x2="272" y2="38"/>
+              <line x1="70" y1="128" x2="268" y2="126"/><line x1="272" y1="38" x2="268" y2="126"/>
+            </g>
+            <circle cx="170" cy="79" r="52" fill="url(#nodeGlow)"/>
+            <g font-family="PingFang SC" font-size="9" fill="#9fb4cc" text-anchor="middle">
+              <g><circle cx="62" cy="36" r="4" fill="#e9b96e"/><text x="62" y="24">企业 A</text></g>
+              <g><circle cx="70" cy="128" r="4" fill="#e9b96e"/><text x="70" y="146">企业 B</text></g>
+              <g><circle cx="272" cy="38" r="4" fill="#e9b96e"/><text x="272" y="26">企业 C</text></g>
+              <g><circle cx="268" cy="126" r="4" fill="#5ad6ff"/><text x="268" y="144">招标代理</text></g>
+              <g><circle cx="170" cy="20" r="4" fill="#5ad6ff"/><text x="170" y="12">评审专家</text></g>
+              <g><circle cx="170" cy="79" r="6" fill="#3fe3cf"/><circle cx="170" cy="79" r="11" fill="none" stroke="rgba(63,227,207,.35)"/><text x="170" y="98" fill="#e9f2fc" font-size="10">项目 0186</text></g>
+            </g>
+          </svg>
+          <div class="graph-tags">
+            <span class="tag red">机器码重合</span><span class="tag red">清单相似 96.8%</span><span class="tag amber">联系方式关联</span>
+          </div>
+          <div class="graph-cap"><span>关联主体 6 · 异常边 4</span><span>已推送监管部门</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FLOW -->
+    <section class="flow">
+      <i class="flow-dot"></i>
+      <div class="flow-step">
+        <div class="flow-hd"><span class="no">01</span><span class="tt"><b>标前</b> · 源头合规</span><span class="sp">BEFORE</span></div>
+        <div class="flow-body">
+          <div class="flow-metric"><div class="v">2,847<small>份</small></div><div class="k">AI 文件检测</div></div>
+          <div class="flow-metric"><div class="v">316<small>项</small></div><div class="k">拦截倾向条款</div></div>
+          <div class="flow-metric"><div class="v">3.2<small>分钟</small></div><div class="k">平均检测时长</div></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-hd"><span class="no">02</span><span class="tt"><b>标中</b> · 过程见证</span><span class="sp">DURING</span></div>
+        <div class="flow-body">
+          <div class="flow-metric"><div class="v">3,381<small>个</small></div><div class="k">数智见证项目</div></div>
+          <div class="flow-metric"><div class="v">86<small>起</small></div><div class="k">行为预警</div></div>
+          <div class="flow-metric"><div class="v">286.4<small>万条</small></div><div class="k">上链存证</div></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-hd"><span class="no">03</span><span class="tt"><b>标后</b> · 异常追溯</span><span class="sp">AFTER</span></div>
+        <div class="flow-body">
+          <div class="flow-metric"><div class="v">80<small>+项</small></div><div class="k">分析模型</div></div>
+          <div class="flow-metric"><div class="v">27<small>条</small></div><div class="k">线索移交</div></div>
+          <div class="flow-metric"><div class="v">92.6<small>%</small></div><div class="k">闭环处置率</div></div>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-hd"><span class="no">04</span><span class="tt"><b>协同</b> · 监督一张网</span><span class="sp">TOGETHER</span></div>
+        <div class="flow-body">
+          <div class="flow-metric"><div class="v">38<small>个</small></div><div class="k">联动部门</div></div>
+          <div class="flow-metric"><div class="v">71<small>个</small></div><div class="k">链上场景</div></div>
+          <div class="flow-metric"><div class="v">1.8<small>亿条</small></div><div class="k">可信数据</div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="footer">
+    <div class="src"><b>数据截止</b> 2026-11-09 16:28 · 演示数据</div>
+    <div class="ticker"><div class="ticker-track">
+      <span><em>16:27</em><i></i>中心城区排水防涝改造工程完成开标，3 家企业参与</span>
+      <span><em>16:24</em><i></i>异常行为分析平台推送机器码重合线索，已转监管部门核查</span>
+      <span><em>16:18</em><i></i>番禺区商住地块成交 8.60 亿元，溢价率 6.2%</span>
+      <span><em>16:12</em><i></i>“广智链”新增可信存证 1,284 条，累计 286.4 万条</span>
+    </div></div>
+    <div class="switch"><a href="index.html">总览</a><a href="regulatory-dashboard.html" class="on">监管大屏</a><a href="witness-dashboard.html">见证大屏</a></div>
+  </footer>
+</div>
+
+<script src="assets/gz-map.js"></script>
+<script src="assets/core.js"></script>
+<script>
+(function(){
+  const DATA = {
+    "天河区":[2480,12860,9.8],"黄埔区":[1960,10240,11.2],"越秀区":[1420,9860,5.4],
+    "海珠区":[1280,8420,7.1],"白云区":[1240,11260,12.6],"番禺区":[980,7680,6.3],
+    "南沙区":[920,5240,18.4],"花都区":[620,4860,4.2],"增城区":[560,5120,8.9],
+    "荔湾区":[540,3980,3.6],"从化区":[200,1640,2.1]
+  };
+  const ORDER = ["增城区","从化区","花都区","白云区","黄埔区","番禺区","南沙区","荔湾区","越秀区","海珠区","天河区"];
+  const LABEL = {
+    "荔湾区":[120,905,258,848],"越秀区":[196,742,307,804],"海珠区":[432,946,348,854],
+    "天河区":[391,757,391,757,"mid"],"白云区":[214,592,346,649],"黄埔区":[606,706,513,721],
+    "番禺区":[492,1002,421,961],"花都区":[146,470,247,498],"南沙区":[614,1232,546,1195],
+    "从化区":[742,246,670,266],"增城区":[806,612,746,598]
+  };
+  const svg = document.getElementById('gzmap');
+  const NS = 'http://www.w3.org/2000/svg';
+  const byName = {};
+  GZ_MAP.districts.forEach(d => byName[d.name] = d);
+
+  const maxV = 2480, minV = 180;
+  function color(v){
+    const t = Math.pow((v-minV)/(maxV-minV), .62);
+    const stops = [[18,40,54],[22,74,84],[31,140,134],[63,227,207]];
+    const p = t*(stops.length-1), i = Math.min(stops.length-2, Math.floor(p)), f = p-i;
+    const c = stops[i].map((x,k)=>Math.round(x+(stops[i+1][k]-x)*f));
+    return `rgb(${c[0]},${c[1]},${c[2]})`;
+  }
+
+  ORDER.forEach((name, idx) => {
+    const d = byName[name]; if(!d) return;
+    const v = DATA[name][0];
+    d.d.forEach(path => {
+      const p = document.createElementNS(NS,'path');
+      p.setAttribute('d', path);
+      p.setAttribute('class','district');
+      p.setAttribute('fill', color(v));
+      p.setAttribute('fill-opacity', name==='天河区' ? '.95' : '.78');
+      p.setAttribute('stroke','rgba(120,200,210,.42)');
+      p.setAttribute('stroke-width','1.1');
+      p.setAttribute('vector-effect','non-scaling-stroke');
+      p.dataset.name = name;
+      svg.appendChild(p);
+    });
+  });
+
+  // labels + leaders
+  Object.keys(LABEL).forEach((name, i) => {
+    const [lx,ly,dx,dy] = LABEL[name];
+    const mid = LABEL[name][4] === 'mid';
+    const g = document.createElementNS(NS,'g');
+    if (!mid) {
+      const leader = document.createElementNS(NS,'path');
+      leader.setAttribute('d',`M${dx},${dy} L${(lx+dx)/2},${ly} L${lx},${ly}`);
+      leader.setAttribute('class','d-leader');
+      leader.setAttribute('vector-effect','non-scaling-stroke');
+      g.appendChild(leader);
+      const dot = document.createElementNS(NS,'circle');
+      dot.setAttribute('cx',dx); dot.setAttribute('cy',dy); dot.setAttribute('r','2.6');
+      dot.setAttribute('fill','#3fe3cf'); dot.setAttribute('opacity','.9');
+      g.appendChild(dot);
+    }
+    const tx = mid ? lx : lx + (lx > 500 ? 6 : -6);
+    const anchor = mid ? 'middle' : (lx > 500 ? 'start' : 'end');
+    const t = document.createElementNS(NS,'text');
+    t.setAttribute('x',tx);
+    t.setAttribute('y',ly - 8);
+    t.setAttribute('text-anchor', anchor);
+    t.setAttribute('class','d-label');
+    t.textContent = name.replace('区','');
+    g.appendChild(t);
+    if (['天河区','黄埔区','南沙区'].includes(name)) {
+      const v = document.createElementNS(NS,'text');
+      v.setAttribute('x',tx);
+      v.setAttribute('y',ly + 24);
+      v.setAttribute('text-anchor', anchor);
+      v.setAttribute('class','d-value');
+      v.textContent = DATA[name][0].toLocaleString() + ' 亿';
+      g.appendChild(v);
+    }
+    svg.appendChild(g);
+  });
+
+  // pulse markers
+  [['天河区',436,812],['黄埔区',513,721],['南沙区',546,1195]].forEach(([n,x,y])=>{
+    const c = document.createElementNS(NS,'circle');
+    c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r','7');
+    c.setAttribute('fill','none'); c.setAttribute('stroke','#3fe3cf'); c.setAttribute('stroke-width','1.4');
+    c.style.transformOrigin = `${x}px ${y}px`;
+    c.style.animation = 'pulseRing 2.8s ease-out infinite';
+    svg.appendChild(c);
+    const c2 = c.cloneNode(); c2.style.animationDelay = '1.4s'; svg.appendChild(c2);
+  });
+
+  // tooltip
+  const tip = document.getElementById('mapTip');
+  const wrap = document.querySelector('.map-wrap');
+  function showTip(name){
+    const [v,p,yoy] = DATA[name];
+    tip.innerHTML = `<div class="nm">${name}<em>${yoy>0?'+':''}${yoy}%</em></div>
+      <div class="tr"><span>交易额</span><b>${v.toLocaleString()} 亿元</b></div>
+      <div class="tr"><span>交易项目</span><b>${p.toLocaleString()} 宗</b></div>
+      <div class="tr"><span>占全市</span><b>${(v/12200*100).toFixed(1)}%</b></div>`;
+    const d = byName[name];
+    tip.style.left = Math.min(360, d.cx/1000*528 + 14) + 'px';
+    tip.style.top  = Math.max(6, d.cy/1428*wrap.clientHeight - 60) + 'px';
+    tip.classList.add('show');
+  }
+  svg.querySelectorAll('.district').forEach(p=>{
+    p.addEventListener('mouseenter', ()=>showTip(p.dataset.name));
+    p.addEventListener('mouseleave', ()=>tip.classList.remove('show'));
+  });
+
+  GZ.spark(document.getElementById('spark-year'),
+    [3.1,3.4,3.2,3.8,4.2,4.0,4.6,5.1,4.9,5.4,5.9,6.2,6.0,6.8,7.3,7.0,7.8,8.4,8.1,8.9,9.4,9.1,9.8,10.4,10.1,10.8,11.3,11.0,11.6,12.2],
+    {stroke:'#3fe3cf'});
+})();
+</script>
+</body>
+</html>

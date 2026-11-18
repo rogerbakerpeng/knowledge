@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>广州交易集团 · 智慧监管驾驶舱</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#04101f; --bg2:#071a30; --panel:rgba(9,30,56,.78); --panel2:rgba(12,38,70,.60);
+  --line:rgba(70,165,255,.28); --line2:rgba(70,165,255,.14);
+  --cyan:#22dcff; --blue:#3b82f6; --lblue:#7db4ff; --green:#00e6a0;
+  --amber:#ffbd3d; --red:#ff5f7e; --txt:#dcecff; --muted:#86a9cf; --dim:#5a7fa6;
+}
+html,body{height:100%;background:#020a15;overflow:hidden;font-family:"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif;color:var(--txt)}
+body{display:flex;align-items:center;justify-content:center}
+#stage{position:absolute;left:50%;top:50%;width:1920px;height:1080px;margin-left:-960px;margin-top:-540px;transform-origin:center center;
+  background:radial-gradient(ellipse 1100px 620px at 50% 42%,#0d2b50 0%,#06182e 55%,#030d1a 100%);
+  overflow:hidden}
+#stage:before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(60,140,220,.055) 1px,transparent 1px),linear-gradient(90deg,rgba(60,140,220,.055) 1px,transparent 1px);background-size:48px 48px}
+#stage:after{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(0,0,0,.10) 0px,rgba(0,0,0,.10) 1px,transparent 1px,transparent 4px);pointer-events:none;opacity:.35}
+.glow{position:absolute;width:900px;height:900px;left:510px;top:90px;border-radius:50%;background:radial-gradient(circle,rgba(20,110,220,.20),transparent 65%);filter:blur(20px);pointer-events:none}
+.num{font-family:"DIN Alternate","Bebas Neue",ui-monospace,"SF Mono",Menlo,monospace;font-variant-numeric:tabular-nums;letter-spacing:.5px}
+
+/* ---------- header ---------- */
+header{position:relative;z-index:3;height:96px;display:flex;align-items:center;padding:0 30px;
+  background:linear-gradient(180deg,rgba(12,48,88,.85),rgba(6,22,42,.15));border-bottom:1px solid var(--line)}
+header .brand{width:360px;display:flex;align-items:center;gap:14px}
+.logo{width:46px;height:46px;border:2px solid var(--cyan);border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:17px;font-weight:800;color:var(--cyan);box-shadow:0 0 18px rgba(34,220,255,.35),inset 0 0 14px rgba(34,220,255,.16)}
+.brand b{font-size:20px;letter-spacing:2px;display:block}
+.brand span{font-size:11px;color:var(--muted);letter-spacing:1.4px}
+.hd-mid{flex:1;text-align:center;position:relative}
+.hd-mid h1{font-size:34px;font-weight:700;letter-spacing:7px;
+  background:linear-gradient(180deg,#ffffff 15%,#8fd8ff 70%,#2a9be0);-webkit-background-clip:text;background-clip:text;color:transparent;
+  text-shadow:0 0 30px rgba(50,170,255,.25)}
+.hd-mid p{font-size:13px;color:var(--lblue);letter-spacing:3px;margin-top:5px;opacity:.9}
+.hd-mid:before,.hd-mid:after{content:"";position:absolute;top:30px;width:220px;height:1px;background:linear-gradient(90deg,transparent,var(--cyan))}
+.hd-mid:before{left:30px}.hd-mid:after{right:30px;transform:rotate(180deg)}
+.hd-right{width:390px;display:flex;flex-direction:column;align-items:flex-end;gap:8px}
+.clock{font-size:15px;color:var(--txt);letter-spacing:1px}
+.clock b{font-size:24px;color:var(--cyan)}
+.tabs{display:flex;gap:6px}
+.tab{font-size:12px;padding:5px 13px;border:1px solid var(--line);background:rgba(10,35,66,.6);color:var(--muted);cursor:pointer;border-radius:2px;letter-spacing:.5px;transition:.25s}
+.tab:hover{border-color:var(--cyan);color:var(--txt)}
+.tab.on{background:linear-gradient(180deg,rgba(34,220,255,.28),rgba(34,220,255,.08));border-color:var(--cyan);color:#fff;box-shadow:0 0 14px rgba(34,220,255,.25)}
+.hd-badge{position:absolute;bottom:-1px;left:50%;transform:translateX(-50%);width:420px;height:2px;background:linear-gradient(90deg,transparent,var(--cyan),transparent)}
+
+/* ---------- kpi ---------- */
+.kpis{position:relative;z-index:3;display:grid;grid-template-columns:repeat(6,1fr);gap:14px;padding:16px 30px 8px;height:126px}
+.kpi{position:relative;background:linear-gradient(135deg,rgba(16,52,92,.85),rgba(8,26,50,.65));border:1px solid var(--line);
+  padding:12px 16px;overflow:hidden;clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px))}
+.kpi:before{content:"";position:absolute;left:0;top:0;width:3px;height:100%;background:linear-gradient(180deg,var(--cyan),transparent)}
+.kpi .lb{font-size:12px;color:var(--muted);letter-spacing:1px;display:flex;justify-content:space-between}
+.kpi .lb i{font-style:normal;font-size:10px;color:var(--dim);border:1px solid var(--line2);padding:1px 5px}
+.kpi .vl{margin-top:6px;font-size:31px;font-weight:700;color:#fff;line-height:1.15;text-shadow:0 0 20px rgba(34,220,255,.30)}
+.kpi .vl small{font-size:13px;color:var(--lblue);margin-left:5px;font-weight:400}
+.kpi .sub{font-size:11px;color:var(--green);margin-top:3px}
+.kpi .spark{position:absolute;right:10px;bottom:8px;opacity:.55}
+
+/* ---------- main grid ---------- */
+.main{position:relative;z-index:3;display:grid;grid-template-columns:430px 1fr 430px;gap:16px;padding:6px 30px 0;height:806px}
+.col{display:flex;flex-direction:column;gap:14px;min-height:0}
+.panel{position:relative;background:linear-gradient(160deg,var(--panel),var(--panel2));border:1px solid var(--line);
+  padding:12px 14px;flex:1;min-height:0;overflow:hidden}
+.panel:before,.panel:after{content:"";position:absolute;width:16px;height:16px;border-color:var(--cyan);border-style:solid;pointer-events:none}
+.panel:before{left:-1px;top:-1px;border-width:2px 0 0 2px}
+.panel:after{right:-1px;bottom:-1px;border-width:0 2px 2px 0}
+.pt{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;padding-bottom:8px;border-bottom:1px solid var(--line2)}
+.pt h2{font-size:16px;font-weight:600;letter-spacing:1.5px;display:flex;align-items:center;gap:9px;color:#eaf6ff}
+.pt h2:before{content:"";width:4px;height:15px;background:var(--cyan);box-shadow:0 0 10px var(--cyan)}
+.pt .tag{font-size:10px;color:var(--muted);border:1px solid var(--line2);padding:2px 7px;letter-spacing:.5px}
+.pt .tag.demo{color:var(--amber);border-color:rgba(255,189,61,.35)}
+.pt .tag.real{color:var(--green);border-color:rgba(0,230,160,.35)}
+.pnote{font-size:11px;color:var(--dim);margin-top:6px;line-height:1.5}
+
+/* chart helpers */
+svg{display:block;width:100%;height:100%;overflow:visible}
+.legend{display:flex;flex-wrap:wrap;gap:8px 14px;font-size:11px;color:var(--muted);margin-top:4px}
+.legend i{display:inline-block;width:8px;height:8px;margin-right:5px;border-radius:1px}
+.rows{display:flex;flex-direction:column;gap:7px}
+.row{display:flex;align-items:center;gap:9px;font-size:12px;min-height:22px}
+.row .nm{width:112px;min-width:0;flex:none;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .bar{flex:1;height:9px;background:rgba(255,255,255,.055);border-radius:1px;overflow:hidden}
+.row .bar i{display:block;height:100%;background:linear-gradient(90deg,var(--blue),var(--cyan));box-shadow:0 0 10px rgba(34,220,255,.4)}
+.row .v{width:56px;text-align:right;color:var(--txt);font-size:12px}
+.badge{font-size:10px;padding:2px 6px;border-radius:2px;white-space:nowrap}
+.b-red{background:rgba(255,95,126,.15);color:var(--red);border:1px solid rgba(255,95,126,.35)}
+.b-amber{background:rgba(255,189,61,.13);color:var(--amber);border:1px solid rgba(255,189,61,.32)}
+.b-green{background:rgba(0,230,160,.13);color:var(--green);border:1px solid rgba(0,230,160,.32)}
+.b-blue{background:rgba(59,130,246,.15);color:var(--lblue);border:1px solid rgba(59,130,246,.35)}
+.mini-grid{display:grid;gap:9px}
+.mcard{background:rgba(10,36,68,.55);border:1px solid var(--line2);padding:9px 11px}
+.mcard .n{font-size:23px;font-weight:700;color:#fff}
+.mcard .n small{font-size:11px;color:var(--lblue);font-weight:400}
+.mcard .t{font-size:11px;color:var(--muted);margin-top:2px}
+.flowline{display:flex;align-items:center;gap:0;margin-top:8px}
+.flowline .st{flex:1;text-align:center;font-size:11px;color:var(--muted);position:relative;padding-top:22px}
+.flowline .st:before{content:"";position:absolute;top:3px;left:50%;transform:translateX(-50%);width:12px;height:12px;border:2px solid var(--cyan);border-radius:50%;background:#08213c;box-shadow:0 0 10px rgba(34,220,255,.5)}
+.flowline .st:not(:last-child):after{content:"";position:absolute;top:8px;left:calc(50% + 9px);width:calc(100% - 18px);height:1px;background:linear-gradient(90deg,var(--cyan),rgba(34,220,255,.2))}
+.flowline .st.on{color:#fff}.flowline .st.on:before{background:var(--cyan)}
+
+/* center visual */
+.center{display:flex;flex-direction:column;gap:14px;min-height:0}
+.center .big{flex:1;min-height:0;position:relative}
+.center .small{height:248px;flex:none}
+.orbit{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:396px;height:396px}
+.ring{position:absolute;inset:0;border:1px solid rgba(34,220,255,.20);border-radius:50%}
+.ring.r2{inset:38px;border-color:rgba(59,130,246,.24);border-style:dashed;animation:spin 28s linear infinite}
+.ring.r3{inset:76px;border-color:rgba(34,220,255,.28);animation:spin 20s linear infinite reverse}
+.ring.r4{inset:104px;border:2px solid rgba(34,220,255,.25);box-shadow:0 0 40px rgba(34,220,255,.12),inset 0 0 40px rgba(34,220,255,.10)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.core{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:196px;height:196px;border-radius:50%;
+  background:radial-gradient(circle at 40% 35%,rgba(34,220,255,.30),rgba(8,34,64,.95) 70%);
+  border:1px solid rgba(34,220,255,.55);display:flex;flex-direction:column;align-items:center;justify-content:center;
+  box-shadow:0 0 60px rgba(34,220,255,.22)}
+.core b{font-size:25px;letter-spacing:2px;color:#fff;text-shadow:0 0 20px rgba(34,220,255,.6)}
+.core span{font-size:11px;color:var(--lblue);letter-spacing:2px;margin-top:7px;text-align:center;line-height:1.6}
+.node{position:absolute;z-index:6;font-size:12px;padding:7px 12px;background:rgba(9,34,64,.92);border:1px solid var(--line);
+  color:var(--txt);white-space:nowrap;box-shadow:0 0 16px rgba(0,0,0,.4)}
+.node b{color:var(--cyan);font-size:14px;margin-left:6px}
+.node.n1{left:2%;top:20%}.node.n2{right:2%;top:20%}.node.n3{left:2%;top:48%}.node.n4{right:2%;top:48%}.node.n5{left:12%;bottom:10%}.node.n6{right:12%;bottom:10%}
+.center-caption{position:absolute;left:0;right:0;bottom:6px;text-align:center;font-size:11px;color:var(--dim);letter-spacing:1px}
+.matrix{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:10px}
+.mx{background:rgba(10,36,68,.55);border:1px solid var(--line2);padding:9px;text-align:center}
+.mx .ic{font-size:19px;color:var(--cyan)}
+.mx .t{font-size:12px;color:var(--txt);margin-top:3px}
+.mx .d{font-size:10px;color:var(--dim);margin-top:2px}
+
+/* map / video wall */
+.floor{width:100%;height:100%}
+.room{cursor:pointer;transition:.2s}
+.room:hover{filter:brightness(1.5)}
+.cams{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:repeat(2,1fr);gap:8px;height:calc(100% - 36px)}
+.cam{position:relative;background:linear-gradient(150deg,#0a233f,#06182d);border:1px solid var(--line2);overflow:hidden;
+  display:flex;align-items:flex-end;padding:7px;font-size:10px;color:var(--lblue)}
+.cam:before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(0deg,rgba(34,220,255,.05) 0px,rgba(34,220,255,.05) 1px,transparent 1px,transparent 5px)}
+.cam:after{content:"";position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(34,220,255,.6),transparent);animation:scan 4s linear infinite}
+@keyframes scan{0%{top:0}100%{top:100%}}
+.cam .dot{position:absolute;right:7px;top:7px;width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green)}
+
+/* ticker */
+footer{position:relative;z-index:3;height:52px;display:flex;align-items:center;gap:18px;padding:0 30px;
+  border-top:1px solid var(--line2);background:linear-gradient(0deg,rgba(8,30,58,.85),transparent);font-size:11px;color:var(--dim)}
+footer .lb{flex:none;color:var(--cyan);border:1px solid var(--line);padding:4px 9px;letter-spacing:1px}
+footer .scroll{flex:1;overflow:hidden;color:var(--muted);line-height:1.5;font-size:10.5px;max-height:34px}
+footer .scroll span{display:block}
+footer .src{width:440px;flex:none;text-align:right;line-height:1.45;color:var(--dim);font-size:10px}
+.viewhint{position:absolute;left:50%;top:104px;transform:translateX(-50%);z-index:9;font-size:12px;color:var(--cyan);
+  background:rgba(6,26,50,.95);border:1px solid var(--cyan);padding:6px 18px;letter-spacing:1px;display:none}
+.viewhint.show{display:block}
+</style></head><body>
+<div id="stage"><div class="glow"></div>
+<header>
+ <div class="brand"><div class="logo">GEG</div><div><b>广州交易集团</b><span>GUANGZHOU EXCHANGE GROUP</span></div></div>
+ <div class="hd-mid"><h1>广州公共资源交易智慧监管驾驶舱</h1><p>SUI ZH JIAN　|　e招智胜 · AI 驱动全链条智慧监管</p><div class="hd-badge"></div></div>
+ <div class="hd-right"><div class="clock" id="clk"></div><div class="tabs"><div class="tab on" onclick="setView(0,'总览视角','年度/月度交易动态与四大业务板块详情')">总览视角</div><div class="tab" onclick="setView(1,'项目视角','分板块项目宗数、金额与区域分布')">项目视角</div><div class="tab" onclick="setView(2,'现场视角','开评标场地、人员构成与设备运行')">现场视角</div><div class="tab" onclick="full()" title="按 F 键亦可全屏">全屏</div></div></div>
+</header>
+<div class="kpis"><div class="kpi"><div class="lb">年交易规模<i>集团全要素</i></div><div class="vl num">10,000+<small>亿元</small></div><div class="sub">全国首家突破万亿元</div></div><div class="kpi"><div class="lb">历史累计交易额<i>集团全要素</i></div><div class="vl num">140,000+<small>亿元</small></div><div class="sub">25 年电子化积累</div></div><div class="kpi"><div class="lb">活跃交易主体<i>集团口径</i></div><div class="vl num">300,000+<small>家</small></div><div class="sub">覆盖国家至村六级</div></div><div class="kpi"><div class="lb">年度交易宗数<i>粤公平·广州</i></div><div class="vl num">6,185<small>宗</small></div><div class="sub">统计截止 2026-11-08</div></div><div class="kpi"><div class="lb">年度交易金额<i>粤公平·广州</i></div><div class="vl num">2,890.25<small>亿元</small></div><div class="sub">统计截止 2026-11-08</div></div><div class="kpi"><div class="lb">治理数据总量<i>e招智胜</i></div><div class="vl num">180<small>TB</small></div><div class="sub">汇聚数据 2.63 亿条</div></div></div>
+<div class="main"><div class="col"><div class="panel"><div class="pt"><h2>交易板块结构</h2><span class="tag demo">示意</span></div><div style="height:168px"><svg viewBox="0 0 230 210"><path d="M112.0 36.0 A68 68 0 0 1 158.5 153.6" fill="none" stroke="#22dcff" stroke-width="22"/><path d="M158.5 153.6 A68 68 0 0 1 72.0 159.0" fill="none" stroke="#3b82f6" stroke-width="22"/><path d="M72.0 159.0 A68 68 0 0 1 44.1 99.7" fill="none" stroke="#7db4ff" stroke-width="22"/><path d="M44.1 99.7 A68 68 0 0 1 72.0 49.0" fill="none" stroke="#00e6a0" stroke-width="22"/><path d="M72.0 49.0 A68 68 0 0 1 112.0 36.0" fill="none" stroke="#ffbd3d" stroke-width="22"/><circle cx="112" cy="104" r="85" fill="none" stroke="rgba(70,165,255,.12)" stroke-width="1"/><text x="112" y="106" text-anchor="middle" fill="#fff" font-size="24" font-weight="700">全类别</text><text x="112" y="124" text-anchor="middle" fill="#86a9cf" font-size="11">六大板块</text></svg></div><div class="legend"><span><i style="background:#22dcff"></i>工程建设</span><span><i style="background:#3b82f6"></i>政府采购</span><span><i style="background:#7db4ff"></i>自然资源</span><span><i style="background:#00e6a0"></i>产权交易</span><span><i style="background:#ffbd3d"></i>要素创新</span></div><div class="pnote">集团业务涵盖工程建设、政府采购、土地矿业、国有产权、药耗采购、碳排放权、数据交易等全要素品类。</div></div><div class="panel"><div class="pt"><h2>近 12 个月交易趋势</h2><span class="tag demo">示意</span></div><div style="height:150px"><svg viewBox="0 0 400 150"><defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22dcff"/><stop offset="1" stop-color="#1b4fa8" stop-opacity=".35"/></linearGradient></defs><rect x="9.0" y="63.8" width="15.3" height="64.2" fill="url(#g1)" opacity=".85" rx="1"/><text x="16.7" y="144" text-anchor="middle" fill="#5a7fa6" font-size="9">1月</text><rect x="42.3" y="57.6" width="15.3" height="70.4" fill="url(#g1)" opacity=".85" rx="1"/><rect x="75.7" y="50.3" width="15.3" height="77.7" fill="url(#g1)" opacity=".85" rx="1"/><text x="83.3" y="144" text-anchor="middle" fill="#5a7fa6" font-size="9">3月</text><rect x="109.0" y="54.5" width="15.3" height="73.5" fill="url(#g1)" opacity=".85" rx="1"/><rect x="142.3" y="41.0" width="15.3" height="87.0" fill="url(#g1)" opacity=".85" rx="1"/><text x="150.0" y="144" text-anchor="middle" fill="#5a7fa6" font-size="9">5月</text><rect x="175.7" y="46.2" width="15.3" height="81.8" fill="url(#g1)" opacity=".85" rx="1"/><rect x="209.0" y="32.7" width="15.3" height="95.3" fill="url(#g1)" opacity=".85" rx="1"/><text x="216.7" y="144" text-anchor="middle" fill="#5a7fa6" font-size="9">7月</text><rect x="242.3" y="36.9" width="15.3" height="91.1" fill="url(#g1)" opacity=".85" rx="1"/><rect x="275.7" y="28.6" width="15.3" height="99.4" fill="url(#g1)" opacity=".85" rx="1"/><text x="283.3" y="144" text-anchor="middle" fill="#5a7fa6" font-size="9">9月</text><rect x="309.0" y="20.3" width="15.3" height="107.7" fill="url(#g1)" opacity=".85" rx="1"/><rect x="342.3" y="26.5" width="15.3" height="101.5" fill="url(#g1)" opacity=".85" rx="1"/><text x="350.0" y="144" text-anchor="middle" fill="#5a7fa6" font-size="9">11月</text><rect x="375.7" y="12.0" width="15.3" height="116.0" fill="url(#g1)" opacity=".85" rx="1"/><polyline points="16.7,55.8 50.0,49.6 83.3,42.3 116.7,46.5 150.0,33.0 183.3,38.2 216.7,24.7 250.0,28.9 283.3,20.6 316.7,12.3 350.0,18.5 383.3,4.0" fill="none" stroke="#ffbd3d" stroke-width="1.6" opacity=".9"/><line x1="0" y1="128" x2="400" y2="128" stroke="rgba(70,165,255,.2)"/></svg></div><div class="legend"><span><i style="background:#22dcff"></i>月度交易金额</span><span><i style="background:#ffbd3d"></i>宗数趋势线</span></div><div class="pnote">面向接待展示的版式示意，正式上线按业务库月度数据接入。</div></div><div class="panel"><div class="pt"><h2>AI 招标文件合规检测</h2><span class="tag real">实际成效</span></div><div class="mini-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mcard"><div class="n num">137<small> 个</small></div><div class="t">合规检测点</div></div><div class="mcard"><div class="n num">22<small> 个</small></div><div class="t">合规提醒点</div></div><div class="mcard"><div class="n num">3-5<small> 分钟</small></div><div class="t">单份文件体检</div></div><div class="mcard"><div class="n num">95<small> %</small></div><div class="t">检测准确率</div></div><div class="mcard"><div class="n num">4,100<small> 个</small></div><div class="t">已审查项目</div></div><div class="mcard"><div class="n num">60<small> %+</small></div><div class="t">效率提升</div></div></div><div class="pnote">来源：信用广州、中国财经报（2026-06）。对应"先体检、再发布"监管机制。</div></div></div><div class="col center"><div class="panel big"><div class="pt"><h2>e招智胜 · 五位一体 AI 架构与全流程智能化</h2><span class="tag real">集团现有能力</span></div><div class="orbit"><div class="ring"></div><div class="ring r2"></div><div class="ring r3"></div><div class="ring r4"></div><div class="core"><b>e招智胜</b><span>算力 · 平台 · 数据<br/>模型 · 应用</span></div></div><div class="node n1">招标<b>合规检测</b></div><div class="node n2">投标<b>响应解析</b></div><div class="node n3">开标<b>数字主持人</b></div><div class="node n4">评标<b>AI智评+复核</b></div><div class="node n5">定标<b>辅助决策</b></div><div class="node n6">监管<b>异常行为分析</b></div><div class="center-caption">融合 DeepSeek、通义千问，多模型多模态协同 · 公共资源要素交易领域首个垂域大模型</div></div><div class="panel small"><div class="pt"><h2>智慧监管能力矩阵与治理成效</h2><span class="tag real">已落地 8 个 AI 场景 · 年底 14 项</span></div><div class="matrix"><div class="mx"><div class="ic">◈</div><div class="t">招标文件合规检测</div><div class="d">隐性壁垒识别</div></div><div class="mx"><div class="ic">◉</div><div class="t">智能辅助评标</div><div class="d">客观分 20 分钟</div></div><div class="mx"><div class="ic">⌘</div><div class="t">异常行为分析</div><div class="d">全省 13.8 万项目</div></div><div class="mx"><div class="ic">◇</div><div class="t">信用评价 1+N</div><div class="d">覆盖 5 万+ 主体</div></div></div><div class="mini-grid" style="grid-template-columns:repeat(3,1fr);margin-top:10px"><div class="mcard"><div class="n num">80<small> 余项</small></div><div class="t">风险监控指标 · 四级监测体系</div></div><div class="mcard"><div class="n num">93<small> %+</small></div><div class="t">施工类智能评审准确率</div></div><div class="mcard"><div class="n num">2.63<small> 亿条</small></div><div class="t">汇聚项目审批/交易/监管数据</div></div></div><div class="pnote">"AI智评 + 专家复核"模式，机器保证速度与一致性，专家保留判断与灵活性。</div></div></div><div class="col"><div class="panel"><div class="pt"><h2>围串标风险监测图谱</h2><span class="tag demo">示意</span></div><div style="height:172px"><svg viewBox="0 0 390 210"><defs><radialGradient id="ng"><stop offset="0" stop-color="#ff5f7e" stop-opacity=".85"/><stop offset="1" stop-color="#ff5f7e" stop-opacity="0"/></radialGradient></defs><line x1="60" y1="40" x2="150" y2="24" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="60" y1="40" x2="72" y2="120" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="150" y1="24" x2="245" y2="55" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="150" y1="24" x2="168" y2="105" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="245" y1="55" x2="262" y2="130" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="72" y1="120" x2="168" y2="105" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="168" y1="105" x2="262" y2="130" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="72" y1="120" x2="120" y2="175" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="168" y1="105" x2="120" y2="175" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="168" y1="105" x2="228" y2="185" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="262" y1="130" x2="228" y2="185" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="245" y1="55" x2="330" y2="95" stroke="rgba(80,170,255,.30)" stroke-width="1"/><line x1="262" y1="130" x2="330" y2="95" stroke="rgba(80,170,255,.30)" stroke-width="1"/><circle cx="60" cy="40" r="5.5" fill="#22dcff" opacity=".9"/><circle cx="150" cy="24" r="22" fill="url(#ng)"/><circle cx="150" cy="24" r="9" fill="#ff5f7e" opacity=".9"/><circle cx="245" cy="55" r="5.5" fill="#ffbd3d" opacity=".9"/><circle cx="72" cy="120" r="5.5" fill="#22dcff" opacity=".9"/><circle cx="168" cy="105" r="22" fill="url(#ng)"/><circle cx="168" cy="105" r="9" fill="#ff5f7e" opacity=".9"/><circle cx="262" cy="130" r="5.5" fill="#ffbd3d" opacity=".9"/><circle cx="120" cy="175" r="5.5" fill="#22dcff" opacity=".9"/><circle cx="228" cy="185" r="5.5" fill="#22dcff" opacity=".9"/><circle cx="330" cy="95" r="5.5" fill="#22dcff" opacity=".9"/><text x="150" y="8" fill="#ff5f7e" font-size="9">异常关联簇</text><text x="8" y="202" fill="#5a7fa6" font-size="9">投标人关联关系图谱 · 冒烟分值动态量化风险等级</text></svg></div><div class="rows" style="margin-top:6px"><div class="row"><span class="nm">机器码雷同</span><div class="bar"><i style="width:86%;background:linear-gradient(90deg,#ff5f7e,#ffbd3d)"></i></div><span class="v">高危</span></div><div class="row"><span class="nm">清单相似度</span><div class="bar"><i style="width:71%;background:linear-gradient(90deg,#ffbd3d,#ff5f7e)"></i></div><span class="v">关注</span></div><div class="row"><span class="nm">报价异常</span><div class="bar"><i style="width:54%"></i></div><span class="v">提示</span></div></div><div class="pnote">参照常州武进"冒烟分值 + 关联图谱"设计；底层为集团 80 余项风险监控指标。</div></div><div class="panel"><div class="pt"><h2>1+N 信用评价体系</h2><span class="tag real">2025 市信用创新案例</span></div><div class="mini-grid" style="grid-template-columns:repeat(3,1fr)"><div class="mcard"><div class="n num">5<small> 万+</small></div><div class="t">覆盖交易主体</div></div><div class="mcard"><div class="n num">1.7<small> 万</small></div><div class="t">应用项目数</div></div><div class="mcard"><div class="n num">6,900<small> 亿</small></div><div class="t">涉及成交金额</div></div></div><div class="flowline" style="margin-top:12px"><div class="st on">公共信用</div><div class="st on">市场信用</div><div class="st on">跨区域信用</div><div class="st">主体画像</div><div class="st">闭环应用</div></div><div class="pnote">已与合肥、芜湖、梅州、湛江等地协同，推动跨区域信用信息互联互通与互认。</div></div><div class="panel"><div class="pt"><h2>预警处置闭环与见证事项</h2><span class="tag real">本地清单口径</span></div><div class="flowline"><div class="st on">风险预警</div><div class="st">问题核实</div><div class="st">整改反馈</div><div class="st">结果应用</div></div><div class="rows" style="margin-top:14px"><div class="row"><span class="nm">建设工程见证预警点</span><div class="bar"><i style="width:53%"></i></div><span class="v">80 项</span></div><div class="row"><span class="nm">工程建设预警点清单</span><div class="bar"><i style="width:100%"></i></div><span class="v">151 条</span></div><div class="row"><span class="nm">国有资产预警点清单</span><div class="bar"><i style="width:52%"></i></div><span class="v">79 条</span></div><div class="row"><span class="nm">国土资源预警点清单</span><div class="bar"><i style="width:11%"></i></div><span class="v">16 条</span></div></div><div class="legend" style="margin-top:10px"><span class="badge b-red">红色 · 预警</span><span class="badge b-amber">黄色 · 关注</span><span class="badge b-green">绿色 · 提示</span><span class="badge b-blue">标前/标中/标后分级</span></div><div class="pnote">预警点数量取自广州交易集团《数字见证预警清单》，非演示数据。</div></div></div></div>
+<footer><div class="lb">数据播报</div><div class="scroll"><span>集团荣誉：国务院国资委「双百企业」· 国家高新技术企业 · 国家电子招标投标试点交易平台 · 国家营商环境评价最佳实践　｜　e招智胜：已落地 8 个 AI 应用场景，年底累计 14 项，拟向粤港澳大湾区推广　｜　智能辅助评标：客观分评审数小时→20 分钟　｜　异常行为分析：完成全省超 13.8 万个项目风险筛查　｜　1+N 信用评价体系获评 2025 年广州市信用创新应用案例</span></div><div class="src">数据来源：广州交易集团官网、粤公平·广州门户(2026-11-08)、信用广州、中国财经报(2026-06-30)、南方+　｜　标注「示意」的图表为版式演示数据，正式上线前接入业务库</div></footer>
+<div class="viewhint" id="hint"></div>
+</div>
+<script>
+function fit(){var s=Math.min(innerWidth/1920,innerHeight/1080);document.getElementById('stage').style.transform='scale('+s+')'}
+addEventListener('resize',fit);fit();
+function tick(){var d=new Date();var w=['日','一','二','三','四','五','六'][d.getDay()];
+ var p=function(n){return n<10?'0'+n:''+n};
+ var el=document.getElementById('clk');if(el)el.innerHTML=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' 星期'+w+' &nbsp;<b>'+p(d.getHours())+':'+p(d.getMinutes())+':'+p(d.getSeconds())+'</b>';}
+tick();setInterval(tick,1000);
+function full(){if(document.documentElement.requestFullscreen)document.documentElement.requestFullscreen()}
+document.addEventListener('keydown',function(e){if(e.key==='f'||e.key==='F')full();if(e.key==='Escape'){}});
+function setView(i,name,desc){
+ document.querySelectorAll('.tab').forEach(function(t,k){t.classList.toggle('on',k===i)});
+ var v=document.getElementById('viewName');if(v)v.textContent=name;
+ var d=document.getElementById('viewDesc');if(d)d.textContent=desc;
+ var h=document.getElementById('hint');if(h){h.textContent='当前视角：'+name+' · '+desc;h.classList.add('show');clearTimeout(window.__ht);window.__ht=setTimeout(function(){h.classList.remove('show')},3200);}
+}
+</script></body></html>
