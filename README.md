@@ -17,6 +17,8 @@
 
 - [案例](案例/index.md)：可复用的设计/方案案例库，含原型文件与思路提炼。
 
+- [ClaudeCode](ClaudeCode/index.md)：Claude Code 使用、环境搭建与排查沉淀。
+
 - [技能](skill/index.md)：yuan脑爆调研、yuanskill-pro提示词与技能优化、tender-template-structuring招标范本结构化切分，附Codex安装说明。
 
 ## 使用与维护
