@@ -4,6 +4,9 @@
 |---|---|---|
 | yuan | 研究驱动的脑爆、需求梳理、竞品和开源调研 | [技能定义](yuan/SKILL.md) · [使用说明](yuan/README.md) |
 | yuanskill-pro | 研究驱动的提示词与技能设计、优化和验证 | [技能定义](yuanskill-pro/SKILL.md) · [使用说明](yuanskill-pro/安装与使用说明.md) |
+| tender-template-structuring | 招标文件范本结构化切分：代理端招标菜单与标记埋点、投标菜单节点与html、扫描件清单；支持已批注/原始/换版三种场景 | [技能定义](tender-template-structuring/SKILL.md) · [使用说明](tender-template-structuring/使用说明.md) |
+
+2026-11-23 新增 tender-template-structuring（来源：微信文件，原始包在该技能目录 原始材料/ 下备查；尚未安装到本机 Codex，需要时按下方步骤复制）。
 
 ## 安装到本机Codex
 
