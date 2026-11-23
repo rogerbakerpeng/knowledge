@@ -1,0 +1,91 @@
+Summary for /tmp/claude-1000/-mnt-hgfs-git/1ea3b3c4-fa74-48fb-aea7-24bb529a836a/scratchpad/jar/BOOT-INF/lib/EpSignature-1.3.2.jar
+Decompiled with CFR 0.152
+
+
+com.epoint.epsignature.utils.SignUtil
+----------------------------
+
+degistByStream(java.lang.String java.lang.String )
+  Unable to fully structure code
+
+
+com.epoint.epsignature.utils.PDFAnnotationUtil
+----------------------------
+
+addAnnotation(com.epoint.itextpdf.text.pdf.PdfReader int float float float float java.lang.String java.lang.String java.lang.String java.lang.String )
+  Loose catch block
+updateAnnotation(com.epoint.itextpdf.text.pdf.PdfReader int java.lang.String java.lang.String )
+  Loose catch block
+main(java.lang.String[] )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [4[TRYBLOCK]], but top level block is 0[TRYBLOCK]
+removeAnnotation(com.epoint.itextpdf.text.pdf.PdfReader int java.lang.String )
+  Loose catch block
+
+
+com.epoint.epsignature.utils.PdfValidator
+----------------------------
+
+J()
+  Unable to fully structure code
+getSignDate()
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Started 2 blocks at once
+
+
+com.epoint.epsignature.utils.PDFMergeUtil
+----------------------------
+
+J(com.epoint.itextpdf.text.pdf.AcroFields java.lang.String com.epoint.epsignature.utils.SignatureDataExtractor com.epoint.itextpdf.text.pdf.security.SignaturePermissions com.epoint.itextpdf.text.pdf.PdfReader )
+  Could not resolve type clashes
+  Unable to fully structure code
+imageMergeOs(byte[] java.util.List<com.epoint.itextpdf.epsign.bean.SignInfo> )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Started 2 blocks at once
+verifySingleSign(com.epoint.itextpdf.text.pdf.PdfReader java.lang.String )
+  Loose catch block
+imageMergeByTmpfile(com.epoint.itextpdf.text.pdf.PdfReader java.lang.String java.util.List<com.epoint.itextpdf.epsign.bean.SignInfo> )
+  Unable to fully structure code
+J(com.epoint.itextpdf.text.pdf.PdfReader com.epoint.itextpdf.text.pdf.AcroFields boolean java.util.Map<java.lang.String, java.lang.String> )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 27[WHILELOOP]
+
+
+com.epoint.epsignature.utils.TZGMVerifyPdf
+----------------------------
+
+TZVerify(com.epoint.itextpdf.text.pdf.PdfReader )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [0[TRYBLOCK]], but top level block is 14[FORLOOP]
+
+
+com.epoint.epsignature.utils.IOUtils
+----------------------------
+
+getBytes(java.lang.String )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Started 2 blocks at once
+WriteStringToFile(java.lang.String java.lang.String )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [4[TRYBLOCK]], but top level block is 0[TRYBLOCK]
+readToString(java.lang.String )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Tried to end blocks [4[TRYBLOCK]], but top level block is 0[TRYBLOCK]
+read(java.io.InputStream )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Started 3 blocks at once
+getByte(java.io.InputStream )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Started 2 blocks at once
+
+
+com.epoint.epsignature.license.app.util.PackageScanner
+----------------------------
+
+getClassNamesFromPackage(java.lang.String )
+  Unable to fully structure code
+
+
+com.epoint.epsignature.bean.sign.impl.MultiPageSignReq
+----------------------------
+
+parseSigns()
+  Unable to fully structure code
+
+
+com.epoint.epsignature.dzyyzz.service.EpHXMcertService
+----------------------------
+
+creatQR(java.lang.Object )
+  Unable to fully structure code
+  Could not resolve type clashes

@@ -1,0 +1,9 @@
+Summary for /tmp/claude-1000/-mnt-hgfs-git/1ea3b3c4-fa74-48fb-aea7-24bb529a836a/scratchpad/jar/BOOT-INF/lib/EpOFDService-1.0.0.jar
+Decompiled with CFR 0.152
+
+
+com.epoint.ztb.ofd.service.Pdf2OfdService
+----------------------------
+
+getToBSign(com.epoint.ztb.web.domain.SignRequest )
+  Exception : org.benf.cfr.reader.util.ConfusedCFRException: Started 2 blocks at once

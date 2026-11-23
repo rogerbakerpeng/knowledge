@@ -19,6 +19,8 @@
 
 - [ClaudeCode](ClaudeCode/index.md)：Claude Code 使用、环境搭建与排查沉淀。
 
+- [产品逆向](产品逆向/index.md)：Epoint 产品反编译源码与分析报告并列入库（电子签章等），含关键字索引与源码导航。
+
 - [技能](skill/index.md)：yuan脑爆调研、yuanskill-pro提示词与技能优化、tender-template-structuring招标范本结构化切分，附Codex安装说明。
 
 ## 使用与维护

@@ -1,0 +1,332 @@
+<title>新点CA签章方案图解</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<style>
+  /* 布局：单栏纵向滚动的技术说明页，架构图与流向图用内联 SVG，风险用严重度色卡 */
+  :root {
+    --bg: #f4f6f9;
+    --surface: #ffffff;
+    --surface-2: #eef1f6;
+    --ink: #10151c;
+    --ink-soft: #4a5566;
+    --line: #d4dae3;
+    --accent: #1f6feb;      /* 签章蓝 */
+    --accent-soft: #e4eeff;
+    --seal: #c0392b;        /* 印章红 */
+    --seal-soft: #fbe6e3;
+    --ok: #1f9d6b;
+    --warn: #c77d12;
+    --crit: #cf3b47;
+    --nd: #6a5acd;          /* 节点：第三方 */
+    --font-head: "Space Grotesk", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-body: "Inter", "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Consolas, monospace;
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --bg: #0d1117; --surface: #161c26; --surface-2: #1f2733;
+      --ink: #e8edf4; --ink-soft: #9aa7b8; --line: #2b3542;
+      --accent: #5b9bff; --accent-soft: #16263f;
+      --seal: #ff6f61; --seal-soft: #3a1d1a;
+      --ok: #3fc98d; --warn: #e0a84a; --crit: #ff6b78; --nd: #9d8dff;
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --bg: #0d1117; --surface: #161c26; --surface-2: #1f2733;
+    --ink: #e8edf4; --ink-soft: #9aa7b8; --line: #2b3542;
+    --accent: #5b9bff; --accent-soft: #16263f;
+    --seal: #ff6f61; --seal-soft: #3a1d1a;
+    --ok: #3fc98d; --warn: #e0a84a; --crit: #ff6b78; --nd: #9d8dff;
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  body { background: var(--bg); color: var(--ink); font-family: var(--font-body); line-height: 1.6; -webkit-font-smoothing: antialiased; }
+  .wrap { max-width: 980px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); padding-block: 0; }
+
+  .hero { background: linear-gradient(135deg, #16233a 0%, #1f3a63 55%, #244e8c 100%); color: #f3f7ff;
+    margin-top: calc(-1 * env(safe-area-inset-top, 0px)); }
+  .hero-in { max-width: 980px; margin: 0 auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+    padding-top: calc(env(safe-area-inset-top, 0px) + 3rem); padding-bottom: 2.6rem; }
+  .hero .eyebrow { font-family: var(--font-mono); font-size: .76rem; letter-spacing: .18em; text-transform: uppercase; color: #9fc0ff; margin: 0 0 .6rem; }
+  .hero h1 { font-family: var(--font-head); font-weight: 600; font-size: clamp(1.7rem, 5vw, 2.6rem); line-height: 1.15; margin: 0 0 .7rem; text-wrap: balance; }
+  .hero p { margin: 0; max-width: 60ch; color: #d6e3fb; font-size: .98rem; }
+  .hero .meta { display: flex; flex-wrap: wrap; gap: .5rem; margin-top: 1.3rem; }
+  .chip { font-family: var(--font-mono); font-size: .72rem; padding: .3rem .6rem; border-radius: 999px; background: rgba(255,255,255,.12); border: 1px solid rgba(255,255,255,.2); color: #eaf1ff; }
+
+  section { margin-top: 2.6rem; }
+  h2 { font-family: var(--font-head); font-weight: 600; font-size: 1.35rem; margin: 0 0 .3rem; display: flex; align-items: baseline; gap: .6rem; text-wrap: balance; }
+  h2 .n { font-family: var(--font-mono); font-size: .9rem; color: var(--accent); }
+  .lead { color: var(--ink-soft); margin: 0 0 1.2rem; max-width: 70ch; }
+
+  .diagram { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem; overflow-x: auto; }
+  .diagram svg { display: block; min-width: 680px; width: 100%; height: auto; font-family: var(--font-body); }
+  .cap { font-size: .8rem; color: var(--ink-soft); margin: .7rem .2rem 0; }
+
+  svg text { fill: var(--ink); }
+  svg .lbl-soft { fill: var(--ink-soft); }
+  svg .lbl-inv { fill: #ffffff; }
+  svg .box { fill: var(--surface-2); stroke: var(--line); }
+  svg .box-acc { fill: var(--accent-soft); stroke: var(--accent); }
+  svg .box-seal { fill: var(--seal-soft); stroke: var(--seal); }
+  svg .box-nd { fill: color-mix(in srgb, var(--nd) 14%, transparent); stroke: var(--nd); }
+  svg .flow { stroke: var(--accent); stroke-width: 1.6; fill: none; marker-end: url(#ah); }
+  svg .flow-back { stroke: var(--seal); stroke-width: 1.6; fill: none; stroke-dasharray: 5 4; marker-end: url(#ahs); }
+  svg .grp { stroke: var(--line); stroke-dasharray: 4 4; fill: none; }
+
+  .legend { display: flex; flex-wrap: wrap; gap: .5rem 1.1rem; margin: .9rem .2rem 0; font-size: .8rem; color: var(--ink-soft); }
+  .legend span { display: inline-flex; align-items: center; gap: .4rem; }
+  .sw { width: 13px; height: 13px; border-radius: 3px; border: 1px solid; display: inline-block; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: .8rem; margin-top: 1.1rem; }
+  .step { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: .9rem 1rem; position: relative; }
+  .step .sn { font-family: var(--font-mono); font-size: .78rem; color: #fff; background: var(--accent); width: 1.5rem; height: 1.5rem; border-radius: 6px; display: grid; place-items: center; margin-bottom: .5rem; }
+  .step h4 { margin: 0 0 .25rem; font-size: .95rem; font-family: var(--font-head); }
+  .step p { margin: 0; font-size: .85rem; color: var(--ink-soft); }
+  .step code { font-family: var(--font-mono); font-size: .8em; background: var(--surface-2); padding: .05em .35em; border-radius: 4px; }
+
+  .facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: .8rem; margin-top: 1rem; }
+  .fact { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 1rem; }
+  .fact .k { font-family: var(--font-mono); font-size: .72rem; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); margin-bottom: .4rem; }
+  .fact .v { font-size: .9rem; }
+  .fact .v b { font-family: var(--font-mono); font-weight: 600; }
+
+  .risk { display: grid; gap: .7rem; margin-top: 1rem; }
+  .r { background: var(--surface); border: 1px solid var(--line); border-left-width: 4px; border-radius: 10px; padding: .75rem 1rem; display: grid; grid-template-columns: auto 1fr; gap: .2rem .9rem; align-items: baseline; }
+  .r.crit { border-left-color: var(--crit); }
+  .r.warn { border-left-color: var(--warn); }
+  .r.low  { border-left-color: var(--ok); }
+  .r .sev { font-family: var(--font-mono); font-size: .66rem; font-weight: 700; letter-spacing: .06em; padding: .18rem .45rem; border-radius: 5px; white-space: nowrap; align-self: center; }
+  .r.crit .sev { background: var(--crit); color: #fff; }
+  .r.warn .sev { background: var(--warn); color: #fff; }
+  .r.low  .sev { background: var(--ok); color: #fff; }
+  .r h4 { grid-column: 2; margin: 0; font-size: .95rem; font-family: var(--font-head); }
+  .r p { grid-column: 2; margin: .15rem 0 0; font-size: .85rem; color: var(--ink-soft); }
+  .r code { font-family: var(--font-mono); font-size: .82em; background: var(--surface-2); padding: .05em .35em; border-radius: 4px; }
+
+  .callout { margin-top: 1rem; background: var(--seal-soft); border: 1px solid var(--seal); border-radius: 12px; padding: 1.1rem 1.2rem; }
+  .callout h3 { margin: 0 0 .4rem; font-family: var(--font-head); font-size: 1.05rem; color: var(--seal); display: flex; align-items: center; gap: .5rem; }
+  .callout .date { font-family: var(--font-mono); font-weight: 700; }
+  .callout p { margin: .3rem 0 0; font-size: .88rem; }
+
+  ul.todo { list-style: none; padding: 0; margin: 1rem 0 0; display: grid; gap: .5rem; }
+  ul.todo li { background: var(--surface); border: 1px solid var(--line); border-radius: 9px; padding: .6rem .85rem .6rem 2.2rem; position: relative; font-size: .88rem; }
+  ul.todo li::before { content: "□"; position: absolute; left: .8rem; color: var(--accent); font-size: 1.1rem; line-height: 1.3; }
+
+  footer { margin: 3rem 0 2rem; padding-top: 1.2rem; border-top: 1px solid var(--line); color: var(--ink-soft); font-size: .8rem; }
+  footer code { font-family: var(--font-mono); }
+  @media (max-width: 480px) { .r { grid-template-columns: 1fr; } .r .sev { justify-self: start; } .r h4, .r p { grid-column: 1; } }
+</style>
+
+<div class="hero">
+  <div class="hero-in">
+    <p class="eyebrow">逆向分析 · 面向研发与交付</p>
+    <h1>新点 CA 及签章方案图解</h1>
+    <p>广州一网通办 EpQzFileServer 签章引擎与 casharedemo 接入层的架构、云签章流向、接入协议与安全风险一页看懂。</p>
+    <div class="meta">
+      <span class="chip">EpQzFileServer · Spring Boot 1.5</span>
+      <span class="chip">casharedemo · Spring Boot 2.3</span>
+      <span class="chip">反编译 + 源码审阅</span>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section>
+    <h2><span class="n">01</span>两层结构</h2>
+    <p class="lead">方案分「接入层」与「签章引擎」两层；引擎对外提供签章能力，接入层对接业务与全国 CA 互认平台。移动 CA 走扫码，介质 CA 走 USB Key。</p>
+    <div class="facts">
+      <div class="fact"><div class="k">签章引擎</div><div class="v"><b>EpQzFileServer</b><br>PDF/OFD 预览·签章·验章·关键字定位·云签·文件解密。靠 <code>EpSignature.lic</code> 授权。</div></div>
+      <div class="fact"><div class="k">接入 / 中间层</div><div class="v"><b>casharedemo</b><br>广州一网通办 Demo，转发业务请求，对接引擎与 CA 互认平台。</div></div>
+      <div class="fact"><div class="k">混淆情况</div><div class="v">主程序 Allatori 字符串加密已全部还原；三个引擎依赖库<b>未混淆</b>，源码可直读。</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">02</span>系统架构图</h2>
+    <p class="lead">浏览器 / 移动端 → casharedemo → EpQzFileServer → 云签平台 / CA 互认平台。虚线框标注「必须同域部署」的两个服务。</p>
+    <div class="diagram">
+      <svg viewBox="0 0 720 440" role="img" aria-label="系统架构图">
+        <defs>
+          <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="var(--accent)"/>
+          </marker>
+          <marker id="ahs" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="var(--seal)"/>
+          </marker>
+        </defs>
+
+        <!-- clients -->
+        <rect class="box" x="24" y="40" width="150" height="54" rx="9"/>
+        <text x="99" y="63" text-anchor="middle" font-weight="600" font-size="13">浏览器 / PC</text>
+        <text x="99" y="81" text-anchor="middle" font-size="11" class="lbl-soft">签章页 · USB Key 介质CA</text>
+
+        <rect class="box" x="24" y="110" width="150" height="54" rx="9"/>
+        <text x="99" y="133" text-anchor="middle" font-weight="600" font-size="13">移动端 App</text>
+        <text x="99" y="151" text-anchor="middle" font-size="11" class="lbl-soft">扫码 · 移动CA</text>
+
+        <!-- same-domain group -->
+        <rect class="grp" x="214" y="24" width="250" height="196" rx="12"/>
+        <text x="339" y="18" text-anchor="middle" font-size="11" class="lbl-soft">—— 必须同域部署 ——</text>
+
+        <rect class="box-acc" x="238" y="44" width="202" height="66" rx="10"/>
+        <text x="339" y="70" text-anchor="middle" font-weight="600" font-size="13">casharedemo</text>
+        <text x="339" y="89" text-anchor="middle" font-size="11" class="lbl-soft">接入层 /epcaqzdemo</text>
+        <text x="339" y="104" text-anchor="middle" font-size="10" class="lbl-soft">cloudseal · commoncall · 反代</text>
+
+        <rect class="box-acc" x="238" y="134" width="202" height="70" rx="10"/>
+        <text x="339" y="161" text-anchor="middle" font-weight="600" font-size="13">EpQzFileServer</text>
+        <text x="339" y="180" text-anchor="middle" font-size="11" class="lbl-soft">签章引擎 · EpSignature</text>
+        <text x="339" y="195" text-anchor="middle" font-size="10" class="lbl-soft">/common · /mcert · /filedecrypt</text>
+
+        <!-- externals -->
+        <rect class="box-nd" x="520" y="44" width="176" height="66" rx="10"/>
+        <text x="608" y="70" text-anchor="middle" font-weight="600" font-size="13">CA 互认共享平台</text>
+        <text x="608" y="89" text-anchor="middle" font-size="11" class="lbl-soft">/CAShare/Components</text>
+        <text x="608" y="104" text-anchor="middle" font-size="10" class="lbl-soft">扫码登录·签·加·解密</text>
+
+        <rect class="box-nd" x="520" y="134" width="176" height="70" rx="10"/>
+        <text x="608" y="161" text-anchor="middle" font-weight="600" font-size="13">云签 / 华为云平台</text>
+        <text x="608" y="180" text-anchor="middle" font-size="11" class="lbl-soft">/yqc/seal/* · /rest/epqzservice</text>
+        <text x="608" y="195" text-anchor="middle" font-size="10" class="lbl-soft">取印章 · 摘要签名</text>
+
+        <!-- storage -->
+        <rect class="box-seal" x="238" y="250" width="202" height="52" rx="10"/>
+        <text x="339" y="272" text-anchor="middle" font-weight="600" font-size="12">文件工作区 upload/{SM3}/1.pdf</text>
+        <text x="339" y="290" text-anchor="middle" font-size="10" class="lbl-soft">下载源文件 · 回写签章结果</text>
+
+        <!-- arrows -->
+        <path class="flow" d="M174 67 H236"/>
+        <path class="flow" d="M174 137 C 200 137, 205 77, 236 77"/>
+        <path class="flow" d="M339 110 V132"/>
+        <path class="flow" d="M440 169 H518"/>
+        <path class="flow" d="M440 90 C 480 90, 485 77, 518 77"/>
+        <path class="flow" d="M339 204 V248"/>
+        <path class="flow-back" d="M440 285 C 540 285, 540 120, 452 100"/>
+
+        <!-- note for sm4/token -->
+        <text x="455" y="330" font-size="10.5" class="lbl-soft">token (5min) 与 SM4 路径加密</text>
+        <text x="455" y="346" font-size="10.5" class="lbl-soft">密钥同为 appsecret</text>
+        <text x="24" y="330" font-size="10.5" class="lbl-soft">实线：请求流向</text>
+        <text x="24" y="346" font-size="10.5" class="lbl-soft">红虚线：引擎回调接入层取/存文件</text>
+      </svg>
+      <div class="legend">
+        <span><i class="sw" style="background:var(--accent-soft);border-color:var(--accent)"></i>本方 (同域)</span>
+        <span><i class="sw" style="background:color-mix(in srgb,var(--nd) 14%,transparent);border-color:var(--nd)"></i>第三方平台</span>
+        <span><i class="sw" style="background:var(--seal-soft);border-color:var(--seal)"></i>文件存储</span>
+      </div>
+    </div>
+    <p class="cap">同域要求来自引擎拿到加密路径 <code>p</code> 后会回到调用方地址取文件（红色回调线）。</p>
+  </section>
+
+  <section>
+    <h2><span class="n">03</span>云签章流向图</h2>
+    <p class="lead">一次 <code>/epcaqzdemo/cloudseal</code> 请求从下载文件到回传结果的完整时序。关键字每命中一处就调一次引擎签章接口。</p>
+    <div class="diagram">
+      <svg viewBox="0 0 740 470" role="img" aria-label="云签章流向时序图">
+        <!-- lanes -->
+        <g font-weight="600" font-size="12" text-anchor="middle">
+          <rect class="box" x="20" y="20" width="120" height="34" rx="8"/><text x="80" y="42">业务/浏览器</text>
+          <rect class="box-acc" x="200" y="20" width="120" height="34" rx="8"/><text x="260" y="42">casharedemo</text>
+          <rect class="box-acc" x="390" y="20" width="130" height="34" rx="8"/><text x="455" y="42">EpQzFileServer</text>
+          <rect class="box-nd" x="590" y="20" width="130" height="34" rx="8"/><text x="655" y="42">云签平台</text>
+        </g>
+        <!-- lifelines -->
+        <g stroke="var(--line)" stroke-dasharray="3 4">
+          <line x1="80" y1="54" x2="80" y2="450"/>
+          <line x1="260" y1="54" x2="260" y2="450"/>
+          <line x1="455" y1="54" x2="455" y2="450"/>
+          <line x1="655" y1="54" x2="655" y2="450"/>
+        </g>
+        <g font-size="11" text-anchor="middle">
+          <!-- 1 -->
+          <path class="flow" d="M80 82 H258"/>
+          <text x="168" y="76">① cloudseal(f,s,cloud,keyword)</text>
+          <!-- 2 -->
+          <path class="flow-back" d="M260 112 C 150 112, 150 128, 258 128" />
+          <text x="150" y="104" class="lbl-soft">② 下载外部文件 f</text>
+          <text x="260" y="150" text-anchor="middle" class="lbl-soft">→ upload/{SM3}/1.pdf</text>
+          <!-- 3 local -->
+          <rect class="box-seal" x="212" y="166" width="96" height="30" rx="6"/>
+          <text x="260" y="185">③ 生成 token+SM4路径</text>
+          <!-- 4 -->
+          <path class="flow" d="M260 220 H453"/>
+          <text x="357" y="214">④ cloudsealsign(每个关键字)</text>
+          <!-- 5 verify -->
+          <rect class="box" x="402" y="234" width="106" height="28" rx="6"/>
+          <text x="455" y="252" font-size="10.5">⑤ 验token·SM4解路径</text>
+          <!-- 6 digest -->
+          <text x="455" y="282" class="lbl-soft">⑥ 读PDF·算SM3摘要</text>
+          <!-- 7 -->
+          <path class="flow" d="M455 308 H653"/>
+          <text x="557" y="302">⑦ 取印章图+证书</text>
+          <path class="flow" d="M455 334 H653"/>
+          <text x="557" y="328">⑧ 对摘要签名</text>
+          <path class="flow-back" d="M655 350 H457"/>
+          <text x="557" y="366" class="lbl-soft">印章+签名值返回</text>
+          <!-- 9 merge -->
+          <rect class="box-seal" x="398" y="378" width="114" height="30" rx="6"/>
+          <text x="455" y="397" font-size="10.5">⑨ 关键字定位·盖章写回</text>
+          <!-- 10 save -->
+          <path class="flow" d="M260 432 C 160 432, 120 432, 82 432"/>
+          <text x="175" y="426">⑩ 回传 1.pdf 到 s · 重定向 r</text>
+          <path class="flow-back" d="M455 408 C 330 408, 330 424, 262 424"/>
+        </g>
+      </svg>
+    </div>
+    <p class="cap">⑨ 的「写回」是否覆盖原文件由引擎配置 <code>isCoverSrc</code> 决定；⑩ 回传固定取 <code>1.pdf</code>，仅当 <code>isCoverSrc=true</code> 时它才是已签章版本。</p>
+  </section>
+
+  <section>
+    <h2><span class="n">04</span>接入协议要点</h2>
+    <p class="lead">对接 EpQzFileServer 必须理解的两个凭据，和 CA 互认平台的签名算法。</p>
+    <div class="facts">
+      <div class="fact"><div class="k">token（t）</div><div class="v"><b>appKey@HmacSHA1(P2,appSecret)@P2</b><br>P2=「当前时间+5分钟」的 Base64，<b>5 分钟失效</b>。</div></div>
+      <div class="fact"><div class="k">路径（p）</div><div class="v">文件相对路径经 <b>SM4-ECB</b> 加密；密钥 = <b>appsecret</b>（与 token 同一把）。</div></div>
+      <div class="fact"><div class="k">同域部署</div><div class="v">引擎凭 <code>p</code> 回调调用方取文件，两服务<b>必须同域</b>，appsecret 两端一致。</div></div>
+      <div class="fact"><div class="k">CA互认签名</div><div class="v">7字段 TreeMap 排序 → 加盐(时间戳3位+nonce3位) → <b>HmacSM3</b>。入口 <code>/CAShare/Components</code>。</div></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">05</span>问题与风险</h2>
+    <p class="lead">代码审阅结论，按严重度排列；未经实际攻击验证。标注「需平台方确认」者取决于云签平台是否做用户级授权。</p>
+    <div class="risk">
+      <div class="r crit"><span class="sev">高危</span><h4>密钥可在浏览器直接拿到</h4><p><code>GET /ca-share-config</code> 明文返回 clientSecret / signatureSecret，拿到即可伪造 CA 平台签名请求。</p></div>
+      <div class="r crit"><span class="sev">高危</span><h4>密钥硬编码且已泄露</h4><p>CA / epqz 密钥、多套 appkey、pfx 密码 <code>000000</code> 明文写入 yml 并打包；jar 内还带第三方 <code>.pfx</code> 证书。SM4 密钥复用 appsecret。</p></div>
+      <div class="r crit"><span class="sev">高危</span><h4>token 与文件路径可伪造</h4><p>HMAC 与 SM4 共用 appsecret，而该值明文在 jar 中，拿到 jar 即可自造有效 token 与路径。</p></div>
+      <div class="r crit"><span class="sev">高危</span><h4>SSRF + 路径穿越</h4><p><code>f</code>/<code>s</code>/<code>targetUrl</code> 可请求任意 URL 且关闭证书校验；多数走 SM4 路径的接口未校验 <code>../</code>。</p></div>
+      <div class="r warn"><span class="sev">中危</span><h4>鉴权缺失或形同虚设</h4><p><code>/testpdfservice/doAction</code> 等 token 失败仅记日志仍继续；<code>/demoservice</code> 与多数 <code>/common</code> 接口无校验。</p></div>
+      <div class="r warn"><span class="sev">中危</span><h4>签章身份由调用方声明</h4><p><code>organization</code>/<code>user_id</code> 取自请求，可指定任意单位印章 —— 实际可行性<b>需平台方确认</b>。</p></div>
+      <div class="r warn"><span class="sev">中危</span><h4>任意删文件 / 信息泄露</h4><p><code>DELETE /delete-all-pdf-files</code>、<code>/fs-diagnostic</code>、<code>/get-workspace-logs</code> 对外开放；CORS <code>*</code> 且允许携带凭证。</p></div>
+      <div class="r warn"><span class="sev">中危</span><h4>并发串数据 / 全局关闭证书校验</h4><p><code>httpUrl</code> 单例成员每请求改写、多个静态字段非线程安全；<code>ignoreSsl()</code> 改全 JVM 默认校验器。</p></div>
+      <div class="r low"><span class="sev">质量</span><h4>死代码 · 文档不符 · 组件过旧</h4><p>个人签章分支恒不可达；文档与返回码不符；Spring Boot 1.5 / fastjson 1.2.83 已停维，双日志框架 + <code>rebel.xml</code> 残留。</p></div>
+    </div>
+  </section>
+
+  <section>
+    <h2><span class="n">06</span>立即处理与整改</h2>
+    <div class="callout">
+      <h3>⏰ 授权即将到期</h3>
+      <p><code>EpSignature.lic</code> 有效期 <span class="date">2025-06-17 ~ 2026-12-31</span>。到期瞬间仅后台线程抛异常，运行中进程不会立即停；但到期后<b>一旦重启即无法签章</b>。请立即联系厂商续期。</p>
+    </div>
+    <ul class="todo">
+      <li>删除 / 关闭 <code>/ca-share-config</code>、<code>/fs-diagnostic</code>、<code>/delete-all-pdf-files</code>。</li>
+      <li>对 <code>f</code>/<code>s</code>/<code>targetUrl</code>/<code>fileUrl</code> 加域名白名单。</li>
+      <li>所有对外接口加统一鉴权；token 校验失败必须拦截而非仅记日志。</li>
+      <li>解密路径统一做 <code>../</code> 穿越校验（推广 FileValidator）。</li>
+      <li><code>httpUrl</code> 改局部变量；审查静态字段并发安全；不要全局 ignoreSsl()。</li>
+      <li>密钥移出代码库并<b>更换已泄露的所有密钥</b>；确认 <code>isCoverSrc=true</code>。</li>
+      <li>升级 Spring Boot / Tomcat / fastjson；清理重复日志框架与 rebel.xml。</li>
+    </ul>
+  </section>
+
+  <footer>
+    <p>源文件：<code>待蒸馏/广州一网通办CA签章方案-逆向分析报告.md</code>（完整版）· 反编译源码：<code>待蒸馏/EpQzFileServer-反编译/</code></p>
+    <p>分析方式：源码直读 + CFR 反编译，Allatori 字符串已还原。安全结论为代码审阅判断，未经实际攻击验证，供研发与交付参考。</p>
+  </footer>
+
+</div>
