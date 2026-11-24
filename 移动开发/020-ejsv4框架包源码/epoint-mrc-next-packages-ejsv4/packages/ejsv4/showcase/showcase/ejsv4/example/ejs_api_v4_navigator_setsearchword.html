@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no" />
+    <title>navigator.setSearchWord 测试页面</title>
+    <script>
+        document.write("<script src='../../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+
+    <style>
+        .title {
+            margin: 20px 15px 10px;
+            color: #6d6d72;
+            font-size: 15px;
+        }
+
+        .btn-getkeyword {
+            width: 80%;
+            margin: 15px auto;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="title">搜索结果(Mock 数据)：</div>
+    <ul class="mui-table-view" id="list">
+    </ul>
+
+    <button type="button" class="mui-btn mui-btn-primary mui-btn-block btn-getkeyword" id="getkeyword">获取搜索关键字</button>
+
+    <script type="text/template" id="tpl">
+        {{#item}}
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <div class="mui-media-body">
+                    {{title}}
+                    <p class='mui-ellipsis'>{{description}}</p>
+                </div>
+            </a>
+        </li>
+        {{/item}}
+    </script>
+
+    <script>
+        document.write("<script src='../../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+
+    <script>
+        var keyword = 'epoint';
+        var tpl = document.getElementById('tpl').innerHTML,
+            listEl = document.getElementById('list');
+
+        Util.loadJs(function () {
+            // 设置搜索关键字
+            ejs.navigator.setSearchWord({
+                keyword: keyword,
+                success: function() {
+                    console.log('设置搜索关键字成功');
+                }
+            });
+            // 获取搜索数据
+            getSrhData(keyword);
+
+            initListener();
+        });
+
+        /**
+         * 事件绑定
+         */
+        function initListener() {
+            document.getElementById('getkeyword').addEventListener('tap', function () {
+                // 获取搜索页关键字
+                ejs.navigator.getSearchWord({
+                    success: function (result) {
+                        var keyword = result.keyword;
+
+                        ejs.ui.toast(JSON.stringify(result));
+                        ejs.navigator.setSearchWord(keyword);
+
+                        getSrhData(keyword);
+                    },
+                    error: function (error) {
+                        ejs.ui.toast(JSON.stringify(error));
+                    }
+                });
+            });
+        };
+
+        /**
+         * 获取搜索数据
+         * 
+         * @param {String} keyword 搜索关键字
+         */
+        function getSrhData(keyword) {
+            $.ajax({
+                url: 'http://yapi.demo.qunar.com/mock/14465/ejsexample/searchlist',
+                data: {
+                    keyword: keyword
+                },
+                type: 'post',
+                success: function (response) {
+                    listEl.innerHTML = Mustache.render(tpl, {
+                        item: response.list
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>审批</title>
+		<!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<script src='../frame/fmui/js/cssboot.js'></script>
+		<script>
+			SrcBoot.output([
+				'workflow/css/workflow_approve.css'
+			]);
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--人员选择-->
+			<div class="target-activity-person">
+				<ul class="em-todo-table-view mui-table-view em-isshowselectuser">
+					<li class="mui-table-view-cell em-todo-amount" id="selectuser">
+						<span>送下一步处理人<span class="em-todo-branch-name"></span>
+						</span>
+						<div class="select" data-ripple="ripple">
+							<span class="order">0</span>
+							<img src="img/img_addperson.png" alt="" class="em-editable" />
+						</div>
+					</li>
+					<li class="mui-table-view-cell em-todo-people">
+						<div class="em-todo-people-wrapper selectpersonlist">
+							
+						</div>
+					</li>
+
+				</ul>
+			</div>
+			
+
+			<!--签署意见-->
+			<p class="em-todo-p">签署意见</p>
+			<div class="em-todo-opinion">
+				<textarea class="ep-mui-textarea" id="opinioncontent" name="" rows="" cols="" placeholder="请签署意见"></textarea>
+			</div>
+		</div>
+		<script>SrcBoot.output(["frame/fmui/js/jsboot.js"])</script>
+		<script>
+			epointm.initPage('selectuseraction',null,function(){
+				ztbphone.phonesubmitpageinit(saveAndClose);
+			});
+			function saveAndClose() {
+				if(!$("#opinioncontent").val()){
+					epointm.alert("请输入意见");
+					return;
+				}
+				var length = getUserguidsByDom().length;
+				if(length > 0){
+					var userList = "";
+					var guidList = "";
+					for(var i = 0; i < length; i++){
+						userList += getUsernamesByDom()[i];
+						guidList += getUserguidsByDom()[i];
+						if((i+1)!=length){
+							userList += ";";
+							guidList += ";";
+						}
+						
+					}
+					ztbphone.closePage(guidList + "_SPLIT_" + userList + "_SPLIT_"+$("#opinioncontent").val());
+				}else{
+					epointm.alert('您还没有选择任何人员记录！');
+				}
+			}
+			//获取所有已选用户的username
+			function getUsernamesByDom(){
+				var usernames = [];
+				var items = document.querySelector(".selectpersonlist").querySelectorAll(".em-person-item");
+
+				if(items && items.length > 0) {
+
+					mui.each(items, function(index, el) {
+						var username = el.innerText.trim();
+						usernames.push(username);
+					});
+				}
+				return usernames;
+			}
+			//获取所有已选用户的userguid
+			function getUserguidsByDom(){
+				var userguids = [];
+				var items = document.querySelector(".selectpersonlist").querySelectorAll(".em-person-item");
+
+				if(items && items.length > 0) {
+
+					mui.each(items, function(index, el) {
+						var userguid = el.getAttribute("id");
+						userguids.push(userguid);
+					});
+				}
+				return userguids;
+			}
+			
+			mui(".target-activity-person").on('tap', '#selectuser', function() {
+				ejs.nativeComponents.selectContact({
+					//是否多选，0代表多选
+				    'isSingle':'0',
+				},
+				function(result, msg, detail) {
+					var temp = "<span class='em-person-item' id='{{UserGuid}}'>{{DisplayName}}</span>";
+					var html = "";
+					mui.each(result.userInfos, function(key, value) {
+						html += Mustache.render(temp, value);
+					})
+					$(".order").html(result.userInfos.length);
+					$(".selectpersonlist").html(html);
+				},
+				function(res) {
+				    //打开错误的处理
+				});
+
+			});
+		</script>
+	</body>
+
+</html>

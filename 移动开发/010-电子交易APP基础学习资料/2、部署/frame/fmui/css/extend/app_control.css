@@ -1,0 +1,120 @@
+/*!
+ * =====================================================
+ * Mui 控件封装后的扩展css
+ * =====================================================
+ */
+
+.mui-input-row>label {
+    /* width: 40%; 使用原生的35%的宽度，只扩展颜色属性*/
+    color: #666;
+} 
+.mui-input-row>.ep-mui-outputtext {
+    float: right;
+    width: 65%;/* 封装控件的比例根据上面变化：使用65% */
+    text-align: right;
+    line-height: 1.1;
+    padding: 11px 15px;
+    font-size: 17px;/* 默认字体太小，需要重写下！*/
+}
+.em-table-view-cell>.ep-mui-outputtext {
+    display: inline-block;
+    width: calc(100% - 0px);
+    word-wrap: break-word;
+    text-align:right;
+    color: #333;
+}
+.mui-input-row.block {
+  	height: auto;
+}
+.mui-input-row.block > * {
+  	width: 100%;
+  	text-align: left;
+}
+
+.ep-mui-textbox {
+    /* float: right; */
+    width: 65%;/* 封装控件的比例根据上面变化：使用65% */
+    /* text-align: right; */
+    line-height: 1.1;
+    padding: 11px 15px;
+}
+
+.ep-mui-textarea {
+    font-size:16px;
+    color: #333;
+}
+
+.ep-mui-switch {
+ 	/* display: inline;
+ 	width: 74px;
+ 	height: 30px; */
+ 	float: right;
+}
+
+.ep-mui-combobox {
+ 	width: 100%;
+ 	height: 45px;
+ 	line-height: 45px;
+ 	padding: 0;
+}
+
+.ep-mui-datepicker {
+	height: 45px;
+	line-height: 45px;
+	text-align: right;
+	padding: 11px 15px;
+}
+
+/*重写列表*/
+.ep-mui-list.default {
+    margin: 0 15px;
+}
+.ep-mui-list.default:before, .ep-mui-list.default:after, .ep-mui-list.default>.mui-table-view-cell:after {
+    height: 0;
+}
+.ep-mui-list.default>.mui-table-view-cell {
+    padding: 5px 10px;
+    margin-top: 8px;
+    border: 1px solid #d7d8e0;
+    border-radius: 3px;
+    box-shadow: 0 2px 3px #e7eafb;
+}
+.ep-mui-list.default .table-row {
+    line-height: 30px;
+    clear:both;
+}
+.ep-mui-list.default .table-label {
+    width: 33%;
+    float: left;
+    color: #666;
+    overflow: hidden;
+    white-space: nowrap;
+    margin-right: 5px;
+}
+.ep-mui-list.default .table-outputtext{
+	float:left;
+	width:60%;
+	word-wrap:break-word;
+}
+
+/*重写单选按钮*/
+.ep-simple-select {
+	display: flex;
+	flex-wrap: nowrap;
+}
+
+.em-item {
+	position: relative;
+}
+
+.ep-simple-select::after {
+	height: 0 !important;
+}
+
+.em-item>input {
+	top: 8px !important;
+}
+
+.em-item>input[type=radio]::before {
+	font-size: 22px !important;
+}

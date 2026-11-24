@@ -1,0 +1,7 @@
+1、在线转换工具地址
+	外网地址：http://218.4.136.118:8022/epoint-translate/pagetranslate/pageinfo/translatepageinfo
+ 使用方法：复制pc端代码到左边，点击转换即可，生成以后自行调整js、核对页面字段，确保展示数据逻辑和pc端保持一致。
+ 
+
+2：批量转换:
+通过手动转换后，可让ai参考转换成果提取出规则、规范后，ai参考规范批量转换。

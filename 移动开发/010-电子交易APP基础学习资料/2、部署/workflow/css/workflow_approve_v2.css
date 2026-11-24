@@ -1,0 +1,220 @@
+/** 
+ * 作者： 孙尊路
+ * 创建时间：2017/08/28 10:22
+ * 版本： [1.0, 2017/08/28]
+ * 版权： 江苏国泰新点软件有限公司
+ * 描述：招投标APP中心端 审批
+**/
+
+html,
+.mui-content {
+	background-color: #f5f5f5;
+}
+
+.mui-content>.em-todo-table-view.mui-table-view:first-child {
+	margin-top: 0;
+	margin-bottom: 12px;
+}
+
+.em-todo-table-view:before,
+.em-todo-table-view:after {
+	-webkit-transform: scaleY(1);
+	transform: scaleY(1);
+	background-color: #d9d9d9;
+}
+
+.em-todo-table-view .mui-table-view-cell {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.em-todo-table-view .mui-table-view-cell:after {
+	left: 10px;
+	background-color: #e6e6e6;
+}
+
+.em-todo-table-view .mui-table-view-cell.mui-active {
+	background-color: #fff;
+}
+
+
+/*当前步骤*/
+
+.icon-triangle {
+    display: inline-block;
+    width: 13px;
+    height: 11px;
+    margin-right: 8px;
+    font-size: 12px;
+    background: url(../img/triangle.png);
+    background-size: 100% 100%;
+}
+
+.em-todo-step div,
+.em-todo-amount span {
+	font-size: 17px;
+	color: #777;
+}
+
+.em-todo-step span {
+	margin-left: 22px;
+	color: #000000;
+}
+
+.bluefont {
+    color: #3774fa !important;
+}
+
+/*当前分支*/
+
+.em-todo-step .mui-table-view-cell>a:not(.mui-btn) {
+	margin: -11px -10px;
+}
+
+.mui-navigate-right:after,
+.mui-push-right:after {
+	right: 5px;
+	content: '\e583';
+	font-size: 28px;
+}
+
+
+/*人员选择*/
+
+.em-todo-amount,
+.em-todo-amount div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.em-todo-amount .em-todo-branch-name {
+	font-size: 15px;
+}
+
+.em-todo-amount img {
+	margin-left: 10px;
+	width: 24px;
+	height: 24px;
+}
+
+.select .order {
+	border-radius: 12px;
+	width: 30px;
+	min-width: 30px;
+	height: 22px;
+	line-height: 23px;
+	color: #FFFFFF;
+	text-align: center;
+	background-color: #ff0000;
+}
+
+
+/*人员展示*/
+
+.em-todo-people.mui-table-view-cell {
+	padding: 0px 0px 0px 15px
+}
+
+.em-todo-people-wrapper{
+	/*暂无设置*/
+}
+.em-person-item{
+	display: inline-block;
+	padding: 3px 5px;
+	border-radius: 14px;
+	background-color: #cbe3ff;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	margin-left: -5px;
+	color: #000000;
+	font-size: 13px;
+	border: 2px solid #38adff;
+}
+
+/*签署意见*/
+.em-todo-p {
+	font-size: 14px;
+	color: #999;
+	padding:3px 15px;
+}
+
+.em-todo-opinion {
+	position: relative;
+	background: #fff;
+}
+
+.em-todo-opinion textarea {
+	margin-bottom: 10px;
+	padding: 10px 15px;
+	border: 0;
+	height: 75px;
+}
+
+.em-todo-opinion textarea::-webkit-input-placeholder {
+	font-size: 17px;
+	color: #999999;
+}
+
+.em-todo-opinion .button-box {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+}
+
+.button-box .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: calc(50% - 7px);
+    padding: 10px 0;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.button.button-blue {
+    background: #f4f6fe;
+    color: #4162ff;
+}
+
+.button.button-green {
+    background: #f0f8f4;
+    color: #4cb479;
+}
+
+
+/*短信提醒*/
+
+.em-todo-message {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 10px;
+	padding-right: 10px;
+	border:mone;
+	height: 45px;
+	background-color: #FFFFFF;
+	margin-top: 20px;
+}
+
+.em-todo-message span {
+	font-size: 17px;
+	color: #000000;
+}
+
+/* 底部提交按钮 */
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 44px;
+    background: #4162ff;
+    color: #fff;
+    font-size: 19px;
+}

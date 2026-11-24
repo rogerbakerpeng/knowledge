@@ -1,0 +1,433 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/05/31
+        版本: [3.0, 2017/05/31 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  navigator 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>123123</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body class="ejs-f9-content">
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'navigator模块',
+                ejsApi: [{
+                    'id': 'setTitle',
+                    'text': 'setTitle(设置标题)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        ejs.navigator.setTitle({
+                            title: '测试标题',
+                            subTitle: '234',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // ejs.navigator.setTitle('测试标题');
+                    }
+                }, {
+                    'id': 'setMultiTitle',
+                    'text': 'setMultiTitle(设置多个标题)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setMultiTitle({
+                            titles: ['标题1', '标题2'],
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // ejs.navigator.setTitle('测试标题');
+                    }
+                }, {
+                    'id': 'setTitle2',
+                    'text': 'setTitle(带子标题和点击)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        ejs.navigator.setTitle({
+                            title: '测试标题',
+                            subTitle: '子标题',
+                            clickable: 1,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // ejs.navigator.setTitle('测试标题');
+                    }
+                }, {
+                    'id': 'show',
+                    'text': 'show(显示原生导航栏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.show({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'hide',
+                    'text': 'hide(隐藏原生导航栏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.hide({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },{
+                    'id': 'showSearchBar',
+                    'text': 'showSearchBar(显示原生搜索框)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.showSearchBar({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'hideSearchBar',
+                    'text': 'hideSearchBar(隐藏原生搜索框)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.hideSearchBar({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'hookSysBack',
+                    'text': 'hookSysBack(监听Android系统返回)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.hookSysBack({
+                            success: function (result) {
+                                litemplate.showTips('监听系统返回' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('监听系统返回失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'hookBackBtn',
+                    'text': 'hookBackBtn(监听导航栏返回)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.hookBackBtn({
+                            success: function (result) {
+                                console.log('监听拦截事件1');
+                                litemplate.showTips('监听导航栏返回' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('监听导航栏返回失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setRightBtn',
+                    'text': 'setRightBtn(设置右侧第1个按钮)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        ejs.navigator.setRightBtn({
+                            text: '按钮右1',
+                            which: 0,
+                            success: function (result) {
+                                litemplate.showTips('点击按钮右1' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('按钮右1失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setRightBtnImage',
+                    'text': 'setRightBtn(设置右侧第1个图片按钮)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setRightBtn({
+                            imageUrl: 'http://app.epoint.com.cn/staticResource/img_head.png',
+                            which: 0,
+                            success: function (result) {
+                                litemplate.showTips('点击按钮右1图' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('按钮右1图失败:' + JSON.stringify(error));
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'hideRightBtn',
+                    'text': 'hideRightBtn(隐藏右侧第1个按钮)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        ejs.navigator.setRightBtn({
+                            isShow: 0,
+                            imageUrl: 'http://app.epoint.com.cn/staticResource/testicon2.png',
+                            which: 0,
+                            success: function (result) {
+                                litemplate.showTips('隐藏按钮右1成功' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('隐藏按钮右1失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setRightBtn2',
+                    'text': 'setRightBtn2(设置右侧第2个按钮)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setRightBtn({
+                            text: '按钮右2',
+                            which: 1,
+                            success: function (result) {
+                                litemplate.showTips('点击按钮右2成功' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('按钮右2失败:' + JSON.stringify(error));
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'setRightBtn2Image',
+                    'text': 'setRightBtn2Image(设置右侧第2个图片按钮)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setRightBtn({
+                            imageUrl: 'http://app.epoint.com.cn/staticResource/testicon2.png',
+                            which: 1,
+                            success: function (result) {
+                                litemplate.showTips('点击按钮右2图成功' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('按钮右2图失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'hideRightBtn2',
+                    'text': 'hideRightBtn2(隐藏右侧第2个按钮)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setRightBtn({
+                            isShow: 0,
+                            imageUrl: '',
+                            which: 1,
+                            success: function (result) {
+                                litemplate.showTips('隐藏按钮右1成功' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('隐藏按钮右1失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setRightMenu',
+                    'text': 'setRightMenu(设置右侧下拉菜单)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        var iconSrc = 'http://app.epoint.com.cn/staticResource/img_head.png';
+                        ejs.navigator.setRightMenu({
+                            text: '下拉',
+                            imageUrl: '',
+                            // 过滤色默认为空
+                            iconFilterColor: '',
+                            // 点击后出现的菜单列表，这个API会覆盖rightBtn
+                            titleItems: ['按钮1', '按纽2'],
+                            iconItems: [iconSrc, iconSrc],
+                            success: function (result) {
+                                litemplate.showTips('点击右侧菜单' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('右侧菜单失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setLeftBtn',
+                    'text': 'setLeftBtn(设置左侧按钮)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setLeftBtn({
+                            text: '按钮左',
+                            success: function (result) {
+                                litemplate.showTips('点击左侧按钮' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('左侧按钮失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setLeftBtnImage',
+                    'text': 'setLeftBtnImage(设置左侧图片按钮)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setLeftBtn({
+                            imageUrl: 'http://app.epoint.com.cn/staticResource/testicon2.png',
+                            success: function (result) {
+                                litemplate.showTips('点击左侧图片' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('左侧图片失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setLeftBtn2',
+                    'text': 'setLeftBtn(带下拉箭头)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.setLeftBtn({
+                            text: '按钮左',
+                            isShowArrow: 1,
+                            success: function (result) {
+                                litemplate.showTips('点击左侧按钮' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('左侧按钮失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'showStatusBar',
+                    'text': 'showStatusBar(显示状态栏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.showStatusBar({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'hideStatusBar',
+                    'text': 'hideStatusBar(隐藏状态栏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.navigator.hideStatusBar({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setSearchWord',
+                    'text': 'setSearchWord(搜索页面设置搜索关键字)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.page.open({
+                            pageUrl: './example/ejs_api_v4_navigator_setsearchword.html',
+                            pageStyle: '2'
+                        });
+                    }
+                }, {
+                    'id': 'getSearchWord',
+                    'text': 'getSearchWord(获取搜索页面搜索关键字)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.page.open({
+                            pageUrl: './example/ejs_api_v4_navigator_setsearchword.html',
+                            pageStyle: '2'
+                        });
+                    }
+                }, {
+                    'id': 'setSearchBar',
+                    'text': 'setSearchBar(设置原生搜索栏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.page.open('./example/ejs_api_v4_navigator_setsearchbar.html');
+                    }
+                }, {
+                    'id': 'ejs_nav_bgcolor',
+                    'text': 'ejs_nav_bgcolor(修改导航栏颜色)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.page.open("http://baidu.com", {
+                            ejs_nav_bgcolor: '000000'
+                        });
+                    }
+                }, {
+                    'id': 'ejs_nav_line',
+                    'text': 'ejs_nav_line(隐藏导航栏下划线)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.page.open("http://baidu.com", {
+                            ejs_nav_line: '0'
+                        });
+                    }
+                }]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,283 @@
+html,
+body {
+    background: #fff;
+}
+
+.em-table-view-cell:last-child::after {
+    height: 0;
+}
+
+.mui-table-view-cell::after {
+     right: 15px; 
+}
+
+.em-table-view-cell {
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+   
+}
+
+.em-table-view-cell:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.em-table-view-cell .em-badge {
+    position: absolute;
+    top: 50%;
+    right: 40px;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+.em-badge {
+    min-width: 27px;
+    font-size: 12px;
+    line-height: 1;
+    display: inline-block;
+    padding: 3px 6px;
+    color: #999;
+    border-radius: 100px;
+    background-color: #f5f5f5;
+    text-align: center;
+}
+
+.body {
+    margin-bottom: 44px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    background: #fff;
+    font-size: 20px;
+    color: #000;
+}
+
+.flex-cell {
+    display: flex;
+    justify-content: flex-start;
+    padding-right:0px;
+}
+
+
+.color-next
+.color-balck {
+    display: block;
+    width: calc(100% - 115px);
+    font-size: 15px;
+    color: #333;
+}
+
+.color-next {
+    color: #3774fa;
+}
+
+.icon-triangle {
+    display: inline-block;
+    width: 13px;
+    height: 11px;
+    margin-right: 8px;
+    font-size: 12px;
+    background: url(./images/triangle.png);
+    background-size: 100% 100%;
+}
+
+/* 选择人员 */
+.font16 {
+    font-size: 16px;
+    color: #333;
+}
+
+.person-box {
+	display:inline-block;
+    width: 100px;
+    height: 29px;
+    border-radius: 29px;
+    background: #ccc;
+    color: #fff;
+    text-align: center;
+    line-height: 29px;
+    float:left;
+    margin:5px 6px;
+    
+}
+
+.person-box:last-child {
+    margin-right: 0px;
+}
+
+.person-box.active {
+    background: #3774fa;
+}
+
+/* 签署意见 */
+.idea-title {
+    padding: 12px;
+    width: 100%;
+    background: #fff;
+    font-size: 16px;
+    color: #666;
+}
+
+.idea {
+    margin: 0 12px;
+    margin-bottom: 12px;
+    height: 150px;
+    background: #fff;
+    border-radius: 5px;
+    border: 1px solid #c8c7cc;
+}
+
+.idea .title {
+    display: block;
+    padding: 10px 15px;
+    color: #999;
+    font-size: 14px;
+    background: #efeff4;
+}
+
+.idea .textarea {
+    height: 75px;
+    border: 0;
+    font-size: 14px;
+    color: #666;
+}
+
+.idea .button-box {
+    display: flex;
+    justify-content: center;
+    padding: 10px 15px;
+}
+
+.button-box .button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 125px;
+    height: 35px;
+    font-size: 15px;
+    border-radius: 5px;
+}
+
+.button-box .button:first-child {
+    margin-right: 40px;
+}
+
+.button.button-template {
+    background: #3774fa;
+    color: #fff;
+}
+
+/* 短信提示 */
+.tips {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    width: 100%;
+    background: #fff;
+}
+
+.tips::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.tips-title {
+    font-size: 16px;
+    color: #666
+}
+
+.footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    background: #3774fa;
+    color: #fff;
+    font-size: 19px;
+}
+
+.mui-switch.mui-active {
+    border-color: #3774fa;
+    background: #3774fa;
+}
+
+/* 送下一步 箭头*/
+.mui-navigate-right:after{
+	
+	font-size:22px;
+	color:#3774fa;
+}
+
+/* 送下一步 */
+.flex-cell a{
+	width:100%;
+}
+ .title {    
+    width: 115px;
+    font-size: 15px;
+    color: #666;   
+}
+
+.steptitle{
+	margin-right:49px;
+}
+
+
+/* 意见模板 */
+
+.card-head {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #fff;
+}
+
+
+.opiniontitle {
+    position: relative;
+    display: inline-block;
+    padding-left: 5px;
+    border-left: 2px solid #3774fa;
+    font-size: 15px;
+    color: #3774fa;
+}
+
+.em-todo-radio label{
+	font-size: 15px;
+}
+.em-todo-radio input{
+	margin-top:5px;
+}
+.mui-radio input[type=radio]:before{
+	font-size:22px;
+	
+}
+
+
+

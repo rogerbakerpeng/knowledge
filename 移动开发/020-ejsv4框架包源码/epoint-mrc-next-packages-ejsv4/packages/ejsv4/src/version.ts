@@ -1,0 +1,1 @@
+export const ejsVersion = EJS_VERSION;

@@ -1,0 +1,116 @@
+{
+    "controls": [{
+            "total": 6,
+            "data": [{
+                    "ouguid": "00c4ab1e-dfb6-4227-97cd-4e4064a2b68d",
+                    "ouname": "新点软件",
+                    "parentouguid": "",
+                    "haschildou": 14,
+                    "haschilduser": 6,
+                    "ordernum": 99999,
+                    "usercount": 3836,
+                    "children": [{
+                        "ouguid": "9ea835d3-e853-4119-b16a-23ad3348f687",
+                        "ouname": "财务部",
+                        "parentouguid": "00c4ab1e-dfb6-4227-97cd-4e4064a2b68d",
+                        "haschildou": 0,
+                        "haschilduser": 14,
+                        "ordernum": 17000,
+                        "usercount": 16,
+                        "children": [{
+                            "userguid": "ddcc2a0f-9f0c-4c22-af11-96b6167906f0",
+                            "loginid": "tangjian",
+                            "displayname": "汤健",
+                            "ordernumber": 11111,
+                            "baseouname": "移动研发1部",
+                            "title": "",
+                            "photourl": "",
+                            "sequenceid": "5365685463048783",
+                            "ccworksequenceid": "5365685463048783"
+                        },{
+                            "userguid": "b981b818-7d54-43d1-9839-9387244dc909",
+                            "loginid": "guanh",
+                            "displayname": "管浩",
+                            "ordernumber": 0,
+                            "baseouname": "移动研发1部",
+                            "title": "",
+                            "photourl": "",
+                            "sequenceid": "5365685463048233",
+                            "ccworksequenceid": "5365685463048233"
+                        }]
+                    }, {
+                        "ouguid": "6bdbad70-1744-4a8a-acbd-222955ab8846",
+                        "ouname": "行政部",
+                        "parentouguid": "00c4ab1e-dfb6-4227-97cd-4e4064a2b68d",
+                        "haschildou": 1,
+                        "haschilduser": 32,
+                        "ordernum": 16000,
+                        "usercount": 36,
+                        "children": [{
+                            "userguid": "ddcc2a0f-9f0c-4c22-af11-96b6167906f0",
+                            "loginid": "tangjian",
+                            "displayname": "汤健",
+                            "ordernumber": 11111,
+                            "baseouname": "移动研发1部",
+                            "title": "",
+                            "photourl": "",
+                            "sequenceid": "5365685463048783",
+                            "ccworksequenceid": "5365685463048783"
+                        },{
+                            "userguid": "b981b818-7d54-43d1-9839-9387244dc909",
+                            "loginid": "guanh",
+                            "displayname": "管浩",
+                            "ordernumber": 0,
+                            "baseouname": "移动研发1部",
+                            "title": "",
+                            "photourl": "",
+                            "sequenceid": "5365685463048233",
+                            "ccworksequenceid": "5365685463048233"
+                        }]
+                    }]
+                }, {
+                    "ouguid": "0bda4f61-b83a-4559-9820-b36eef109640",
+                    "ouname": "移动研发1部",
+                    "parentouguid": "",
+                    "haschildou": 0,
+                    "haschilduser": 0,
+                    "ordernum": 888,
+                    "usercount": 26,
+                    "children": [{
+                        "userguid": "ddcc2a0f-9f0c-4c22-af11-96b6167906f0",
+                        "loginid": "tangjian",
+                        "displayname": "汤健",
+                        "ordernumber": 11111,
+                        "baseouname": "移动研发1部",
+                        "title": "",
+                        "photourl": "",
+                        "sequenceid": "5365685463048783",
+                        "ccworksequenceid": "5365685463048783"
+                    }, {
+                        "userguid": "b981b818-7d54-43d1-9839-9387244dc909",
+                        "loginid": "guanh",
+                        "displayname": "管浩",
+                        "ordernumber": 0,
+                        "baseouname": "移动研发1部",
+                        "title": "",
+                        "photourl": "",
+                        "sequenceid": "5365685463048233",
+                        "ccworksequenceid": "5365685463048233"
+                    }]
+                }
+            ],
+            "pageSize": 10,
+            "id": "datagrid"
+        },
+        {
+            "id": "_common_hidden_viewdata",
+            "value": "{\"epoint_user_loginid\":\"963AAF528F5B812871EAC35053380EDF\",\"cmdParams\":\"{\\\"pageUrl\\\":\\\"http://localhost:8080/epoint-web/epointtemp/epointsform/list/1/xujian_V2/mobilelist?listGuid=28263f5f-d4f9-43c1-a85a-28baabe5b63f&versionGuid=00a3ccec-8cbb-4121-9a55-ef4c1ea82022&_dialogId_=1228A0D2-BFF8-4561-BB7C-9998DBD63A62&_winid=w1619&_t=301791\\\"}\",\"listGuid\":\"28263f5f-d4f9-43c1-a85a-28baabe5b63f\",\"pageUrl\":\"epointtemp/epointsform/list/1/xujian_V2/mobilelist?listGuid=28263f5f-d4f9-43c1-a85a-28baabe5b63f&versionGuid=00a3ccec-8cbb-4121-9a55-ef4c1ea82022&_dialogId_=1228A0D2-BFF8-4561-BB7C-9998DBD63A62&_winid=w1619&_t=301791\",\"versionGuid\":\"00a3ccec-8cbb-4121-9a55-ef4c1ea82022\"}"
+        }
+    ],
+    "status": {
+        "code": "1",
+        "text": "",
+        "url": "",
+        "state": "error"
+    }
+}

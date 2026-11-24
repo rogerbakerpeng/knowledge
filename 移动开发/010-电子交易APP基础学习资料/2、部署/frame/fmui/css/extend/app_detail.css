@@ -1,0 +1,475 @@
+/*!
+ * =====================================================
+ * mui样式去除  公用样式
+ * 新版detail的css
+ * =====================================================
+ */
+
+html,
+body {
+    font-size: 14px;
+}
+
+.mui-table-view::after,
+.mui-table-view::before {
+    content: none;
+}
+
+.wd5 {
+    width: 5% !important;
+}
+
+.wd27 {
+    width: 27% !important;
+}
+
+.wd40 {
+    width: 40% !important;
+}
+
+.centext {
+    text-align: center !important;
+}
+
+.bluefont {
+    color: #3774fa !important;
+}
+
+.redfont {
+    color: red !important;
+}
+
+.redf {
+    color: #ff6000 !important;
+}
+
+.bm0 {
+    border-bottom: 0 !important;
+}
+
+/* tab切换 */
+
+header {
+    display: -webkit-box;
+    display: flex;
+    margin: 10px 0 0 0;
+    border-top: 1px solid #d9d9d9;
+    border-bottom: 1px solid #d9d9d9;
+    background-color: #fff;
+    color: #666;
+}
+
+header>.tab-tit {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    padding: 10px 0;
+    font-size: 14px;
+    width: 25%;
+    background-color: #fff;
+    color: #333;
+    text-align: center;
+}
+header>.tab-tit-3 {
+    width: 33%;
+}
+header>.tab-tit-2 {
+    width: 50%;
+}
+header>.tab-tit-1 {
+    width: 100%;
+}
+header>.tab-tit:active {
+    opacity: 0.6;
+}
+
+header>.tab-tit::after {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    height: 40%;
+    width: 1px;
+    top: 30%;
+    right: 0;
+    background-color: #d9d9d9;
+}
+
+header>.tab-tit:last-child::after {
+    content: none;
+}
+
+.checked {
+    position: relative;
+    z-index: 1;
+    color: #3774fa !important;
+}
+
+.checked::before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 100%;
+    height: 2px;
+    bottom: 0;
+    right: 0;
+    background-color: #3774fa;
+}
+
+/* 基本信息 */
+
+.base-items {
+    border-top: 1px solid #e6e6e6;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.base-items>.base-tit {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 11px 15px;
+    line-height: 21px;
+    font-size: 16px;
+    color: #29b425;
+    background: url('./images/arrow_down.png') no-repeat calc(100% - 15px) center;
+    background-size: 20px;
+    background-color: #fff;
+}
+.base-items>.base-tit-templ {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 11px 15px;
+    line-height: 21px;
+    font-size: 16px;
+    color: #29b425;  
+    background-size: 20px;
+ 
+}
+
+/* 上箭头 */
+
+.base-items>.arrowup {
+    background: url('./images/arrow_up.png') no-repeat calc(100% - 15px) center;
+    background-size: 20px;
+    background-color: #fff;
+}
+
+.base-items>.base-tit::before {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: 3px;
+    height: 14px;
+    top: calc(50% - 8px);
+    left: 0;
+    background-color: #29b425;
+}
+
+.base-items>.base-tit::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    width: calc(100% - 15px);
+    height: 1px;
+    bottom: 0;
+    right: 0;
+    transform: scaleY(0.5px);
+    background-color: #e6e6e6;
+}
+
+.base-items>.base-tit:active {
+    opacity: 0.6;
+}
+
+.base-project {
+    background-color: #fff;
+}
+
+.base-li {
+    display: flex;
+    font-size: 15px;
+}
+
+.base-li>.base-li-tit {
+    display: inline-block;
+    width: 40%;
+    color: #999;
+}
+
+.base-li>.base-li-con {
+    display: inline-block;
+    width: 60%;
+    text-align: right;
+    color: #333;
+}
+.base-li>.base-li-con1 {
+    display: inline-block;
+    width: 32%;
+    text-align: right;
+    color: #333;
+}
+.base-info {
+    margin: 10px;
+    background-color:#efeff4;
+    box-shadow: 0 0 5px #ececec;
+}
+
+.base-info .base-info-div{
+    margin-bottom: 15px;
+    background-color:white;
+}
+
+.base-info .baseinfo-li {
+    display: flex;
+    font-size: 14px;
+    padding: 8px 10px;
+}
+
+.base-info .baseinfo-li::after {
+    content: none;
+}
+
+.baseinfo-li>.tit {
+    width: 35%;
+    color: #666;
+    border-right: 1px solid #e6e6e6;
+    padding-left: 10px;
+    text-align: center;
+    margin: auto;
+}
+
+.baseinfo-li>.con {
+    width: 65%;
+    padding-left: 10px;
+    word-wrap:break-word;
+}
+
+.iconnum {
+    background: url('./images/icon_tit.png') no-repeat left center;
+    background-size: 15px;
+}
+
+.iconname {
+    background: url('./images/icon_name.png') no-repeat left center;
+    background-size: 15px;
+}
+
+.iconway {
+    background: url('./images/icon_way.png') no-repeat left center;
+    background-size: 15px;
+}
+
+.iconmoney {
+    background: url('./images/icon_money.png') no-repeat left center;
+    background-size: 15px;
+}
+
+/* 审批报告 */
+
+.approve>.nodata {
+    text-align: center;
+}
+
+.approve .nodata-bg {
+    width: 30%;
+    margin: 20% 35% 0 35%;
+}
+
+.nodata-tit {
+    margin: 20px 0;
+    font-size: 14px;
+    color: #999;
+}
+
+.addapprove {
+    position: relative;
+    z-index: 1;
+    font-size: 16px;
+    line-height: 30px;
+    width: 85%;
+    border: 0;
+    color: #fff;
+    background: linear-gradient(to right, #7581ff, #75a3ff);
+}
+
+.addapprove:active {
+    opacity: 0.5;
+}
+
+.approve-select {
+    position: relative;
+    z-index: 3;
+    padding: 11px 15px;
+    background: #fff;
+}
+
+.approve-sel-tit {
+    color: #999;
+    width: 25%;
+    line-height: 27px;
+}
+
+.localpath {
+    line-height: 27px !important;
+    height: 27px !important;
+    width: 75% !important;
+    border: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #fff url('./images/arrow-down.png') no-repeat right center;
+    background-size: 15px;
+}
+
+.localpath:active {
+    position: relative;
+    z-index: 1;
+    opacity: 0.6;
+}
+
+.approve-ul {
+    position: relative;
+    z-index: 1;
+}
+
+.approve-ul::before {
+    content: '';
+    position: absolute;
+    z-index: 99;
+    left: 15px;
+    top: 0;
+    bottom: 0;
+    width: 20px;
+    height: 17px !important;
+    transform: none;
+    background-color: #fff;
+}
+
+.approve-li {
+    position: relative;
+    z-index: 1;
+    padding-left: 40px;
+}
+
+.approve-li.mui-active {
+    background: #fff;
+}
+
+.approve-li::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    left: 22px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    height: 100% !important;
+    transform: none;
+    background-color: #e6e6e6;
+}
+
+.greenicon::after {
+    content: '';
+    position: absolute;
+    z-index: 2;
+    left: 15px;
+    top: 11px;
+    width: 27px;
+    height: 27px !important;
+    transform: none;
+    background: url("./images/green_arrow.png") no-repeat left center;
+    background-size: 16px;
+}
+
+.approve-li>.tit {
+    line-height: 27px;
+    margin: 0;
+}
+
+.approve-li>.con>.name {
+    display: inline-block;
+    line-height: 24px;
+    width: 22%;
+    color: #999;
+}
+
+.approve-li>.con>.txt {
+    display: inline-block;
+    line-height: 24px;
+}
+
+/* detail表格右对齐 */
+.mui-input-group .mui-input-row {
+     height: auto;
+}
+li {
+	list-style-type: none;
+}
+
+/* (detail页面底部的按钮样式) */
+.foo {
+	text-align: center;
+}
+
+.foo .buttom {
+	height: 40px;
+	width: 70%;
+	font-size: 16px;
+	border-radius: 6px !important;
+	background: #3774fa !important;
+	color: #fff !important;
+	margin: 5px !important;
+}
+
+/* (工作流提交框上的按钮或者工作控件按钮的样式) */
+.footer {
+    display: flex;
+    z-index:11; 
+    justify-content: start;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 50px;
+    background: #fff;    
+    border-top: 1px solid #efeff4;
+}
+
+.footer .footer-handle {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 15px;
+    color: #666;
+}
+
+.footer .footer-more {
+    width: 50px;
+    padding: 0 10px;
+    text-align: center;
+}
+
+.footer .footer-handle::after {
+    position: absolute;
+    right: 0;
+    width: 1px;
+    height: 15px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.footer .liuhzuan{
+    flex: 1;
+    height: 100%;
+    background: #3774fa00;
+    border: 0;
+    color: #888892 !important;
+    border-radius: 0;
+    border: 1px solid #bcbcc3;
+    font-size: 18px;
+}

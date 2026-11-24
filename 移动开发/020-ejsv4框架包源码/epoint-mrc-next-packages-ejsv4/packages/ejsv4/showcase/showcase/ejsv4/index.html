@@ -1,0 +1,221 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/06/05
+        版本: [3.0, 2017/05/05 ]
+        版权: 江苏国泰新点软件有限公司
+        描述： ejs v4 API
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="pragma" content="no-cache" />
+        <meta http-equiv="cache-control" content="no-cache" />
+        <meta http-equiv="expires" content="0" />
+        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>EJS 4.X</title>
+        <script>
+            document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + 'ipt>');
+        </script>
+        <script>
+            SrcBoot.output(['./_common/common.css']);
+        </script>
+    </head>
+
+    <body>
+        <div class="mui-content pt0" id="ejs-app"></div>
+        <script src="http://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
+        <script>
+            document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + 'ipt>');
+        </script>
+        <script>
+            'use strict';
+
+            let localPath = null;
+
+            Util.loadJs('./_common/bizlogic_common_ready.js', function () {
+                var token = '';
+                var array = document.cookie.split(';');
+                array.forEach(function(item){
+                    var arr = item.split('=');
+                    if(arr[0].trim() === 'access_token'){
+                        token = arr[1];
+                    }
+                });
+                ejs.error(function (error) {
+                    alert('ejs错误提示:' + JSON.stringify(error));
+                });
+
+                ejs.config({
+                    isAutoConfig: 1,
+                    // preUrl: 'http://192.168.112.69:8050/epoint-sso-web/',
+                    preUrl: 'http://218.4.136.114:7788/oa950oem/',
+                    ajax: Util.ajax,
+                    token: token,
+                    agentId: '1000006',
+                    jsApiList: []
+                });
+                ejs.ready(function () {
+                    // const href = window.location.href;
+
+                    // localPath = href.slice(0, href.lastIndexOf('/') + 1);
+
+                    Util.bizlogic.ready(initPage);
+                });
+            });
+
+            function initPage() {
+                console.log('ejs.os', ejs.os, navigator.userAgent);
+                var litemplate = new Util.litemplate.listLitemplate({
+                    isIndex: false,
+                    title: 'EJS 4.X',
+                    ejsApi: [
+                        {
+                            id: 'page',
+                            text: 'page模块',
+                            runCode: function () {
+                                ejs.page.open("./ejs_api_v4_page.html");
+                                // wx.scanQRCode({
+                                //     desc: 'scanQRCode desc',
+                                //     needResult: 1, // 默认为0，扫描结果由政务微信处理，1则直接返回扫描结果，
+                                //     scanType: ['qrCode', 'barCode'], // 可以指定扫二维码还是一维码，默认二者都有
+                                //     success: function (res) {
+                                //         // 回调
+                                //         ejs.ui.alert(JSON.stringify(res));
+                                //     },
+                                //     error: function (res) {
+                                //         if (res.errMsg.indexOf('function_not_exist') > 0) {
+                                //             ejs.ui.alert('版本过低请升级');
+                                //         }
+                                //     }
+                                // });
+                            }
+                        },
+                        // {
+                        //     id: 'getStepCount',
+                        //     text: '获取用户数据',
+                        //     runCode: function () {
+                        //         // ejs.page.open("./ejs_api_v4_page.html");
+                        //         wx.invoke(
+                        //             'getStepCount',
+                        //             {
+                        //                 preMode: true // true表示获取本机运动数据（可能不准），false表示获取微信步数数据
+                        //             },
+                        //             function (res) {
+                        //                 if (res.err_msg != 'getStepCount:ok') {
+                        //                     console.log(res)
+                        //                     //错误处理
+                        //                     return;
+                        //                 }
+                        //                 console.log('当天步数', res.steps)
+                        //                 console.log('stepInfoList', res.stepInfoList)
+                        //                 // alert(res.steps); //当天步数，preMode=true时的返回
+                        //                 // alert(res.stepInfoList); // preMode=false时的返回
+                        //             }
+                        //         );
+                        //     }
+                        // },
+                        {
+                            id: 'ui',
+                            text: 'ui模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_ui.html');
+                            }
+                        },
+                        {
+                            id: 'navigator',
+                            text: 'navigator模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_navigator.html');
+                            }
+                        },
+                        {
+                            id: 'runtime',
+                            text: 'runtime模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_runtime.html');
+                            }
+                        },
+                        {
+                            id: 'device',
+                            text: 'device模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_device.html');
+                            }
+                        },
+                        {
+                            id: 'storage',
+                            text: 'storage模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_storage.html');
+                            }
+                        },
+                        {
+                            id: 'auth',
+                            text: 'auth模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_auth.html');
+                            }
+                        },
+                        {
+                            id: 'audio',
+                            text: 'audio模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_audio.html');
+                            }
+                        },
+                        {
+                            id: 'util',
+                            text: 'util模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_util.html');
+                            }
+                        },
+                        {
+                            id: 'io',
+                            text: 'io模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_io.html');
+                            }
+                        },
+                        {
+                            id: 'event',
+                            text: 'event模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_event.html');
+                            }
+                        },
+                        {
+                            id: 'stream',
+                            text: 'stream模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_stream.html');
+                            }
+                        },
+                        {
+                            id: 'contact',
+                            text: 'contact模块',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_contact.html');
+                            }
+                        },
+                        {
+                            id: 'callapi',
+                            text: '自定义API调用',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_callapi.html');
+                            }
+                        },
+                        {
+                            id: 'promise',
+                            text: 'Promise的使用',
+                            runCode: function () {
+                                ejs.page.open('./ejs_api_v4_promise.html');
+                            }
+                        }
+                    ]
+                });
+            }
+        </script>
+    </body>
+</html>

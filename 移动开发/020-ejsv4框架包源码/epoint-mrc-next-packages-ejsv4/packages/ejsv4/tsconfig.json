@@ -1,0 +1,44 @@
+{
+    "compilerOptions": {
+        // "declaration": true, // 生成相应的 '.d.ts' 文件
+        // "emitDeclarationOnly": true, // 只生成声明文件, 不会生成js文件
+        // "outDir": "dist",
+        "allowJs": true,
+        "target": "esnext",
+        "module": "esnext",
+        "moduleResolution": "node",
+        "jsx": "preserve",
+        "jsxFactory": "VueTsxSupport",
+        // "jsxImportSource": "vue",
+        "noImplicitAny": false, // 不允许出现隐式的 any 类型
+        "strictNullChecks": false, // 严格空检查
+        "strict": true,
+        "importHelpers": true,
+        // "esModuleInterop": true, 真正的在编译的过程中生成兼容代码，使模块能正确的导入(这个只会在module:commonjs模式下生效)
+        "allowSyntheticDefaultImports": true, // 在静态类型检查时，把 import 没有 exports.default 的报错忽略掉
+        // "sourceMap": true,
+        "baseUrl": ".",
+        "types": [
+            "@types/node",
+            "@dcloudio/types",
+            "@epoint-mrc/types"
+        ],
+        "paths": {
+            "@/*": [
+                "src/*"
+            ]
+        },
+        "lib": [
+            "esnext",
+            "dom",
+            "dom.iterable",
+            "scripthost"
+        ]
+    },
+    "include": [
+        "node_modules/vue-tsx-support/enable-check.d.ts",
+        "./src/**/*",
+        "./npm/**/*.ts",
+        "./types/**/*.ts"
+    ]
+}

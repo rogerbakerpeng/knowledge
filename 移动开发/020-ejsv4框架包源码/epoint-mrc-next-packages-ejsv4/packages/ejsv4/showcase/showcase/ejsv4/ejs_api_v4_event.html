@@ -1,0 +1,210 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/06/01
+        版本: [3.0, 2017/06/01 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  event 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>event模块</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var event = 'cece';
+
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'event模块',
+                ejsApi: [
+                    {
+                    'id': 'registerEvent',
+                    'text': 'registerEvent(监听页面resume恢复事件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.event.registerEvent({
+                            key: 'resume',
+                            success: function (result) {
+                                litemplate.showTips('页面恢复' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('页面恢复失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'registerEvent1',
+                    'text': 'registerEvent(监听页面不可见pause事件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        // pause中，在华为P10等手机中，一些toast等非阻塞的ui显示不会显示出来
+                        ejs.event.registerEvent({
+                            key: 'pause',
+                            success: function (result) {
+                                litemplate.showTips('页面pause' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('页面pause失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'registerEvent2',
+                    'text': 'registerEvent(监听网络变化netChange事件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.event.registerEvent({
+                            key: 'netChange',
+                            success: function (result) {
+                                litemplate.showTips('网络变化' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('网络变化失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'unRegisterEvent',
+                    'text': 'unRegisterEvent(取消监听页面resume恢复)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.event.unRegisterEvent({
+                            key: 'resume',
+                            success: function (result) {
+                                litemplate.showTips('取消监听页面恢复' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('取消监听页面恢复错误:' + JSON.stringify(error));
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'unRegisterEvent1',
+                    'text': 'unRegisterEvent(取消监听网络变化netChange事件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.event.unRegisterEvent({
+                            key: 'netChange',
+                            success: function (result) {
+                                litemplate.showTips('取消监听网络变化' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('取消监听网络变化错误:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'isRegisterEvent2',
+                    'text': 'isRegisterEvent(是否监听resume事件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.event.isRegisterEvent({
+                            key: 'resume',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips(JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, 
+                // {
+                //     'id': 'on',
+                //     'text': 'on(注册长期监听的事件)',
+                //     'evn': 'ejs',
+                //     'runCode': function () {
+                //         event = 'cece';
+                //         ejs.event.on({
+                //             key: 'cece',
+                //             success: function (result) {
+                //                 ejs.ui.toast('注册长期事件')
+                //                 console.log('注册长期事件')
+                //                 console.log(result)
+                //             },
+                //             error: function (error) { }
+                //         });
+                //     }
+                // }, {
+                //     'id': 'once',
+                //     'text': 'once(注册短期监听的事件)',
+                //     'evn': 'ejs',
+                //     'runCode': function () {
+                //         event = 'lili';
+                //         ejs.event.once({
+                //             key: 'lili',
+                //             success: function (result) {
+                //                 ejs.ui.toast('注册短期监听的事件')
+                //                 console.log('注册短期监听的事件')
+                //                 console.log(result)
+                //             },
+                //             error: function (error) { }
+                //         });
+                //     }
+                // }, {
+                //     'id': 'emit',
+                //     'text': 'emit(触发监听的事件)',
+                //     'evn': 'ejs',
+                //     'runCode': function () {
+                //         ejs.event.emit({
+                //             key: event,
+                //             'param1': 'value1',
+                //             'param2': 'value2',
+                //         });
+                //     }
+                // }, {
+                //     'id': 'off',
+                //     'text': 'off(解除事件绑定)',
+                //     'evn': 'ejs',
+                //     'runCode': function () {
+                //         ejs.event.off({
+                //             key: event,
+                //             success: function (result) {
+                //                 ejs.ui.toast('解除事件绑定')
+
+                //                 console.log('解除事件绑定')
+                //             },
+                //             error: function (error) { }
+                //         });
+                //     }
+                // }
+            ]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

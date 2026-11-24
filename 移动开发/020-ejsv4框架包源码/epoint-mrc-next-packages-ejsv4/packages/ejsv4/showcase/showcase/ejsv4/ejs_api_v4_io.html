@@ -1,0 +1,226 @@
+<!--
+        作者：郭天琦
+        创建时间: 2019/01/31
+        版本: [3.0, 2019/01/31 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  io 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 移动端的响应式特性 -->
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>io模块</title>
+
+    <script>
+      document.write(
+        "<script src='../../js/cssboot.js?" +
+          Math.random() +
+          "'></scr" +
+          "ipt>"
+      );
+    </script>
+    <script>
+      SrcBoot.output(["./_common/common.css"]);
+    </script>
+  </head>
+
+  <body>
+    <div class="mui-content pt0" id="ejs-app"></div>
+
+    <div class="qrcode">
+      <img src="" alt="" id="img-qrcode" />
+    </div>
+
+    <script>
+      document.write(
+        "<script src='../../js/jsboot.js?" +
+          Math.random() +
+          "'></scr" +
+          "ipt>"
+      );
+    </script>
+    <script>
+      "use strict";
+
+      Util.loadJs("./_common/bizlogic_common_ready.js", function () {
+        Util.bizlogic.ready(initPage);
+      });
+
+      function initPage() {
+        var imgUrl = "//app.epoint.com.cn/ejs4mpdoc/showcase/showcase/img_head.png";
+        var litemplate = new Util.litemplate.listLitemplate({
+          isIndex: false,
+          title: "io模块",
+          ejsApi: [
+            {
+              id: "downloadFile",
+              text: "downloadFile(静默下载文件)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.downloadFile({
+                  url:
+                    "//app.epoint.com.cn/ejs4mpdoc/showcase/showcase/正式稿.ofd",
+                  fileName: "正式稿.ofd",
+                  reDownloaded: 1,
+                  success: function (result) {
+                    console.log(result);
+                    ejs.ui.toast(result.filePath);
+                  },
+                  error: function (error) {
+                    ejs.ui.toast(error);
+                  },
+                });
+              },
+            },
+            {
+              id: "downloadFilePage",
+              text: "downloadFile(下载页面下载文件)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.downloadFile({
+                  url: imgUrl,
+                  fileName: "img_head.png",
+                  reDownloaded: 1,
+                  isBackground: 0,
+                  success: function (result) {
+                    ejs.ui.toast(result.filePath);
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+            {
+              id: "selectFile",
+              text: "selectFile(选择文件)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.selectFile({
+                  success: function (result) {
+                    ejs.ui.toast(result.resultData);
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+            {
+              id: "openFile",
+              text: "openFile(打开本地文件)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.downloadFile({
+                  url: imgUrl,
+                  fileName: "img_head.png",
+                  reDownloaded: 1,
+                  success: function (result) {
+                    // ejs.ui.toast(result.filePath)
+                    ejs.io.openFile({
+                      path: result.filePath,
+                      success: function (result) {},
+                      error: function (error) {},
+                    });
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+            {
+              id: "renameFile",
+              text: "renameFile(重命名文件)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.downloadFile({
+                  url: imgUrl,
+                  fileName: "img_head.png",
+                  reDownloaded: 1,
+                  success: function (result) {
+                    // ejs.ui.toast(result.filePath)
+                    ejs.io.renameFile({
+                      path: result.filePath,
+                      // 如果仅仅是想重命名名字，传newName即可
+                      newName: "重命名.png",
+                      // 如果想要重命名后缀，传后缀就可以了，没有后缀请不要传这个参数（即为undefined）
+                      // 或者 'jpg'
+                      // newSuffix: 'png',
+                      success: function (result) {
+                        alert(JSON.stringify(result));
+                      },
+                      error: function (error) {},
+                    });
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+            {
+              id: "deleteFile",
+              text: "deleteFile(删除本地文件)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.downloadFile({
+                  url: imgUrl,
+                  fileName: "img_head.png",
+                  reDownloaded: 1,
+                  success: function (result) {
+                    // ejs.ui.toast(result.filePath)
+                    ejs.io.deleteFile({
+                      path: result.filePath,
+                      success: function (result) {
+                        alert(JSON.stringify(result));
+                      },
+                      error: function (error) {},
+                    });
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+            {
+              id: "getFileSize",
+              text: "getFileSize(获取本地图片大小)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.downloadFile({
+                  url: imgUrl,
+                  fileName: "img_head.png",
+                  reDownloaded: 1,
+                  success: function (result) {
+                    // ejs.ui.toast(result.filePath)
+                    ejs.io.getFileSize({
+                      path: result.filePath,
+                      success: function (result) {
+                        ejs.ui.toast(result.size);
+                      },
+                      error: function (error) {},
+                    });
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+            {
+              id: "screenShot",
+              text: "screenShot(截屏)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.io.screenShot({
+                  captureType: 1,
+                  success: function (result) {
+                    alert('hh')
+                      console.log(result)
+                      ejs.ui.toast(JSON.stringify(result));
+                  },
+                  error: function (error) {},
+                });
+              },
+            },
+          ],
+        });
+      }
+    </script>
+  </body>
+</html>

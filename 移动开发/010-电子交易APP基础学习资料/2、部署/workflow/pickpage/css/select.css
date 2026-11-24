@@ -1,0 +1,380 @@
+/*
+ * @作者: 丁佳琪
+ * @创建时间: 2021-07-20 08:15:33
+ * @修改时间: 2023-02-15 15:39:34
+ * @版本: [1.0]
+ * @版权: 国泰新点软件股份有限公司
+ * @描述: 通讯录
+ */
+.flex {
+  display: flex;
+  align-items: center;
+}
+
+.mui-content {
+  background-color: #f5f6f7;
+}
+
+/* 搜索框 */
+.search-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 64px;
+  padding: 10px 20px;
+  background-color: #f5f6f7;
+}
+
+.search-wrap>input {
+  border: none;
+  margin: 0;
+}
+
+.search-wrap>input::placeholder {
+  font-weight: 400;
+  font-size: 16px;
+  color: #8A8F99;
+}
+
+.search-wrap>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  padding-right: 10px;
+  /*background-color: #fff;*/
+
+}
+
+.search-wrap img {
+  width: 19px;
+  height: 19px;
+}
+
+.search-confirm {
+  width: 50px;
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #5382E6;
+}
+
+.search-cancel {
+  display: none;
+  width: 50px;
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #5382E6;
+}
+
+/* 搜索历史 */
+.search-history {
+  display: none;
+  position: fixed;
+  top: 64px;
+  left: 0;
+  right: 0;
+  background-color: #f5f6f7;
+  height: calc(100vh - 64px);
+  z-index: 10;
+}
+
+.search-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2E3033;
+  background-color: #fff;
+  padding: 9px 20px;
+}
+
+.history-clear {
+  color: #B8BECC;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  font-weight: 400;
+  font-size: 16px;
+  color: #8A8F99;
+
+}
+
+.search-item {
+  justify-content: space-between;
+  background-color: #fff;
+  padding: 9px 20px;
+  border-bottom: 1px solid #DDE0E4;
+}
+
+.search-item>img {
+  width: 12px;
+  height: 12px;
+}
+
+/* 点击切换tab栏的样式 */
+.tab-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 64px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 44px;
+  background-color: #ffffff;
+  font-weight: 400;
+  font-size: 16px;
+  color: #8A8F99;
+}
+
+.tab-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 8px 0;
+  border-radius: 10px;
+  align-items: center;
+}
+
+.tab-item>img {
+  width: 25px;
+  height: 25px;
+}
+
+.tab-item>p {
+  height: 44px;
+  margin-bottom: 0;
+  line-height: 44px;
+}
+
+.active-color,
+.active-color>p {
+  position: relative;
+  font-weight: 500;
+  font-size: 18px;
+  color: #000000;
+}
+
+.active-color>p::after {
+  position: absolute;
+  bottom: -0;
+  left: 50%;
+  content: '';
+  width: 32px;
+  height: 3px;
+  background-color: #5382E6;
+  transform: translateX(-50%);
+}
+
+/* 面包屑部分样式 */
+#titlelist {
+  position: fixed;
+  top: 108px;
+  left: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  height: 42px;
+  padding: 0 20px;
+  white-space: nowrap;
+  overflow: scroll;
+  background-color: #eeeeee;
+  font-weight: 400;
+  font-size: 14px;
+  color: #8A8F99;
+}
+
+#titlelist::-webkit-scrollbar {
+  display: none;
+}
+
+.title-item {
+  position: relative;
+  color: #8A8F99;
+  margin: 0 20px 0 0;
+}
+
+.title-item:last-child {
+  color: #2e6be5;
+}
+
+.title-item:not(:last-child)::before {
+  content: '>';
+  position: absolute;
+  top: 50%;
+  right: -30px;
+  width: 25px;
+  height: 25px;
+  line-height: 25px;
+  font-weight: bold;
+  color: #8A8F99;
+  transform: translateY(-50%);
+}
+
+/* 职员list */
+.main {
+  margin-top: 150px;
+  margin-bottom: 62px;
+}
+
+.pick-all {
+  position: fixed;
+  top: 150px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2E3033;
+  background-color: #fff;
+  border-bottom: 1px solid #DDE0E4;
+}
+
+
+.pick-all input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  margin: 0 10px 0 0;
+  box-sizing: border-box;
+  border: solid 1px #DDE0E4;
+}
+
+.pick-num {
+  font-weight: 400;
+  font-size: 16px;
+  color: #B8BECC;
+}
+
+#oulist{
+  padding-top: 42px;
+}
+
+#userlist,
+#oulist {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  background-color: #ffffff;
+}
+
+.ouitem-wrap {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #DDE0E4;
+}
+
+.useritem,
+.ouitem {
+  min-height: 70px;
+  padding: 10px 20px;
+  border-bottom: 1px solid #DDE0E4;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.ouitem {
+  padding: 0;
+  border-bottom: none;
+}
+
+.useritem .check-box {
+  width: 18px;
+  height: 18px;
+  margin: 0 10px 0 0;
+  box-sizing: border-box;
+  border: solid 1px #DDE0E4;
+}
+
+.useritem-img,
+.ouitem-img {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+}
+
+.useritem-msg,
+.ouitem-msg {
+  margin-left: 10px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #2E3033;
+  flex: 1;
+}
+
+
+.useritem-title,
+.ouitem-title {
+  margin-top: 5px;
+  font-size: 14px;
+  color: #B8BECC;
+}
+
+.ouitem-wrap .icon-right {
+  width: 8px;
+  height: 13px;
+}
+
+.bottom {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-between;
+  padding: 14px 20px;
+  font-weight: 400;
+  font-size: 14px;
+  letter-spacing: 0.03em;
+  color: #8A8F99;
+  background-color: #fff;
+  box-shadow: 0px 4px 16px rgba(46, 48, 51, 0.25);
+}
+
+.bottom .btn-wrap {
+  display: flex;
+
+}
+
+.bottom .btn-wrap>div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 6px 27px;
+  background: #F5F6F7;
+  border: 1px solid #DDE0E4;
+  border-radius: 4px;
+  font-weight: 400;
+  font-size: 16px;
+  color: #B8BECC;
+  font-weight: 400;
+  font-size: 16px;
+  color: #B8BECC;
+}
+
+.btn-clear {
+  margin-right: 12px;
+}
+
+.bottom .btn-wrap .btn-confirm {
+  background: #5581E7;
+  font-weight: 400;
+  font-size: 16px;
+  color: #FFFFFF;
+}

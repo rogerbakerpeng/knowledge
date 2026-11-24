@@ -1,0 +1,84 @@
+ /** 
+  * 作者： 孙尊路
+  * 创建时间：2017/06/16 14:47:28
+  * 版本： [1.0, 2017/6/16]
+  * 版权： 江苏国泰新点软件有限公司
+  * 描述：  自定义对话框
+ **/
+ /*提示容器*/
+ 
+ .em-tips {
+ 	display: none;
+ 	width: 250px;
+ 	height: 130px;
+ 	position: absolute;
+ 	top: 0px;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+ 	margin: auto;
+ 	padding: 10px;
+ 	text-align: center;
+ 	background: #ffffff;
+ 	z-index: 999;
+ 	border-radius: 10px;
+ 	border-color: #f5f5f5;
+ }
+ 
+ .em-tips textarea {
+ 	height: 60px;
+ }
+ /*遮罩*/
+ 
+ .em-mask {
+ 	display: none;
+ 	z-index: 11;
+ 	margin-top: 0px;
+ 	position: fixed;
+ 	top: 0;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+ 	background: #000;
+ 	opacity: 0.5;
+ }
+ /*按钮*/
+ 
+ .em-buttons {
+ 	display: flex;
+ 	justify-content: space-around;
+ 	margin-top: -10px;
+ }
+ 
+ .em-buttons button {
+ 	width: calc(100% - 20px) / 2;
+ 	height: 38px;
+ 	font-size: 16px;
+ 	/*text-align: center;*/
+ 	color: #FFFFFF;
+ 	border-radius: 5px;
+ }
+ 
+ .useYouXian1 input[type='button'],
+ .useYouXian1.mui-btn {
+ 	border: 1px solid gray;
+ 	background-color: gray;
+ }
+ 
+ .useYouXian1 input[type='button'],
+ .useYouXian1.mui-btn:enabled:active {
+ 	background-color: gray;
+ 	border: 1px solid gray;
+ }
+ 
+ .quickSendPrice input[type='button'],
+ .quickSendPrice.mui-btn {
+ 	border: 1px solid #3c80e6;
+ 	background-color: #3c80e6;
+ }
+ 
+ .quickSendPrice input[type='button'],
+ .quickSendPrice.mui-btn:enabled:active {
+ 	background-color: gray;
+ 	border: 1px solid gray;
+ }

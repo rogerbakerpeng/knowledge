@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="format-detection" content="telephone=no" />
+    <title>io.screenshot 测试页面</title>
+    <script>
+        document.write("<script src='../../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script src="http://apps.bdimg.com/libs/zepto/1.1.4/zepto.min.js"></script>
+
+    <style>
+        .title {
+            margin: 20px 15px 10px;
+            color: #6d6d72;
+            font-size: 15px;
+        }
+
+        .ml10 {
+            margin-left: 10px;
+        }
+
+        .mt10 {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <button type="button" class="mui-btn mui-btn-primary ml10 mt10" id="btn-longscreen">长截图</button>
+        <button type="button" class="mui-btn mui-btn-danger ml10 mt10" id="btn-curscreen">截当屏</button>
+
+        <div class="title">搜索结果(Mock 数据)：</div>
+        <ul class="mui-table-view" id="list">
+        </ul>
+    </div>
+
+    <script type="text/template" id="tpl">
+        {{#item}}
+        <li class="mui-table-view-cell mui-media">
+            <a href="javascript:;">
+                <div class="mui-media-body">
+                    {{title}}
+                    <p class='mui-ellipsis'>{{description}}</p>
+                </div>
+            </a>
+        </li>
+        {{/item}}
+    </script>
+
+    <script>
+        document.write("<script src='../../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+
+    <script>
+        var tpl = document.getElementById('tpl').innerHTML,
+            listEl = document.getElementById('list');
+
+        Util.loadJs(function () {
+            ejs.config({
+                jsApiList: []
+            });
+
+            ejs.ready(function() {
+                // 获取搜索数据
+                getlist();
+                initListener();
+            });
+        });
+
+        /**
+         * 事件绑定
+         */
+        function initListener() {
+            document.getElementById('btn-longscreen').addEventListener('tap', function () {
+                ejs.io.screenShot({
+                    captureType: 1,
+                    success: function (result) {
+                        console.log(JSON.stringify(result.picPath));
+                        ejs.io.openFile({
+                            path: result.picPath,
+                            success: function (result) { },
+                            error: function (error) { }
+                        });
+                    },
+                    error: function (error) {
+                        console.log(JSON.stringify(result));
+                    }
+                });
+            });
+
+            document.getElementById('btn-curscreen').addEventListener('tap', function () {
+                ejs.io.screenShot({
+                    captureType: 0,
+                    success: function (result) {
+                        console.log(JSON.stringify(result));
+                        ejs.io.openFile({
+                            path: result.picPath,
+                            success: function (result) { },
+                            error: function (error) { }
+                        });
+                    },
+                    error: function (error) {
+                        console.log(JSON.stringify(result));
+                    }
+                });
+            });
+        };
+
+        /**
+         * 获取搜索数据
+         *
+         * @param {String} keyword 搜索关键字
+         */
+        function getlist() {
+            $.ajax({
+                url: 'http://yapi.demo.qunar.com/mock/68516/searchlist',
+                data: {
+                    keyword: ''
+                },
+                type: 'post',
+                success: function (response) {
+                    listEl.innerHTML = Mustache.render(tpl, {
+                        item: response.list
+                    });
+                }
+            });
+        }
+    </script>
+</body>
+
+</html>

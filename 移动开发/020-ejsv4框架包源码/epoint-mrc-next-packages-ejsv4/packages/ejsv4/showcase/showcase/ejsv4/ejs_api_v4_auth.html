@@ -1,0 +1,196 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/06/01
+        版本: [3.0, 2017/06/01 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  auth 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>auth模块</title>
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'auth模块',
+                ejsApi: [{
+                    'id': 'getToken',
+                    'text': 'getToken(获取token)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.getToken({
+
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'refreshToken',
+                    'text': 'refreshToken(刷新tokenAPI)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.refreshToken({
+                            success: function (result) {
+                                ejs.ui.toast('刷新成功')
+                            },
+                            error: function (error) {
+                                console.error(error);
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'getUserInfo',
+                    'text': 'getUserInfo(获取当前登陆用户信息)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.getUserInfo({
+                            success: function (result) {
+                                ejs.ui.toast(result.userInfo)
+                            },
+                            error: function (error) {
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'refreshUserInfo',
+                    'text': 'refreshUserInfo(更新原生本地的用户信息)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.refreshUserInfo({
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result.userInfo));
+                            },
+                            error: function (error) {
+                                ejs.ui.toast(JSON.stringify(error));
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'getAuthCode',
+                    'text': 'getAuthCode(获取用户授权码)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.getAuthCode({
+                            appkey: 'dzt',
+                            success: function (result) {
+                                ejs.ui.showDebugDialog(result.authCode);
+                            },
+                            error: function (error) {
+
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'getUserAuthCode',
+                    'text': 'getUserAuthCode(调用框架接口获取 authcode)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.ui.prompt({
+                            title: '请填写应用的appkey',
+                            hint: '请输入',
+                            text: '',
+                            lines: 1,
+                            maxLength: 10000,
+                            buttonLabels: ['取消', '确定'],
+                            cancelable: 1,
+                            h5UI: false, // 是否强制使用H5-UI效果，默认false
+                            success: function (result) {
+                                if (parseInt(result.which, 10) === 1) {
+                                    ejs.auth.getUserAuthCode({
+                                        appkey: result.content,
+                                        success: function (result) {
+                                            console.log(result);
+                                            ejs.ui.showDebugDialog(result.authcode);
+                                        },
+                                        error: function (error) {
+                                            ejs.ui.toast('获取authcode失败:' + JSON.stringify(error));
+                                            console.error('获取authcode失败', error);
+                                        }
+                                    });
+                                }
+                            },
+                            error: function (err) {
+                                console.error(err);
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'logoutUserWithAlert',
+                    'text': 'logoutUserWithAlert(提示并退出到登录页)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.logoutUserWithAlert({
+                            title: '提醒',
+                            message: '您的账号已在其他设备登录，若不是本人操作，请尽快修改密码！',
+                            success: function (result) {
+                            },
+                            error: function (error) {
+                                alert('错误回调' + JSON.stringify(error))
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'logout',
+                    'text': 'logout(退出到登录页)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.auth.logout({
+                            success: function (result) {
+                                console.log(result);
+                            },
+                            error: function (error) {
+                                console.error('退出登录失败', error);
+                                alert('退出登录失败');
+                            }
+                        });
+                    }
+                }]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

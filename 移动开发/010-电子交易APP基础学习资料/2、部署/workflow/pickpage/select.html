@@ -1,0 +1,125 @@
+<!--
+ * @作者: 丁佳琪
+ * @创建时间: 2021-07-19 17:43:44
+ * @修改时间: 2023-02-15 14:24:25
+ * @版本: [1.0]
+ * @版权: 国泰新点软件股份有限公司
+ * @描述: 通讯录
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"
+      name="viewport"
+    />
+    <meta
+      name="format-detection"
+      content="telephone=no, address=no, email=no"
+    />
+    <title>传阅对象</title>
+    <script src='../../frame/fmui/js/cssboot.js'></script>
+    <script>
+      SrcBoot.output(["./css/select.css"]);
+    </script>
+  </head>
+
+  <body>
+    <div class="mui-content">
+      <div style="display: none">
+        <div class="ep-mui-switchcell" id="switch" label="切换所有用户" onchange="onChange" value="true"></div>
+        <div label="挑选人员" role="control">
+          <div action="getTreeOuModel" canchoosedir="false" class="ep-mui-treeselect" id="treeGuid" multiselect="true" placeholder="请选择" type="text"></div>
+        </div>
+      </div>
+      <!-- 搜索 -->
+      <div class="search-wrap">
+        <input type="search" placeholder="请输入姓名" name="search-input" />
+        <div><img src="./images/icon_search.png" alt="" /></div>
+        <!-- <span class="search-confirm">确认</span> -->
+        <span class="search-cancel">取消</span>
+      </div>
+      <!-- tab -->
+      <ul class="tab-bar">
+        <li class="tab-item active-color">
+          <p>本部门</p>
+        </li>
+        <li class="tab-item">
+          <p>所有用户</p>
+        </li>
+      </ul>
+      <!-- 面包屑 -->
+      <div id="titlelist">最近</div>
+      <!-- main -->
+      <div class="main">
+        <div class="pick-all">
+          <span class="flex">
+            <input type="checkbox" class="check-box" name="checkbox-all" />
+            <span>全选</span>
+          </span>
+          <span class="picknum-total" style="display: none">0/0</span>
+        </div>
+        <!-- 列表 -->
+        <div id="oulist"></div>
+        <div id="userlist"></div>
+      </div>
+      <div class="bottom">
+        <span class="flex">已选择<span class="pick-num">0</span>项</span>
+        <div class="btn-wrap">
+          <div class="btn-clear">清空</div>
+          <div class="btn-confirm">确认</div>
+        </div>
+      </div>
+      <!-- 历史搜索 -->
+      <div class="search-history">
+        <div class="search-title">
+          <span>历史搜索</span>
+          <span class="history-clear">清空</span>
+        </div>
+        <ul class="history-list" id="historylist"></ul>
+      </div>
+    </div>
+    <!-- 用户模板 -->
+    <!-- http://218.4.136.126:1443/oa9_v7/{{photourl}} -->
+    <script type="text/x-tpl" id="useritem">
+      <div class="useritem" for="{{id}}">
+          <input type="checkbox" class="check-box" name="user-checkbox" value="{{id}}" id="{{id}}"/>
+          <img class="useritem-img" src="./images/icon_user.png"/>
+          <div class="useritem-msg">
+              <div class="useritem-name">{{text}}</div>
+             <!-- <div class="useritem-title">{{text}}</div>-->
+          </div>
+        </div>
+    </script>
+    <!-- 部门模板 -->
+    <!-- src="http://218.4.136.126:1443/oa9_v7/{{photourl}}" -->
+    <script type="text/x-tpl" id="ouitem">
+      <div class="ouitem-wrap" data-guid="{{id}}">
+        <div class="ouitem">
+          <img class="ouitem-img" src="./images/icon_user.png" />
+          <div class="ouitem-msg">
+            <div class="ouitem-name">{{text}}</div>
+            <div class="ouitem-title">{{text}}</div>
+          </div>
+        </div>
+        <img class="icon-right" src="./images/icon_right.png" alt="" />
+      </div>
+    </script>
+    <!-- title字符 -->
+    <script type="text/x-tpl" id="titleitem">
+      <span class="title-item">{{name}}</span>
+    </script>
+    <!-- 搜索历史 -->
+    <script type="text/x-tpl" id="historyitem">
+      <span class="search-item flex" data-text="{{.}}">
+        <span data-text="{{.}}">{{.}}</span>
+        <img class="delete-btn" src="./images/icon_delet.png" alt="" data-text="{{.}}">
+      </span>
+    </script>
+    <script src='../../frame/fmui/js/jsboot.js'></script>
+    <script>
+      SrcBoot.output(["./js/select.js"]);
+    </script>
+  </body>
+</html>

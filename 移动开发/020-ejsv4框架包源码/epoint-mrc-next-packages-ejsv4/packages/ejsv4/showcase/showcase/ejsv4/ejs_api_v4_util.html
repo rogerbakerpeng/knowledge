@@ -1,0 +1,1657 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/06/01
+        版本: [3.0, 2017/06/01 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  util 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>util模块</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+</head>
+
+<body class="ejs-f9-content">
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+
+    <div class="qrcode">
+        <img src="" alt="" id="img-qrcode">
+    </div>
+
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        var qrcodeEl = document.getElementById('img-qrcode');
+        var text = '';
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'util模块',
+                ejsApi: [{
+                    'id': 'scan',
+                    'text': 'scan(扫描二维码)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.scan({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('二维码扫描失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'playVideo',
+                    'text': 'playVideo(播放视频)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.playVideo({
+                            // 地址
+                            videoUrl: 'http://app.epoint.com.cn/staticResource/video_demo.mp4',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'selectImage',
+                    'text': 'selectImage(选择图片)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.selectImage({
+                            // 图片数量
+                            photoCount: 9,
+                            // 是否显示gif图片，1：显示；0：不显示
+                            showGif: 0,
+                            // 是否允许预览，1：允许，0：不允许
+                            previewEnabled: 1,
+                            // 已选图片，json数组格式，item为元素本地地址
+                            selectedPhotos: [],
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'cameraImage',
+                    'text': 'cameraImage(拍照)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.cameraImage({
+                            // 宽度
+                            width: 720,
+                            // 压缩质量
+                            quality: 70,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'recordVideo',
+                    'text': 'recordVideo(录制视频)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.recordVideo({
+                            maxDuration: 20,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'prevImage',
+                    'text': 'prevImage(预览图片)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.prevImage({
+                            // 默认显示图片序号
+                            index: 0,
+                            // 是否显示删除按钮，1：显示，0：不显示，默认不显示。如果显示按钮则自动注册回调事件。
+                            showDeleteButton: 0,
+                            // 图片地址，json数组格式，item为元素本地地址， 支持本地图片(选择API选择的图片)和网络图片
+                            selectedPhotos: [
+                                'http://img4.duitang.com/uploads/item/201508/10/20150810161432_5ujhU.thumb.224_0.jpeg',
+                                './images/testgallery1.jpg'
+                            ],
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getPreviewUrl',
+                    'text': 'getPreviewUrl(获取预览地址)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.getPreviewUrl({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'goSearch',
+                    'text': 'goSearch(进入通用搜索页面)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.goSearch({
+                            searchType: '',
+                            conditions: '',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'invokePluginApi',
+                    'text': 'invokePluginApi(调用组件选人)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.invokePluginApi({
+                            path: 'workplatform.provider.openNewPage',
+                            dataMap: {
+                                method: 'goSelectPerson',
+                            },
+                            isLongCb: false,
+                            f9userdata: [
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": true,
+                                    "id": "45f0c5f9-cad2-49e6-887d-b38dfcbc23de",
+                                    "text": "\u7CFB\u7EDF\u7BA1\u7406\u5458",
+                                    "iconCls": "mini-tree-user-online",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "8c01cd91-b20a-45b3-9142-d88e2dffac24",
+                                    "text": "zdz",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "11532ea1-b2fa-4369-bf55-b2673a130537",
+                                    "text": "1234",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "f05f2c73-824c-4f3f-8674-89663aa45914",
+                                    "text": "abcjlx",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "c671a2b4-35a3-46b0-98ed-b21d37ba4099",
+                                    "text": "\u5468\u4F73\u68EE",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "7c742799-ba98-4974-a5e5-7ebf851ee422",
+                                    "text": "111",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "f3e73c9b-d94f-4768-8d7a-61155085d14c",
+                                    "text": "adminwy",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "124d797a-e391-4468-93ff-0864e614be48",
+                                    "text": "\u540D \u4E2D\u95F4\u540D \u59D3",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "ad6617c0-c43d-498f-9ef7-98a982b7d9f9",
+                                    "text": "\u848B\u91D1\u5065",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "d3dd6310-7836-4a6d-8550-8ad53969d522",
+                                    "text": "\u7941\u6770",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "719f3c2e-516b-4064-8e30-85cc85f871fd",
+                                    "text": "111",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "c0e30ca8-95ea-4824-8465-4589e89148e1",
+                                    "text": "test0002",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "813c4058-bc64-458b-a0e3-81955753856d",
+                                    "text": "\u6D4B\u8BD5\u5458",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "dbbac009-61ff-422b-b7bd-85f61bc4798a",
+                                    "text": "2111",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "e6952258-e582-4ed9-a820-657f08599ad9",
+                                    "text": "\u79FB\u52A8\u7AEF\u6D4B\u8BD53\uFF08\u52FF\u52A8\uFF09",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "f75ab1d4-b9f3-4617-8dd2-a76d3c720e3d",
+                                    "text": "\u79FB\u52A8\u7AEF\u6D4B\u8BD52\uFF08\u52FF\u52A8\uFF09",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "88153b55-a5a4-44f5-9a5d-d676bfd487bf",
+                                    "text": "test22",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "69917c3a-1309-497a-9183-f828d4dab13e",
+                                    "text": "testmenu",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "3969db60-cc49-44d8-9e43-8062b553c991",
+                                    "text": "88888",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "07f58380-b9d7-42e9-b028-3b07d6fa8e79",
+                                    "text": "test0001",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "591a6776-7562-45c8-8c1c-d205e17d4103",
+                                    "text": "\u5F90\u5251",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "11b0046f-1a19-4fae-b94c-fc04064c3a62",
+                                    "text": "wyceshi",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "6328a4a8-5cbd-4eeb-b2f0-d785f9e70bb8",
+                                    "text": "\u5F90\u4F73\u6770",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "d4a0fdee-f556-479a-aaa6-11e02c0317d5",
+                                    "text": "\u6D4B\u8BD5\u8D26\u53F79.3.3-security",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "5194ce26-7907-4c31-a990-408c8c9304d9",
+                                    "text": "sjtest",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "b916aee8-0ead-4c42-bd54-79c5dd76a735",
+                                    "text": "asd",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "e81124e4-a640-400c-a82d-344d57c4190b",
+                                    "text": "xxm",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "6f0c9d16-2d80-4d5c-8477-9652f1886e96",
+                                    "text": "2222",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "750c28ba-4d35-4b1d-b29a-ea1f6a106f5a",
+                                    "text": "zzp9090",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "eb663f08-da3d-4a90-8c03-4ef0bbbc968e",
+                                    "text": "adminbb",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "ac1300c9-976d-4adc-b3a2-5bb783d9b015",
+                                    "text": "1",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": true,
+                                    "id": "d1fe9acc-1f36-4ddd-912d-d604cd8bb79c",
+                                    "text": "\u5B63\u7ACB\u971E3",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "546b45ab-7e0b-4ddf-af7e-813e95e997ef",
+                                    "text": "\u5F90\u4F73\u6770",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "d0796dc1-24d0-4d80-99cc-a6f1192e100c",
+                                    "text": "\u79FB\u52A8\u7AEF\u6D4B\u8BD55\uFF08\u52FF\u52A8\uFF09",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "f0aae771-cd20-4dac-acbd-027504b9a1af",
+                                    "text": "\u5B89\u5168\u5BA1\u8BA1\u5458",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "dd66f986-4366-42e7-99b7-78e0c79bd7bc",
+                                    "text": "test_zjf",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "1c7870bb-5b07-4c27-b90c-a5acb4c93ece",
+                                    "text": "1111111",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "5b0575ac-a134-4b09-9c47-ea6f5f816944",
+                                    "text": "\u9EC4\u6653\u519B\u79FB\u52A8",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "425016b5-29a5-4d79-b748-e58d4557cfe0",
+                                    "text": "\u6D4B\u8BD5\u54582",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "76dc8e77-a7f0-4e23-a4ee-ee20118771bd",
+                                    "text": "zhoujs",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "2de5543f-0aad-49ec-b53b-711251cb28f7",
+                                    "text": "test_zjf2",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "e93cdcc2-df9d-455a-a011-a83c09e43ac4",
+                                    "text": "yugezuibang3",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "25026c73-7bd6-466d-b596-4096e276b0ad",
+                                    "text": "\u79FB\u52A8\u6D4B\u8BD51\uFF08\u52FF\u52A8\uFF09",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "41ee7577-f78c-49ca-854b-9ac9ff8000b9",
+                                    "text": "asdd",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "4fef5332-f6ca-4412-b9a5-f59eff685340",
+                                    "text": "\u79FB\u52A8\u7AEF\u6D4B\u8BD54\uFF08\u52FF\u52A8\uFF09",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "cd73a0ae-4fae-47e4-bab1-05949646f531",
+                                    "text": "aaaaaaa",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "3ede3951-7020-42a7-a11e-8aa9de18764d",
+                                    "text": "ll;",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "0c00862e-9dd8-4d81-892b-5fcd5c51077b",
+                                    "text": "\u5B63\u7ACB\u971E2",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "8c7f5245-f35f-441d-94cd-d545d4ab8c5e",
+                                    "text": "cdy111",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "11670363-edee-4b78-91fd-e020085f7095",
+                                    "text": "qzh",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "67c5a333-f368-4d76-9ed8-4516c46e7c21",
+                                    "text": "\u5B63\u7ACB\u971E",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "9be9386a-7e9b-407a-a144-9bd34dff04aa",
+                                    "text": "\u7CFB\u7EDF\u7BA1\u7406\u5458",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "44c49bdb-0257-455a-8162-f213c6042c14",
+                                    "text": "zzp9091",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "dcaf385b-2157-4495-93a6-6b76f230a0a4",
+                                    "text": "\u6D4B\u8BD5",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "99c00080-a4ac-4a53-8274-5d2813d5ab01",
+                                    "text": "345",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "true",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "aced6cb3-078b-4b5c-82b8-26f5019b90d7",
+                                    "text": "20181203",
+                                    "iconCls": "mini-tree-user-offline",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "dad2f315-13b8-4e33-8df4-82421893bce9",
+                                    "text": "22",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "04aa11cc-ff05-4558-ba0a-49652e4c420e",
+                                    "text": "22221111111212112",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "1e9cf250-749a-4621-950f-43eff14a42cf",
+                                    "text": "\u517C\u804C\u90E8\u95E8\u4EBA\u5458\u6392\u5E8F\u4E3Anull\u6D4B\u8BD52",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "5c9e899d-0c7b-4959-a813-cf056d02fb0e",
+                                    "text": "AAAAAA",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "a0506363-33b9-4d3a-8661-555727c21b8c",
+                                    "text": "12345",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "ee3589cb-bcdd-4364-83ae-4eb329a7ecf7",
+                                    "text": "cdt",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "7dfa85f2-74f6-4bac-80c0-6ce06776acac",
+                                    "text": "\u517C\u804C\u90E8\u95E8\u4EBA\u5458\u6392\u5E8F\u4E3Anull\u6D4B\u8BD53",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": true,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": false,
+                                    "id": "24c45932-2a75-4bb4-b69e-77040cf5e741",
+                                    "text": "\u5F90\u5251\u6D4B\u8BD5\u90E8\u95E8",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": true,
+                                    "id": "7000fbff-1c61-4d9d-9142-5190604e0212",
+                                    "text": "BBBBBBB",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "f9root",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": false,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": true,
+                                    "id": "9c1d3763-bd63-4efe-a79c-0151500dcfe1",
+                                    "text": "\u517C\u804C\u90E8\u95E8\u4EBA\u5458\u6392\u5E8F\u4E3Anull\u6D4B\u8BD5",
+                                    "iconCls": "mini-tree-folder",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                },
+                                {
+                                    "fullPath": "",
+                                    "textCls": "",
+                                    "img": "",
+                                    "pid": "",
+                                    "ckr": true,
+                                    "isLeaf": false,
+                                    "tableName": "",
+                                    "objectcode": "",
+                                    "path": "",
+                                    "expanded": true,
+                                    "isSubNode": "false",
+                                    "titleExtra": "",
+                                    "checked": true,
+                                    "id": "f9root",
+                                    "text": "\u672C\u90E8\u95E8",
+                                    "iconCls": "",
+                                    "recureMsg": "",
+                                    "noClick": ""
+                                }
+                            ],
+                            f9controlid: 'f9controlid',
+                            success: function (result) {
+                                alert(JSON.stringify(result))
+                                console.log(result);
+
+                                // result 返回数据
+                            },
+                            error: function (err) {
+                                // err 错误信息
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'createQRCode',
+                    'text': 'createQRCode(生成二维码)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.createQRCode({
+                            qrCodeStr: 'http://fe.epoint.com.cn:8080/ejs4mpdoc/index/index.php#page=changelog',
+                            size: 200,
+                            success: function (result) {
+                                qrcodeEl.src = result.img;
+                            },
+                            error: function (error) {
+                                litemplate.showTips('生成二维码失败');
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'recognizeQRCode',
+                    'text': 'recognizeQRCode(识别图片二维码)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.selectImage({
+                            success: function (result) {
+                                ejs.util.recognizeQRCode({
+                                    imgPath: result.resultData[0],
+                                    success: function (result) {
+                                        litemplate.showTips(result.corePath);
+                                    },
+                                    error: function (error) {
+                                        litemplate.showTips(error.msg);
+                                    }
+                                });
+                            },
+                            error: function (error) {
+                                litemplate.showTips(error.msg);
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'encrypt',
+                    'text': 'encrypt(对字符串进行 AES 加密)',
+                    'evn': 'ejs_h5',
+                    'runCode': function () {
+                        ejs.util.encrypt({
+                            type: '1',
+                            keys: ['qnbpwgttcfv96fgwq8ya0hj5sm50e1f0', '1234566'],
+                            text: 'epoint12345',
+                            success: function (result) {
+                                console.log(result)
+                                litemplate.showTips('epoint12345加密结果为：' + result.text);
+                                text = result.text;
+                            },
+                            error: function (error) {
+                                alert(JSON.stringify(error))
+                                litemplate.showTips(error.msg);
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'decrypt',
+                    'text': 'decrypt(对字符串进行框架默认解密)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.decrypt({
+                            type: '1',
+                            keys: ['qnbpwgttcfv96fgwq8ya0hj5sm50e1f0', '1234566'],
+                            text: text,
+                            success: function (result) {
+                                litemplate.showTips('解密结果为：' + result.text);
+                            },
+                            error: function (error) {
+                                alert(JSON.stringify(error))
+                                litemplate.showTips(error.msg);
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'selectVideo',
+                    'text': 'selectVideo(从相册中选择视频)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.util.selectVideo({
+                            videoCount: 1,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                alert(JSON.stringify(error))
+                                litemplate.showTips(error.msg);
+                            }
+                        });
+                    }
+                }]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

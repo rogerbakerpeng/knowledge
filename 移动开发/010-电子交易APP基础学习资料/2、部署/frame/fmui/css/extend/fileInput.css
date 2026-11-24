@@ -1,0 +1,269 @@
+/**
+ * 作者：冯轶群
+ * 创建时间：2018/11/22
+ * 版本：[1.0, 2018/11/22]
+ * 版权：江苏国泰新点软件有限公司
+ * 描述：招投标APP跨平台V7 附件上传
+ */
+.fileinput {
+	display: none;
+}
+
+ .mui-control-content {
+    min-height: calc(100vh - 40px);
+}
+
+.mui-control-content .mui-loading {
+    margin-top: 50px;
+}
+
+.mui-table-view {
+    margin-top: 5px;
+}
+
+#slider {
+    background: #fff;
+}
+
+/* 选项卡标记样式 */
+.control-item {
+    color: #999 !important;
+}
+
+.control-item.mui-active {
+    color: #000 !important;
+}
+
+.bottom-line {
+    width: 50%;
+    display: inline-block;
+    height: 2px;
+    background-color: #4162ff;
+    position: absolute;
+    left: 50%;
+    margin-left: -25%;
+}
+
+/* 头 */
+.file-container {
+	position: relative;
+	margin-top: 5px;
+}
+
+.file-header {
+	padding: 12px 15px;
+	font-size: 19px;
+	background: #fff;
+}
+
+.header-title {
+	margin-right: 7px;
+}
+
+.icon {
+	display: block;
+	width: 18px;
+	height: 18px;
+}
+
+.icon-tips {
+	width: 16px !important;
+	background: url(images_fileinput/img_cksm_btn.png) no-repeat;
+	background-size: 100%;
+}
+
+.icon-input {
+	background: url(images_fileinput/img_sc_btn.png) no-repeat;
+	background-size: 100%;
+}
+
+/* 列表 */
+.em-table-view {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.em-table-view:before {
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.em-table-view:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.em-table-view-cell {
+    position: relative;
+    overflow: hidden;
+    -webkit-touch-callout: none;
+}
+
+.em-table-view-cell:after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.em-table-view-cell:last-child:before, .mui-table-view-cell:last-child:after {
+    height: 0;
+}
+
+/* 附件内容 */
+.em-attach-info {
+	position: relative;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	padding: 11px 15px;
+	background: #fff;
+}
+
+.em-attach-info>img {
+	margin: -4px 10px 0 0;
+	width: 36px !important;
+	min-width: 36px;
+	height: 36px;
+}
+
+.em-attach-info p {
+	font-size: 15px;
+	margin-bottom: 0px;
+}
+
+.em-attach-content {
+	padding-right: 24px;
+}
+
+.em-attach-info .em-attach-name {
+	display: -webkit-box;
+	-webkit-box-orient: vertical;
+	-webkit-line-clamp: 1;
+	width: 100%;
+	text-overflow: ellipsis;
+	overflow: hidden;
+	font-size: 15px;
+	color: #333333;
+}
+
+.attach-icon {
+	position: absolute;
+	right: 15px;
+}
+
+/* 附件操作按钮 */
+.em-collapse-content {
+	display: none;
+	padding: 10px 15px;
+}
+
+.active .em-collapse-content {
+	display: flex;
+	align-items: center;
+}
+
+.em-collapse-content .attach-button {
+	position: relative;
+	flex: 1;
+	text-align: center;
+	font-size: 15px;
+	color: #4162ff;
+}
+
+.em-collapse-content .attach-button::after {
+	position: absolute;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    width: 1px;
+    content: '';
+    -webkit-transform: scaleX(.5);
+    transform: scaleX(.5);
+    background-color: #c8c7cc;
+}
+
+.em-collapse-content .attach-button:last-child::after {
+	width: 0px;
+}
+
+.btn-red {
+	color: #ff0000 !important;
+}
+
+/* 无附件 */
+.noattach {
+	text-align: center;
+	background: #fff;
+	padding: 11px 15px;
+}
+
+.noattach img {
+	width: 100px !important;
+}
+
+.noattach span {
+	color: #b3b3b3;
+	display: block;
+	font-size: 15px;
+}
+
+/* 提示 */
+.mask {
+	position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 998;
+    background-color: rgba(0,0,0,.3);
+}
+
+.tips {
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	max-height: 60%;
+	padding: 22px;
+	background: #fff;
+	overflow-y: auto;
+}
+
+.tips-head {
+	margin-bottom: 22px;
+	font-size: 18px;
+	font-weight: 800;
+	text-align: center;
+}
+
+.tips-content {
+	font-size: 18px;
+	color: #333;
+}
+
+.tips-content.center {
+	text-align: center;
+}

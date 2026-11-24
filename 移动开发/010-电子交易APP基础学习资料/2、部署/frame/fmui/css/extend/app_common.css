@@ -1,0 +1,222 @@
+/*!
+ * =====================================================
+ * 公共css重写
+ * =====================================================
+ */
+
+/*使用新版页面后不再重写这个css*/
+/* body, .mui-content {
+    font-size: 14px;
+    background-color: #fff;
+} */
+
+
+/*重写头部导航栏bar背景色,颜色为 187bc2*/
+
+.mui-bar-nav {
+    background-color: #187bc2;
+    z-index: 20;
+}
+
+
+/*重写title的颜色,666666
+ title大小为18px*/
+
+.mui-title {
+    font-size: 18px;
+    color: #fff;
+}
+
+
+/*重写返回按钮颜色*/
+
+.mui-icon-left-nav {
+    color: #fff;
+}
+
+
+/*右侧的info图标*/
+
+.mui-icon-info-filled {
+    color: #fff;
+}
+
+
+/*右侧文字按钮白色*/
+
+.mui-bar-nav .mui-text-right {
+    color: #fff;
+}
+
+
+/*重写按钮*/
+
+.mui-btn-block {
+    height: 45px;
+    line-height: 45px;
+    padding: 0;
+}
+
+.common-hidden {
+    display: none;
+}
+
+
+/**
+ *
+ */
+
+.tips-container {
+    width: 100%;
+    font-size: 15px;
+    overflow: hidden;
+    word-break: break-all;
+}
+
+.compare-container {
+    width: 44%;
+}
+
+.tips-content {
+    display: block;
+    color: #007aff;
+}
+
+.show-img img {
+    width: 200px;
+    height: 200px;
+    border: 1px solid #fafafa;
+}
+
+.red {
+    color: red;
+}
+
+.f20 {
+    font-size: 20px;
+}
+
+.m50 {
+    margin-top: 50px;
+}
+
+.m15 {
+    margin: 15px;
+}
+
+.mt10 {
+    margin-top: 10px;
+}
+
+.mt35 {
+    margin-top: 35px;
+}
+
+.mt50 {
+    margin-top: 50px;
+}
+
+.pt0, .mui-bar-nav~.pt0 {
+    padding-top: 0;
+}
+
+img {
+    max-width: 100%;
+}
+
+
+/**
+ * 最小化，变为1*1px挂在左上角
+ * 之所以要这样是，有些原生如果隐藏不见，无法触发事件
+ * 比如input file在4.x中隐藏不见无法触发click函数
+ */
+
+.minSize {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    opacity: 0;
+}
+
+
+/*重写手风琴*/
+
+.mui-content>.mui-accordion:first-child {
+    margin-top: 0;
+}
+
+.mui-accordion.default {
+    background: #f5f5f5;
+}
+
+.mui-accordion.default:after, .mui-accordion.default>.mui-table-view-cell:after, .mui-accordion.default .mui-input-group:after {
+    height: 0;
+}
+
+.mui-accordion.default>.mui-collapse {
+    margin-bottom: 10px;
+    border-top: 1px solid #e0e0e0;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.mui-accordion.default>.mui-collapse>a {
+    background: #fff;
+}
+
+.mui-accordion.default>.mui-table-view-cell.mui-collapse>.mui-navigate-right:after {
+    font-size: 24px;
+    content: "\e409";
+}
+
+.mui-accordion.default>.mui-table-view-cell.mui-collapse.mui-active>.mui-navigate-right:after {
+    content: "\e410";
+}
+
+.mui-accordion.default>.mui-collapse>a:not(.mui-btn) {
+    color: #3774fa;
+}
+
+.mui-accordion.default>.mui-collapse>a:after {
+    color: #3774fa;
+}
+
+.mui-accordion.default .mui-input-group .mui-input-row:last-child:after {
+    height: 0;
+}
+
+.page-loading {
+    position: absolute;
+    background: #fff;
+    z-index: 10;
+    width: 100%;
+    height: 100%;
+}
+
+/*重写detail或者弹出框的头部样式*/
+.ztb-action {
+	color:white;
+	font-size:14px;
+	float:right;
+	position:absolute;
+	width:100px;
+	margin-left:80%;
+	margin-top:10px;
+}
+.mui-bar-nav {
+	margin-top:0px;	
+}
+
+/**
+ * android下的mui下拉刷新提示位置修改
+ * 以各自的高度命名
+ */
+.mui-pull-top-pocket {
+	top: 45px !important;
+	/* top: 60px !important; */
+	/* top: 95px !important; */
+}
+
+

@@ -1,0 +1,162 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/06/06
+        版本: [3.0, 2017/06/06 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  stream 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <!-- 移动端的响应式特性 -->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>stream模块</title>
+
+        <script>
+            document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            SrcBoot.output([
+                './_common/common.css'
+            ]);
+        </script>
+
+    </head>
+
+    <body>
+        <div class="mui-content pt0" id="ejs-app">
+
+        </div>
+        <script>
+            document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            "use strict";
+
+            var litemplate;
+
+            Util.loadJs(
+                './_common/bizlogic_common_ready.js',
+                function() {
+                    Util.bizlogic.ready(initPage);
+                });
+
+            function selectFileAndUpload(uploadFunc) {
+                var upload = function() {
+                    ejs.ui.confirm({
+                        title: "上传文件",
+                        message: "是否上传这个路径:" + litemplate.filePath,
+                        buttonLabels: ['取消', '确定'],
+                        success: function(result) {
+                            if (result.which == 1) {
+                                uploadFunc && uploadFunc();
+                            }
+                        }
+                    });
+
+                };
+                if (!litemplate.filePath) {
+                    ejs.ui.confirm({
+                        title: "请选择文件",
+                        message: "还没有选择文件，是否现在选择？",
+                        buttonLabels: ['取消', '确定'],
+                        success: function(result) {
+                            if (result.which == 1) {
+                                ejs.io.selectFile({}, function(result) {
+                                    litemplate.filePath = result.resultData;
+                                    upload();
+                                }, function(error) {
+                                    litemplate.showTips('选择文件失败:' + JSON.stringify(error));
+                                });
+                            }
+                        }
+                    });
+                    return;
+                } else {
+                    upload();
+                }
+            }
+
+            function initPage() {
+                litemplate = new Util.litemplate.listLitemplate({
+                    isIndex: false,
+                    title: 'stream模块',
+                    ejsApi: [{
+                        'id': 'fetch',
+                        'text': 'fetch(请求网络方法)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            ejs.stream.fetch({
+                                url: "https://www.baidu.com",
+                                method: 'POST',
+                                type: 'json',
+                                body: JSON.stringify({
+                                    "ValidateData": "gtig_newtech**##",
+                                    "para": {
+                                        "categorynum": "007001010002",
+                                        "rows": 5
+                                    }
+                                }),
+                                offlineMode: true,
+                                offlineInterval: 5,
+                                success: function(result) {
+                                    console.log('请求成功');
+                                    console.log(result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    console.log('请求失败');
+                                    console.log(error);
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'uploadMultipartFile',
+                        'text': 'uploadMultipartFile(上传文件到自定义接口)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            selectFileAndUpload(function() {
+                                console.log('开始上传：' + litemplate.filePath);
+                                ejs.stream.uploadMultipartFile({
+                                    // 目前如果有额外参数，请拼接到url中
+                                    url: "http://115.29.151.25:8012/webUploaderServer/testupload.php",
+                                    file: {
+                                        path: litemplate.filePath,
+                                        name: 'test',
+                                        fileName: '',
+                                        mediaType: '',
+                                    },
+                                    headers: {
+                                        // application/json
+                                        // 'Content-Type': 'application/x-www-form-urlencoded',
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                    },
+                                    dataForm: {
+                                        extra: 'ss',
+                                        test: 'testValue',
+                                    },
+                                    success: function(result) {
+                                        console.log('成功');
+                                        console.log(JSON.stringify(result));
+                                        litemplate.showTips(JSON.stringify(result));
+                                    },
+                                    error: function(error) {
+                                        console.log('失败');
+                                        litemplate.showTips('失败:' + JSON.stringify(error));
+                                    }
+                                }).done(function() {
+
+                                });
+                            });
+                        }
+                    }]
+                });
+            }
+        </script>
+
+    </body>
+
+</html>

@@ -1,0 +1,194 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/06/01
+        版本: [3.0, 2017/06/01 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  storage 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <!-- 移动端的响应式特性 -->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>storage模块</title>
+
+        <script>
+            document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            SrcBoot.output([
+                './_common/common.css'
+            ]);
+        </script>
+
+    </head>
+
+    <body>
+        <div class="mui-content pt0" id="ejs-app">
+
+        </div>
+        <script>
+            document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            "use strict";
+
+            Util.loadJs(
+                './_common/bizlogic_common_ready.js',
+                function() {
+                    Util.bizlogic.ready(initPage);
+                });
+
+            function initPage() {
+                var litemplate = new Util.litemplate.listLitemplate({
+                    isIndex: false,
+                    title: 'storage模块',
+                    ejsApi: [{
+                        'id': 'getItem',
+                        'text': 'getItem(获取测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.getItem({
+                                key: 'testkey',
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'getItems',
+                        'text': 'getItem(获取多个测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.getItem({
+                                key: ['testkey', 'testkey2'],
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'setItem',
+                        'text': 'setItem(存储测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.setItem({
+                                testkey: 'testvalue',
+                                testkey2: 'testvalue2',
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'removeItem',
+                        'text': 'removeItem(移除测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.removeItem({
+                                key: 'testkey',
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'removeItems',
+                        'text': 'removeItem(移除多个测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.removeItem({
+                                key: ['testkey', 'testkey2'],
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'getBusinessRestUrl',
+                        'text': 'getBusinessRestUrl(获取应用管理平台配置的业务接口地址)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            ejs.storage.getBusinessRestUrl({
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'getShareItem',
+                        'text': 'getShareItem(获取测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.getShareItem({
+                                key: 'ShareItem',
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'setShareItem',
+                        'text': 'setShareItem(设置测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.setShareItem({
+                                ShareItem: 'ShareItem',
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, 
+                    {
+                        'id': 'removeShareItem',
+                        'text': 'removeShareItem(移除测试key)',
+                        'evn': 'ejs_h5',
+                        'runCode': function() {
+                            ejs.storage.removeShareItem({
+                                key: 'ShareItem',
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                ]
+                });
+            }
+        </script>
+
+    </body>
+
+</html>

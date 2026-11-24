@@ -1,0 +1,633 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/07/28
+        版本: [3.0, 2017/07/28 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  调用自定义API
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>自定义API</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: '自定义API调用',
+                // 实际中请不要这样调用标准API，这里仅作为示例
+                // 因为标准API除了调用外还有可能有其它的兼容处理，直接callApi无法达到那个目的
+                ejsApi: [{
+                    'id': 'callApi',
+                    'text': 'callApi(调用短期回调API--pickDate)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+
+                        ejs.callApi({
+                            name: "pickDate",
+                            mudule: 'ui',
+                            data: {
+                                datetime: '2017-07-25'
+                            },
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'callApi2',
+                    'text': 'callApi(调用长期回调API--setRightBtn)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+
+                        ejs.callApi({
+                            name: "setRightBtn",
+                            mudule: 'navigator',
+                            isLongCb: 1,
+                            data: {
+                                text: '按钮',
+                                imageUrl: '',
+                            },
+                            success: function (result) {
+                                litemplate.showTips('点击按钮');
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'extendModule',
+                    'text': 'extendModule(测试拓展API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+
+                        ejs.extendOS('lala', function (os) {
+                            const lala = navigator.userAgent.match(/lala/i);
+
+                            if (lala) {
+                                os.lala = true;
+                            }
+                        });
+
+                        ejs.extendModule('device', [
+                            {
+                                namespace: 'callLa',
+                                os: ['lala'], // 该API支持的环境
+                                defaultParams: {
+                                    phoneNum: '' // 默认参数
+                                },
+                                runCode(options, resolve, reject) {
+                                    // 函数调用后执行的方法，回调参数第一项是函数调用时的传参，可能有第二个参数是 resolve，用于支持 promise 调用
+                                    const phoneNum = options.phoneNum;
+
+                                    console.log('lala');
+
+                                    options.success && options.success();
+                                    resolve && resolve();
+                                }
+                            }
+                        ]);
+
+
+                    }
+                },
+                {
+                    'id': 'callLa',
+                    'text': 'callLa(调用拓展API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.device.callLa({
+                            success: function () {
+                                console.log('success');
+                            },
+                            error: function (err) {
+                                console.log('err:', err);
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'callLaInterceptors',
+                    'text': '新增callLa拦截器',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.addInterceptors('device.callLa', {
+                            invoke(args) {
+                                console.log('调用前拦截1', args)
+                                // return false
+                            },
+                            success(res) {
+                                console.log('调用成功拦截1', res)
+
+                                // return false
+                            },
+                            error(err) {
+                                console.log('调用失败拦截1', err);
+                            }
+                        })
+                    }
+                },
+                {
+                    'id': 'actionSheetInterceptors',
+                    'text': '新增actionSheet拦截器',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        ejs.addInterceptors('ui.actionSheet', {
+                            invoke(args) {
+                                console.log('调用前拦截1', args)
+                                if (args[0] instanceof Object) {
+                                    args[0].items = ['远野贵树', '篠原明里', '澄田花苗'];
+
+                                } else {
+                                    args[0] = '拦截的修改'
+                                }
+                                // return false
+                            },
+                            success(res) {
+                                console.log('调用成功拦截1', res)
+                                res.which = -1;
+                                res.content = '拦截1的结果'
+
+                                // return false
+                            },
+                            error(err) {
+                                console.log('调用失败拦截1', err);
+                            }
+                        })
+                    }
+                },
+                {
+                    'id': 'actionSheetInterceptors1',
+                    'text': '新增actionSheet拦截器2',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        ejs.addInterceptors('ui.actionSheet', {
+                            invoke(args) {
+                                console.log('拦截2', args)
+
+                                return new Promise((resolve, reject) => {
+                                    setTimeout(() => {
+                                        args[0].items = ['远野贵树', '篠原明里', '澄田花苗', '立花泷', '宫水三叶', '立花泷'];
+                                        reject();
+                                    }, 100);
+                                })
+
+                                // return false
+                            },
+                            success(res) {
+                                console.log('调用成功拦截2', res)
+                                res.which = -2;
+                                res.content = '拦截2的结果'
+                                // return false
+                            },
+                            error(err) {
+                                console.log('调用失败拦截2', err);
+                            }
+                        })
+                    }
+                },
+                {
+                    'id': 'actionSheet',
+                    'text': 'actionSheet调用',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        ejs.ui.actionSheet({
+                            items: ['远野贵树', '篠原明里', '澄田花苗', '立花泷', '宫水三叶'],
+                            // 默认可取消
+                            cancelable: 1,
+                            success: function (result) {
+                                console.log('actionSheet成功回调', result);
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'removeInvoke',
+                    'text': '删除actionSheet拦截器invoke',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        ejs.removeInterceptors('ui.actionSheet', 'invoke')
+                    }
+                },
+                {
+                    'id': 'removeSuccess',
+                    'text': '删除actionSheet拦截器success',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        ejs.removeInterceptors('ui.actionSheet', 'success')
+                    }
+                },
+                {
+                    'id': 'registerEventInterceptors',
+                    'text': '新增registerEvent拦截器',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.addInterceptors('event.registerEvent', {
+                            invoke(args) {
+                                console.log('调用前拦截', args)
+                            },
+                            success(res) {
+                                console.log('调用成功拦截', res)
+                            },
+                            error(err) {
+                                console.log('调用失败拦截', err);
+                            }
+                        })
+                    }
+                },
+                {
+                    'id': 'registerEvent',
+                    'text': 'registerEvent调用',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.event.registerEvent({
+                            key: 'resume',
+                            success: function (result) {
+                                litemplate.showTips('页面恢复' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('页面恢复失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'removeRegisterEventInterceptors',
+                    'text': '删除registerEvent所有拦截器',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.removeInterceptors('event.registerEvent')
+                    }
+                },
+                {
+                    'id': 'removeRegisterEventInvoke',
+                    'text': '删除registerEvent拦截器invoke',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.removeInterceptors('event.registerEvent', 'invoke')
+                    }
+                },
+                {
+                    'id': 'removeRegisterEventSuccess',
+                    'text': '删除registerEvent拦截器success',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.removeInterceptors('event.registerEvent', 'success')
+                    }
+                },
+                // ==================== callApi 全端支持测试用例 ====================
+                {
+                    'id': 'extendModuleForCallApi',
+                    'text': 'extendModule(为 callApi 注册 H5 端 API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        // 注册一个 H5 端的自定义 API
+                        ejs.extendModule('custom', [
+                            {
+                                namespace: 'testApi',
+                                os: ['h5'],
+                                defaultParams: {
+                                    message: '默认消息'
+                                },
+                                runCode(options, resolve, reject) {
+                                    console.log('custom.testApi 被调用:', options);
+                                    // 模拟异步操作
+                                    setTimeout(function () {
+                                        var result = { message: options.message, timestamp: Date.now() };
+                                        options.success && options.success(result);
+                                        resolve && resolve(result);
+                                    }, 500);
+                                }
+                            }
+                        ]);
+                        litemplate.showTips('已注册 custom.testApi');
+                    }
+                },
+                {
+                    'id': 'callApiH5',
+                    'text': 'callApi(调用 H5 端注册的 API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'testApi',
+                            mudule: 'custom',
+                            data: { message: 'H5 测试消息' },
+                            success: function (result) {
+                                litemplate.showTips('成功: ' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败: ' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'callApiH5Promise',
+                    'text': 'callApi(Promise 方式调用)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'testApi',
+                            mudule: 'custom',
+                            data: { message: 'Promise 测试' }
+                        }).then(function (result) {
+                            litemplate.showTips('Promise 成功: ' + JSON.stringify(result));
+                        }).catch(function (error) {
+                            litemplate.showTips('Promise 失败: ' + JSON.stringify(error));
+                        });
+                    }
+                },
+                {
+                    'id': 'callApiH5UI',
+                    'text': 'callApi(使用 h5UI 参数)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'testApi',
+                            mudule: 'custom',
+                            data: { message: 'h5UI 测试' },
+                            h5UI: true,
+                            success: function (result) {
+                                litemplate.showTips('h5UI 成功: ' + JSON.stringify(result));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'addCallApiInterceptors',
+                    'text': '新增 callApi 拦截器',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.addInterceptors('custom.testApi', {
+                            invoke: function (args) {
+                                console.log('callApi invoke 拦截:', args);
+                                // 修改参数
+                                if (args[0] instanceof Object) {
+                                    args[0].message = '被拦截器修改: ' + args[0].message;
+                                }
+                            },
+                            success: function (res) {
+                                console.log('callApi success 拦截:', res);
+                                res.intercepted = true;
+                            },
+                            error: function (err) {
+                                console.log('callApi error 拦截:', err);
+                            }
+                        });
+                        litemplate.showTips('已添加 custom.testApi 拦截器');
+                    }
+                },
+                {
+                    'id': 'callApiWithInterceptors',
+                    'text': 'callApi(验证拦截器效果)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'testApi',
+                            mudule: 'custom',
+                            data: { message: '原始消息' },
+                            success: function (result) {
+                                console.log('拦截后的结果:', result);
+                                litemplate.showTips('结果: ' + JSON.stringify(result));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'callApiNotFound',
+                    'text': 'callApi(调用未注册的 API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'notExistApi',
+                            mudule: 'custom',
+                            data: {},
+                            success: function (result) {
+                                litemplate.showTips('成功: ' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('预期错误: ' + error.msg);
+                            }
+                        });
+                    }
+                },
+                // 小程序端测试用例（需要在小程序环境中运行）
+                {
+                    'id': 'extendModuleForMp',
+                    'text': 'extendModule(为小程序注册 API)',
+                    'evn': 'miniprogram',
+                    'runCode': function () {
+                        ejs.extendModule('custom', [
+                            {
+                                namespace: 'testApi',
+                                os: ['miniprogram', 'wechat', 'alipay'],
+                                defaultParams: {
+                                    message: '默认消息'
+                                },
+                                runCode(options, resolve, reject) {
+                                    console.log('小程序 custom.testApi:', options);
+                                    uni.showModal({
+                                        title: '测试 API',
+                                        content: options.message,
+                                        success: function (res) {
+                                            if (res.confirm) {
+                                                options.success && options.success({ confirmed: true });
+                                                resolve && resolve({ confirmed: true });
+                                            } else {
+                                                options.error && options.error({ cancelled: true });
+                                                reject && reject({ cancelled: true });
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        ]);
+                    }
+                },
+                {
+                    'id': 'callApiMp',
+                    'text': 'callApi(小程序端调用)',
+                    'evn': 'miniprogram',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'testApi',
+                            mudule: 'custom',
+                            data: { message: '小程序测试' },
+                            success: function (result) {
+                                console.log('小程序成功:', result);
+                            },
+                            error: function (error) {
+                                console.log('小程序失败:', error);
+                            }
+                        });
+                    }
+                },
+                // ==================== callApi 长期回调测试用例 ====================
+                {
+                    'id': 'extendModuleLongCb',
+                    'text': 'extendModule(注册长期回调 API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        // 注册一个长期回调 API（类似事件监听）
+                        ejs.extendModule('custom', [
+                            {
+                                namespace: 'onMessage',
+                                os: ['h5', 'miniprogram', 'wechat', 'alipay'],
+                                isLongCb: 1, // 标记为长期回调
+                                defaultParams: {
+                                    key: ''
+                                },
+                                runCode(options, resolve, reject) {
+                                    console.log('custom.onMessage 注册监听:', options);
+                                    litemplate.showTips('注册消息监听: ' + options.key);
+
+                                    // 模拟事件触发（实际使用中由原生或其他模块触发）
+                                    if (options.success) {
+                                        // 可以将回调保存起来，供后续调用
+                                        window._customMessageCallbacks = window._customMessageCallbacks || {};
+                                        window._customMessageCallbacks[options.key] = options.success;
+
+                                        // 立即触发一次演示
+                                        setTimeout(function () {
+                                            options.success({ message: '初始消息', timestamp: Date.now() });
+                                        }, 500);
+                                    }
+
+                                    // resolve 只触发一次，长期回调不需要 resolve
+                                }
+                            }
+                        ]);
+                        litemplate.showTips('已注册 custom.onMessage（长期回调）');
+                    }
+                },
+                {
+                    'id': 'callApiLongCb',
+                    'text': 'callApi(调用长期回调 API)',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'onMessage',
+                            mudule: 'custom',
+                            isLongCb: 1, // 标记为长期回调
+                            data: { key: 'testEvent' },
+                            success: function (result) {
+                                // 这个回调会被多次调用
+                                console.log('收到消息:', result);
+                                litemplate.showTips('收到消息: ' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败: ' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'triggerLongCb',
+                    'text': '手动触发长期回调',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        // 手动触发长期回调
+                        if (window._customMessageCallbacks && window._customMessageCallbacks.testEvent) {
+                            window._customMessageCallbacks.testEvent({
+                                message: '手动触发的消息',
+                                timestamp: Date.now()
+                            });
+                        } else {
+                            litemplate.showTips('请先调用长期回调 API 注册');
+                        }
+                    }
+                },
+                {
+                    'id': 'callApiSetRightBtn',
+                    'text': 'callApi(EJS 原生调用 setRightBtn)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'setRightBtn',
+                            mudule: 'navigator',
+                            isLongCb: 1, // 长期回调标识
+                            data: {
+                                text: '按钮',
+                                imageUrl: ''
+                            },
+                            success: function (result) {
+                                litemplate.showTips('点击了右侧按钮');
+                                console.log('点击按钮:', result);
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败: ' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                },
+                {
+                    'id': 'callApiRegisterEvent',
+                    'text': 'callApi(EJS 原生调用 registerEvent)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.callApi({
+                            name: 'registerEvent',
+                            mudule: 'event',
+                            isLongCb: 1,
+                            isEvent: true, // 事件标识
+                            data: {
+                                key: 'resume'
+                            },
+                            success: function (result) {
+                                litemplate.showTips('页面恢复: ' + JSON.stringify(result));
+                                console.log('页面恢复:', result);
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败: ' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }
+                ]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

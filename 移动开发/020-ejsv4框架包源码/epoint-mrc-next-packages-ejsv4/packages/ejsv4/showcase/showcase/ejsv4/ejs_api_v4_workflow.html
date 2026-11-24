@@ -1,0 +1,84 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/09/05
+        版本: [3.0, 2017/09/05 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  contact 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>框架组件相关API</title>
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script src="./_common/vue.min.js"></script>
+    <script src="./_common/workflow-btn.js"></script>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: '框架组件相关API',
+                ejsApi: [{
+                    'id': 'workflow',
+                    'text': 'ejs.workflow.show',
+                    'evn': 'h5',
+                    'runCode': function () {
+                        ejs.workflow.show({
+                            // token: 'e8cee1caae6bb7a4503fc5189b68577c',
+                            url: 'http://work.epoint.com.cn:8089/oarest9/rest/frame/',
+                            messageitemguid: '4f6131ef-9873-4d73-8464-c09d8d2f2760',
+                            type: '1',
+                            beforeApprove: function(){
+                                ejs.ui.alert('在打开审批页面之前');
+                                return true;
+                            },
+                            beforeSubmit: function(){
+                                ejs.ui.alert('在最后提交之前');
+                                return true;
+                            },
+                            success: function (result) {
+                                console.log('调用成功');
+                            },
+                            error: function (err) {
+                                options.error && options.error(err);
+                                resolve && resolve(err);
+                            },
+                        });
+                    }
+                }]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

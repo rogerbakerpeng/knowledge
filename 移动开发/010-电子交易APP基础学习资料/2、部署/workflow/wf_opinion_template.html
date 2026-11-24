@@ -1,0 +1,147 @@
+<!DOCTYPE html >
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<title></title>
+<!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+<!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+<meta name="format-detection" content="telephone=no, email=no" />
+<script src='../frame/fmui/js/cssboot.js'></script>
+<script>
+	SrcBoot.output([ 'workflow/css/workflow_submit.css' ]);
+</script>
+</head>
+<body>
+	<div class="mui-content">
+		<!--暂无数据-->
+		<div class="em-tips">
+			<textarea name="content" id="content" rows="3" placeholder="请输入模板名称..."></textarea>
+			<div class="em-buttons">
+				<button type="button" class="mui-btn em-cancel useYouXian1">取消</button>
+				<button type="button" class="mui-btn em-confirm quickSendPrice">确认</button>
+			</div>
+		</div>
+		<!--快捷反馈-->
+		<div class="em-mask"></div>
+		<!--列表-->
+		<div class="mui-scroll-wrapper">
+			<div class="mui-scroll">
+				<ul class="mui-table-view em-todo-table-view listdata" id="listdata">
+				</ul>
+			</div>
+		</div>
+		<div class="footerbtn">
+			<button class="btn-tpladd hidden" id="btn-add">新增模板</button>
+			<button class="btn-tplsure" id="btn-sure">确定</button>
+		</div>
+	</div>
+</body>
+<script type="text/x-templ-mustache" id="tmp01">
+			<li class="mui-table-view-cell">
+				<div class="mui-input-row mui-radio mui-left em-todo-radio">
+					<label>{{opiniontext}}</label>
+					<input name="radio1" type="radio"/>
+				</div>
+			</li>
+</script>
+<script>
+	SrcBoot.output([ "frame/fmui/js/jsboot.js" ])
+</script>
+<script>
+	var type = Util.getUrlParams('type');
+	if (type == '0') {
+		// 公共模板
+		document.title = '公共模板';
+	} else if (type == '1') {
+		// 个人模板
+		document.title = '个人模板';
+	}
+	var tmpInfo = [];
+	var $listdata = $("#listdata");
+	epointm.initPage('commonoperationhandleaction', null, function(data) {
+		var data = JSON.parse(data.custom)
+		if (type == '1') {//个人模板时显示底部按钮
+			$(".btn-tpladd").removeClass("hidden");
+			tmpInfo = data.opinion.useropinionlist.data;
+		}else if(type == '0') {
+			tmpInfo = data.opinion.commonopinionlist.data;
+		}
+		mustache(tmpInfo);
+	});
+	function mustache(tmpInfo) {
+		var template = document.getElementById("tmp01").innerHTML;
+		var html = '';
+		if (tmpInfo && Array.isArray(tmpInfo) && tmpInfo.length > 0) {
+			// 有数据
+			mui.each(tmpInfo, function(key, value) {
+				if (JSON.stringify(value) != "{}") {
+					html += Mustache.render(template, value);
+				}
+
+			});
+		} else {
+			//暂无公共模板
+			html += "";
+			//epointm.alert("暂无公共模板！");
+		}
+		document.getElementById("listdata").innerHTML = html;
+	}
+
+	//新增模板 		
+	document.getElementById('btn-add').addEventListener('tap', function(e) {
+		document.querySelector('.em-mask').style.display = "block";
+		document.querySelector('.em-tips').style.display = "block";
+	});
+	document.getElementById('btn-sure').addEventListener('tap', function(e) {
+		if (mui("#listdata .em-todo-radio").length == 0) {
+			ztbphone.closePage();
+		}
+		var selectItem = "";
+		//遍历所有选中的意见
+		mui("#listdata .em-todo-radio").each(function() {
+			if (this.querySelector("input").checked) {
+				selectItem = this.querySelector("label").innerText.trim();
+				//console.log(selectItem);
+				ztbphone.closePage(selectItem);
+			}
+		});
+		if (selectItem == "") {
+			ztbphone.toast("请选择意见模板！");
+		}
+	});
+	// 确认
+	document.querySelector('.em-confirm').addEventListener('tap', function() {
+		var opiniontext = document.getElementById("content").value;
+		var len = opiniontext.length;
+		if (parseInt(len) < 50) {
+			addMyOpinion(opiniontext);
+		} else {
+			ztbphone.toast("最多可以输入50个字符！");
+		}
+	});
+	// 取消
+	document.querySelector('.em-cancel').addEventListener('tap', function() {
+		document.querySelector('.em-mask').style.display = "none";
+		document.querySelector('.em-tips').style.display = "none";
+	});
+
+	function addMyOpinion(opiniontext) {
+		if (!opiniontext) {
+			ztbphone.toast("请输入模板内容！");
+			return;
+		}
+		epointm.execute('addintoopinion', "@none", [ opiniontext ], function(data) {
+			document.querySelector('.em-mask').style.display = "none";
+			document.querySelector('.em-tips').style.display = "none";
+			document.getElementById("content").value = "";
+			ztbphone.toast(data.message);
+			epointm.refresh();
+		});
+	}
+	//区域滚动
+	mui(".mui-scroll-wrapper").scroll({
+		bounce : false
+	});
+</script>
+</html>

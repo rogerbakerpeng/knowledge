@@ -1,0 +1,88 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/07/28
+        版本: [3.0, 2017/07/28 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  Promise调用
+-->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <!-- 移动端的响应式特性 -->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>Promise调用</title>
+
+        <script>
+            document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            SrcBoot.output([
+                './_common/common.css'
+            ]);
+        </script>
+
+    </head>
+
+    <body>
+        <div class="mui-content pt0" id="ejs-app">
+
+        </div>
+        <script>
+            document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            "use strict";
+
+            Util.loadJs(
+                './_common/bizlogic_common_ready.js',
+                function() {
+                    Util.bizlogic.ready(initPage);
+                });
+
+            function initPage() {
+                // 注意，长期回调无法正常使用Promise
+                
+                var litemplate = new Util.litemplate.listLitemplate({
+                    isIndex: false,
+                    title: 'Promise调用',
+                    ejsApi: [{
+                        'id': 'alert',
+                        'text': 'alert',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            
+                            ejs.ui.alert({
+                                message: "hello",
+                            }).then(function(result) {
+                                litemplate.showTips('点击alert成功，进入then');
+                            }).catch(function(error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            });
+                        }
+                    }, {
+                        'id': 'pickDate2',
+                        'text': 'callApi(短期回调的Promise版)',
+                        'evn': 'ejs',
+                        'runCode': function() {                         
+                            ejs.callApi({
+                                name: "pickDate",
+                                mudule: 'ui',
+                                data: {
+                                    datetime: '2017-07-25'
+                                }
+                            }).then(function(result) {
+                                litemplate.showTips('成功选择时间：' + JSON.stringify(result) + ',进入then');
+                            }).catch(function(error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            });
+                        }
+                    }]
+                });
+            }
+        </script>
+
+    </body>
+
+</html>

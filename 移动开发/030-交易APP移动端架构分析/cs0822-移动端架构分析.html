@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>cs0822 移动端架构 & 交易 APP 新人开发指南</title>
+<style>
+:root{
+  --bg:#f7f6f3;--panel:#ffffff;--ink:#1f2328;--muted:#5d6470;--line:#e3e1dc;
+  --l1:#e8f0fe;--l1b:#3b6fd8;--l2:#e6f4ee;--l2b:#2f8a5f;--l3:#fdf1e3;--l3b:#c07a1f;
+  --l4:#f3ecfb;--l4b:#7b4fc4;--l5:#eef0f3;--l5b:#58606c;--accent:#3b6fd8;--code:#f2f1ee;
+}
+@media (prefers-color-scheme: dark){
+  :root{--bg:#16181c;--panel:#1e2126;--ink:#e6e8eb;--muted:#9aa3ae;--line:#30343b;
+  --l1:#1c2a44;--l1b:#7aa2f7;--l2:#18322a;--l2b:#5fc595;--l3:#3a2c19;--l3b:#e5a75a;
+  --l4:#2c2340;--l4b:#b393ef;--l5:#262a31;--l5b:#a6aeb9;--accent:#7aa2f7;--code:#262a30;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.7 -apple-system,"PingFang SC","Microsoft YaHei",system-ui,sans-serif}
+header{padding:40px 24px 24px;max-width:1100px;margin:0 auto}
+header h1{margin:0 0 6px;font-size:28px}
+header p{margin:0;color:var(--muted)}
+nav{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line)}
+nav div{max-width:1100px;margin:0 auto;padding:8px 24px;display:flex;gap:18px;flex-wrap:wrap}
+nav a{color:var(--muted);text-decoration:none;font-size:14px}
+nav a:hover{color:var(--accent)}
+main{max-width:1100px;margin:0 auto;padding:8px 24px 80px}
+section{margin-top:36px}
+h2{font-size:21px;margin:0 0 14px;padding-left:10px;border-left:4px solid var(--accent)}
+h3{font-size:16px;margin:22px 0 8px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:18px 20px}
+.grid{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.kv{display:grid;grid-template-columns:120px 1fr;gap:6px 14px;font-size:14px}
+.kv b{color:var(--muted);font-weight:500}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--muted);font-weight:600;background:transparent}
+code{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:12.5px;background:var(--code);padding:1px 5px;border-radius:4px}
+pre{background:var(--code);border-radius:8px;padding:14px 16px;overflow:auto;font-size:12.5px;line-height:1.55;margin:10px 0}
+pre code{background:none;padding:0}
+.note{color:var(--muted);font-size:13.5px}
+.tag{display:inline-block;font-size:12px;padding:1px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);margin-right:4px}
+svg text{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}
+.diagram{width:100%;height:auto;display:block}
+.steps{counter-reset:s;list-style:none;padding:0;margin:0}
+.steps li{counter-increment:s;position:relative;padding:8px 0 8px 40px;border-bottom:1px dashed var(--line)}
+.steps li:last-child{border-bottom:none}
+.steps li::before{content:counter(s);position:absolute;left:0;top:8px;width:26px;height:26px;border-radius:50%;background:var(--accent);color:#fff;font-size:13px;display:flex;align-items:center;justify-content:center}
+.warn li{margin:4px 0}
+.decide td:first-child{width:38%}
+</style>
+</head>
+<body>
+<header>
+  <h1>cs0822.apk 移动端整体架构 & 交易 APP 新人开发指南</h1>
+  <p>包名 <code>com.epoint.workplatform.dzjy.ywtb</code>（电子交易 · 一网通办） · 基于新点 EMP8 移动框架 · 来自静态分析和 jadx 反编译结果</p>
+</header>
+<nav><div>
+  <a href="#overview">概览</a><a href="#relation">⭐先看：三者关系</a><a href="#deploy">⭐8.0+部署全景</a><a href="#modes">两种开发模式</a><a href="#empcfg">EMP8配置清单</a><a href="#modules">标准模块</a><a href="#gaps">查漏补缺</a><a href="#shell">App壳</a><a href="#menu">菜单配置</a><a href="#m8">H5开发(M8框架)</a><a href="#devflow">⭐开发步骤</a><a href="#arch">整体架构</a><a href="#bridge">JSBridge</a><a href="#ejsloop">⭐EJS全链路</a>
+  <a href="#plugin">插件 / 路由</a><a href="#flows">业务链路</a><a href="#guide">新人怎么做</a><a href="#files">文件索引</a>
+</div></nav>
+<main>
+
+<section id="overview">
+  <h2>概览</h2>
+  <div class="grid">
+    <div class="card"><div class="kv">
+      <b>应用定位</b><span>公共资源交易一网通办（广州）</span>
+      <b>开发形态</b><span>混合开发：原生壳 + H5 业务页面</span>
+      <b>H5 ↔ 原生</b><span>EJS（Epoint JS Bridge），基于 <code>onJsPrompt</code></span>
+      <b>后端地址</b><span><code>ywtb-test.gzggzy.cn/emp831_cs/rest/mobile/</code>（测试环境）</span>
+    </div></div>
+    <div class="card">
+      <div class="kv">
+        <b>BJM</b><span>不见面开标（MQTT + 直播 + 视频会议）</span>
+        <b>BID</b><span>开标</span>
+        <b>BZT</b><span>标证通 CA 证书</span>
+        <b>BYT / Jy</b><span>项目定制的登录、设置</span>
+        <b>ZTB/JJ/TB</b><span>招投标、竞价、投标接口</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="relation">
+  <h2>⭐ 先看这张：H5、EJS、EMP8 是什么关系</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>一句话：</b>EMP8 是整套平台（手机上的 App 壳 + 服务器上的移动管理后台），EJS 是 App 壳里专门用来跑 H5 的容器和接口层，H5 是交易业务页面，跑在 EJS 里面。<b>三者是一层套一层的关系，不是并列的三样东西。</b></p>
+    <svg class="diagram" viewBox="0 0 1000 470" role="img" aria-label="H5 EJS EMP8 关系图">
+      <defs><marker id="a3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+      <rect x="6" y="6" width="988" height="458" rx="12" fill="none" stroke="var(--l5b)" stroke-dasharray="6 4"/>
+      <text x="22" y="30" font-size="15" font-weight="700" fill="var(--l5b)">EMP8（新点移动平台）</text>
+      <!-- phone -->
+      <rect x="22" y="44" width="600" height="260" rx="10" fill="var(--l4)" stroke="var(--l4b)"/>
+      <text x="38" y="68" font-size="14" font-weight="700" fill="var(--l4b)">📱 手机端：App 壳（Android 原生 APK）</text>
+      <text x="38" y="90" font-size="12.5" fill="var(--ink)">原生能力：登录/SSO · 推送 · MQTT · 扫码 · CA签名 · 音视频 · 路由</text>
+      <rect x="50" y="104" width="544" height="184" rx="8" fill="var(--l2)" stroke="var(--l2b)"/>
+      <text x="66" y="126" font-size="14" font-weight="700" fill="var(--l2b)">EJS（H5 容器 + 接口）</text>
+      <text x="66" y="146" font-size="12.5" fill="var(--ink)">WebView + JSBridge + 接口（ui / page / auth / io / bjmejsapi …）</text>
+      <rect x="80" y="166" width="300" height="100" rx="8" fill="var(--l1)" stroke="var(--l1b)"/>
+      <text x="96" y="190" font-size="14" font-weight="700" fill="var(--l1b)">H5 页面（交易业务）</text>
+      <text x="96" y="212" font-size="12.5" fill="var(--ink)">用 <tspan font-weight="700">M8 框架</tspan>写：Vue + uni-app</text>
+      <text x="96" y="232" font-size="12.5" fill="var(--ink)">ejs.auth.getToken() / ejs.page.open()</text>
+      <text x="96" y="252" font-size="12" fill="var(--muted)">← 你日常主要写的部分</text>
+      <path d="M380,200 C440,200 440,96 330,94" fill="none" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <text x="420" y="176" font-size="12" fill="var(--muted)">② prompt(EpointJSBridge://…)</text>
+      <text x="420" y="194" font-size="12" fill="var(--muted)">③ 调用原生能力</text>
+      <!-- server -->
+      <rect x="22" y="330" width="440" height="120" rx="10" fill="var(--l3)" stroke="var(--l3b)"/>
+      <text x="38" y="354" font-size="14" font-weight="700" fill="var(--l3b)">🖥 EMP8 移动管理平台（服务端）</text>
+      <text x="38" y="378" font-size="12.5" fill="var(--ink)">/emp831_cs/rest/mobile/</text>
+      <text x="38" y="398" font-size="12.5" fill="var(--ink)">登录 · 用户 · <b>菜单/应用配置</b> · 门户 · 卡片</text>
+      <text x="38" y="418" font-size="12.5" fill="var(--ink)">版本更新 · H5 应用发布（推断）</text>
+      <rect x="490" y="330" width="490" height="120" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+      <text x="506" y="354" font-size="14" font-weight="700" fill="var(--ink)">🖥 交易业务系统（招投标后台）</text>
+      <text x="506" y="378" font-size="12.5" fill="var(--ink)">项目 · 投标 · 开标 · 竞价 业务接口</text>
+      <text x="506" y="398" font-size="12.5" fill="var(--muted)">H5 直接调用，或经原生转发</text>
+      <line x1="230" y1="328" x2="230" y2="268" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a3)"/>
+      <text x="238" y="314" font-size="12" fill="var(--muted)">① 菜单配置 + 加载 H5</text>
+      <line x1="300" y1="268" x2="640" y2="328" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="5 4" marker-end="url(#a3)"/>
+      <!-- analogy -->
+      <rect x="650" y="44" width="330" height="260" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+      <text x="666" y="70" font-size="14" font-weight="700" fill="var(--ink)">类比成微信就好记了</text>
+      <g font-size="13" fill="var(--ink)">
+        <text x="666" y="104"><tspan font-weight="700" fill="var(--l5b)">EMP8</tspan> ≈ 微信 App + 微信后台</text>
+        <text x="666" y="140"><tspan font-weight="700" fill="var(--l2b)">EJS</tspan> ≈ 微信内置浏览器 + JS-SDK</text>
+        <text x="690" y="160" fill="var(--muted)" font-size="12">（像 wx.scanQRCode）</text>
+        <text x="666" y="196"><tspan font-weight="700" fill="var(--l1b)">H5</tspan> ≈ 公众号里的网页</text>
+        <text x="666" y="240" fill="var(--muted)" font-size="12">这种做法业内叫 Hybrid（混合开发），</text>
+        <text x="666" y="258" fill="var(--muted)" font-size="12">微信、支付宝、银行 App 基本都这样做</text>
+      </g>
+    </svg>
+  </div>
+</section>
+
+<section id="deploy">
+  <h2>⭐ 8.0+ 部署全景：一个交易 APP 由哪些应用组成</h2>
+  <div class="card">
+    <p class="note" style="margin-top:0">来源：<code>电子交易APP基础学习资料/</code> 下的《电子交易移动APP部署说明文档 - 8.0版本 - V2.0》《EMP应用相关配置说明》《移动APP项目对接及常见问题.pdf》。已和 APK 交叉核对：<code>applogin</code>、<code>rest/frameztbv8</code>、<code>portal_role_relation</code>、<code>ejs-authorize-domains</code>、<code>message-rest-url</code>、<code>face_rest_url</code>、<code>ejs_bidopening-business-rest-url</code> 在 APK 里都能找到。</p>
+    <svg class="diagram" viewBox="0 0 1000 560" role="img" aria-label="8.0部署全景">
+      <defs><marker id="a5" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker></defs>
+      <g font-size="12.5" fill="var(--ink)">
+        <!-- app -->
+        <rect x="380" y="10" width="240" height="64" rx="10" fill="var(--l4)" stroke="var(--l4b)"/>
+        <text x="500" y="34" text-anchor="middle" font-weight="700" font-size="14" fill="var(--l4b)">📱 交易 APP（M8 基座）</text>
+        <text x="500" y="56" text-anchor="middle">原生壳 + EJS，或 微信小程序 / 标证通专区</text>
+        <line x1="500" y1="74" x2="500" y2="106" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a5)"/>
+        <!-- emp8 -->
+        <rect x="200" y="108" width="600" height="104" rx="10" fill="var(--l3)" stroke="var(--l3b)"/>
+        <text x="216" y="132" font-weight="700" font-size="14" fill="var(--l3b)">EMP8 移动运营平台（microservice-emp831 ↔ APK 里的 emp831_cs）</text>
+        <text x="216" y="154">· 上架 APP / 小程序，配置中心（EMP 参数、APP 参数），应用中心（应用 / 卡片），首页管理（首页 / Tab / 门户），角色授权</text>
+        <text x="216" y="174">· <tspan font-weight="700">EmpFitMobileAPIFilter</tspan>：框架接口在 EMP8 内处理；<tspan font-family="monospace">rest/frameztbv8/</tspan> 开头的业务接口 → 转调</text>
+        <text x="216" y="194" fill="var(--muted)">  转调地址 empfit_fit_url（7.x 指向 EpointMobileService；8.0 合并进 PC 的 tpframe / tpbidder）</text>
+        <!-- arrows down -->
+        <line x1="300" y1="212" x2="160" y2="262" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a5)"/>
+        <line x1="440" y1="212" x2="400" y2="262" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a5)"/>
+        <line x1="580" y1="212" x2="640" y2="262" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a5)"/>
+        <line x1="720" y1="212" x2="870" y2="262" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#a5)"/>
+        <!-- row 2 -->
+        <rect x="10" y="264" width="230" height="124" rx="10" fill="var(--l2)" stroke="var(--l2b)"/>
+        <text x="24" y="288" font-weight="700" font-size="14" fill="var(--l2b)">认证：epoint-sso + epoint-soa</text>
+        <text x="24" y="310">loginflow <tspan font-family="monospace">applogin</tspan>、</text>
+        <text x="24" y="328">mobilepasswordtokenhandler</text>
+        <text x="24" y="346">app-loginservice jar（Ztb*）</text>
+        <text x="24" y="364">SOA 注册应用：EMP8、APP</text>
+        <text x="24" y="382" fill="var(--muted)">7.x 叫 EpointMobileSoa</text>
+
+        <rect x="260" y="264" width="260" height="124" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+        <text x="274" y="288" font-weight="700" font-size="14">业务后台（数据 + FMUI 页面）</text>
+        <text x="274" y="310"><tspan font-weight="700">8.0</tspan>：tpframe（中心端）、tpbidder（会员端）</text>
+        <text x="286" y="328" fill="var(--muted)">加 EpointMBApp.properties，放 frame/、workflow/</text>
+        <text x="274" y="350"><tspan font-weight="700">7.x</tspan>：EpointMobileService</text>
+        <text x="286" y="368" fill="var(--muted)">接口 rest/frameztbv8/ + FMUI 审批页</text>
+
+        <rect x="540" y="264" width="230" height="124" rx="10" fill="var(--l1)" stroke="var(--l1b)"/>
+        <text x="554" y="288" font-weight="700" font-size="14" fill="var(--l1b)">H5 资源（Ejs）</text>
+        <text x="554" y="310">标准版：ejs.m7.bidding.v3</text>
+        <text x="566" y="328" fill="var(--muted)">（git：ejs.bidding）</text>
+        <text x="554" y="350">新开发：M8 跨端框架</text>
+        <text x="554" y="368" fill="var(--muted)">地址配在 ejs_h5-pageurl</text>
+
+        <rect x="790" y="264" width="200" height="124" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+        <text x="804" y="288" font-weight="700" font-size="14">按需部署的外围应用</text>
+        <text x="804" y="310">开标大厅 BidOpeningApp</text>
+        <text x="816" y="328" fill="var(--muted)">+ MQ（MQTT 1883）</text>
+        <text x="804" y="350">officeweb（文件预览）</text>
+        <text x="804" y="368">oarest9（邮件 / 日程 / 通知）</text>
+        <!-- row 3 -->
+        <rect x="10" y="420" width="980" height="128" rx="10" fill="var(--l5)" stroke="var(--l5b)"/>
+        <text x="26" y="446" font-weight="700" font-size="14" fill="var(--l5b)">一次请求怎么走（以待办审批为例）</text>
+        <text x="26" y="472">① APP 用账号密码登录 → EMP8 → SSO <tspan font-family="monospace">applogin</tspan> 换 token　② 首页 / Tab / 卡片 / 应用 由 EMP8 下发（按角色和门户）</text>
+        <text x="26" y="494">③ 点「中标公告」（类型 H5）→ EJS 打开 <tspan font-family="monospace">ejs_h5-pageurl</tspan> 下的页面 → <tspan font-family="monospace">Util.ajax</tspan> 调 <tspan font-family="monospace">rest/frameztbv8/xxx</tspan> → EMP8 转调到业务后台</text>
+        <text x="26" y="516">④ 点待办 → 打开工作流「移动端」配置的 FMUI 审批页（如 <tspan font-family="monospace">…/pages/projectreg/Project_Detail</tspan>）→ Action 处理审批</text>
+        <text x="26" y="538" fill="var(--muted)">⑤ 消息 / 待办推送：tpframe、tpbidder 的「订阅管理 - 消息订阅」里勾选 APP</text>
+      </g>
+    </svg>
+
+    <h3>版本对照（重点看 8.0 以上）</h3>
+    <table>
+      <tr><th>业务系统版本</th><th>框架版本</th><th>基座版本</th><th>说明</th></tr>
+      <tr><td>7.1.12.2 / 7.1.30.x</td><td>9.1.18 / 9.3.x</td><td>M7、M8</td><td>可落地部署，也可接入标证通专区</td></tr>
+      <tr><td><b>≥ 7.1.40.3</b></td><td><b>≥ 9.4.2-sp1</b></td><td><b>M8</b></td><td>开标大厅首页整合、标证通首页整合从这个版本起支持</td></tr>
+      <tr><td><b>8.0</b></td><td><b>9.5</b></td><td><b>M8</b></td><td><b>移动端合并到 PC</b>：不再单独部署 EpointMobileService，只部署 EMP8 + Ejs（H5）；移动端的接口和审批页<b>和 PC 一样以 jar 包的形式放在 tpframe / tpbidder 的 lib 里</b>，个性化也按 PC 的方式做</td></tr>
+    </table>
+    <p class="note">⚠ 「M8」有两个意思，别混淆：<b>M8 基座</b>指 App 壳和 EMP8 的版本；<b>M8 移动前端跨端框架</b>指写 H5 的 Vue 框架。标准版 H5 工程名还叫 <code>ejs.m7.bidding.v3</code>，新开发的页面用 M8 跨端框架（M8.3 / M8.4）。</p>
+
+    <h3>三种建设模式</h3>
+    <table>
+      <tr><th>模式</th><th>是什么</th><th>流程</th></tr>
+      <tr><td>落地型</td><td>给项目单独做一个 APP、公众号或小程序（最常见）</td><td>部署应用 → 申请开发者账号 → 原生打包 → 业务开发 → 独立发布（iOS 必须上架；2023-09 起需要 APP 备案）</td></tr>
+      <tr><td>专区模式</td><td>功能集成到<b>标证通</b>的专区里，没有独立 App</td><td>部署应用 → 开通标证通专区 → 业务开发 → 专区上线（SSO 用多 token 模式）</td></tr>
+      <tr><td>接入第三方</td><td>接入皖事通、浙里办等，通常提供 H5</td><td>部署 → 拿对方的接口和设计规范 → 开发 → 三方上架</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="modes">
+  <h2>两种页面开发模式：FMUI + Action vs H5 + Rest</h2>
+  <div class="card">
+    <img src="对接文档-架构图.png" alt="官方 APP 架构图" style="max-width:560px;width:100%;border-radius:8px;border:1px solid var(--line);float:right;margin:0 0 10px 16px">
+    <table style="width:auto">
+      <tr><th></th><th>FMUI + Action</th><th>H5 + Rest</th></tr>
+      <tr><td>前端</td><td>FMUI（F9 移动前端框架，PC 端 FUI 的移动版）</td><td>H5（标准版 ejs.m7.bidding.v3 / 新开发用 M8 跨端框架）</td></tr>
+      <tr><td>后端</td><td><b>直接复用 PC 的 Action</b>（@RestController + BaseController）</td><td>Rest 接口（@RequestMapping），遵循 V7 规范</td></tr>
+      <tr><td>适合</td><td>把 PC 已有的 <b>List / Workflow / Detail</b> 页搬到 App，<b>待办审批页基本都用这种</b></td><td>App 独有功能，或 PC 表单太复杂没法直接搬</td></tr>
+      <tr><td>优点</td><td>只写 HTML，后台完全复用 PC</td><td>样式灵活</td></tr>
+      <tr><td>缺点</td><td>复杂页面很难做</td><td>要前端重构页面再联调，成本高</td></tr>
+    </table>
+    <h3>审批页（FMUI）怎么做</h3>
+    <ol class="steps" style="clear:both">
+      <li>用在线转换工具把 PC 页面代码转成 FMUI：<code>http://218.4.136.118:8022/epoint-translate/pagetranslate/pageinfo/translatepageinfo</code>，粘贴 PC 代码后点「转换」</li>
+      <li>调整 js、核对字段，保证数据和 PC 一致；PC 上的个性化控件需要删减或个性化实现</li>
+      <li>审批操作用标准页：<code>wf_approve_opinion</code>（提交）、<code>wf_approve_back</code>（退回）、<code>wf_approve_opinionpass/pre</code>（带选人）、<code>wf_approve_qy*</code>（企业版）、<code>wf_opinion_template</code>（意见模板）</li>
+      <li>前端资源：把 <code>frame/fmui</code> 和 <code>workflow/</code> 放进 tpframe / tpbidder（7.x 放进 EpointMobileService）</li>
+      <li><b>工作流配置</b>：打开工作流（如「项目注册审核流程」），在对应活动的「应用程序配置」里选移动端 <b>APP</b>，地址填审批页，例如 <code>…/jsgcztbmis2/pages/projectreg/Project_Detail</code>（一步审核不用配）</li>
+      <li>批量转换：手工转好一页后，让 AI 参考它总结规则，再批量转换</li>
+    </ol>
+  </div>
+</section>
+
+<section id="empcfg">
+  <h2>EMP8 后台配置清单（文档版，补全之前「待确认」的部分）</h2>
+  <div class="card">
+    <div class="grid">
+      <div>
+        <h3 style="margin-top:0">配置中心 - EMP 参数</h3>
+        <table>
+          <tr><th>参数</th><th>值 / 作用</th></tr>
+          <tr><td><code>sso_url</code></td><td>http://ip:port/EpointMobileService（SSO 地址）</td></tr>
+          <tr><td><code>sso_client_id / secret</code></td><td>SOA / SSO 里注册的应用</td></tr>
+          <tr><td><code>faceurl</code></td><td>人脸识别服务（内网）</td></tr>
+          <tr><td><code>expandUser / expandUserType</code></td><td>开启外部用户扩展后自动生成</td></tr>
+        </table>
+        <h3>账号授权</h3>
+        <ul class="warn">
+          <li><b>外部用户扩展</b>：开启后填 <code>rest/frameztbv8/getuserinfotoemp</code>、<code>getuserroletoemp</code>，权限类别全选。这样交易系统的用户和角色就能直接用于 EMP8 的权限控制</li>
+          <li><b>角色管理</b>：中心、交易甲方（11）、交易乙方（13）、代理机构（18）、专家</li>
+        </ul>
+      </div>
+      <div>
+        <h3 style="margin-top:0">配置中心 - APP 参数（会下发到 App 和 H5）</h3>
+        <table>
+          <tr><th>参数</th><th>作用</th></tr>
+          <tr><td><code>ejs_h5-pageurl</code></td><td><b>H5 代码地址</b>，如 …/ejs.m7.bidding.v3/pages/</td></tr>
+          <tr><td><code>ejs_business-rest-url</code> / <code>business-rest-url</code></td><td>业务接口 …/rest/frameztbv8/</td></tr>
+          <tr><td><code>message-rest-url</code>、<code>message-channel-id</code></td><td>消息中心</td></tr>
+          <tr><td><code>portal_role_relation</code></td><td>门户名 → danweitype，如 {"交易乙方":"13","代理机构":"18","交易甲方":"11"}。<b>门户改名后这里也要同步改</b></td></tr>
+          <tr><td><code>bidlogin_show_flag</code></td><td>1111：依次控制手机号 / 扫脸 / 扫码绑定 / 标证通 四种登录方式的显示</td></tr>
+          <tr><td><code>ejs-authorize-domains</code></td><td>EJS 全局安全域名</td></tr>
+          <tr><td><code>service_privacy_url</code></td><td>隐私协议地址（带版本号）</td></tr>
+          <tr><td><code>ejs_bidopening-*</code></td><td>开标大厅的 rest、图片、mqtt-url、用户名、密码（开标大厅方提供）</td></tr>
+          <tr><td><code>oauth-mobile-authorize</code></td><td>token（9.3.4 用 cookie + oauth-rest-url）</td></tr>
+        </table>
+      </div>
+    </div>
+    <h3>菜单三件套（就是之前说的「后台配菜单」）</h3>
+<pre><code>应用中心 - 应用管理   新建应用：名称 / 图标 / 类型（H5 | 原生 | 小程序）/ 地址 / 权限      → APK: ApplicationBean(h5url|android|minih5)
+应用中心 - 卡片管理   首页卡片：类型「自定义卡片」+ 地址，例如 …/pages/center/homepage/homepage_withoutmeeting.html
+首页管理             首页（几个门户、什么权限）/ Tab / 门户（中心工作人员、交易甲方、交易乙方、代理机构、专家）
+                     → APK: system/tablist、system/getportal、system/getcardbyprotalguid</code></pre>
+    <p class="note">EMP8 服务端还要配：SSO 客户端配置 <code>EpointSSOClient.properties</code>；转调配置 <code>epointframe.properties</code> 的 <code>empfit_fit_url</code>、<code>empfit_business_api_prefix=rest/frameztbv8/</code>、<code>empfit_custom_api</code>；「系统设置 - 移动运营管理平台配置」里的服务 URL；≥9.4.2sp2 的版本，外网访问时要配 <code>EMP8.properties</code> 的 <code>emp.ServerUrl</code>。</p>
+  </div>
+</section>
+
+<section id="modules">
+  <h2>标准功能模块 & 个性化要点</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>核心原则：App 的数据要和 PC 一致。</b>大部分个性化工作就是对照 PC 端的 SQL、筛选条件、按钮，同步调整。<b>PC 端功能先完善并测试通过</b>，移动端才能开始做。</p>
+    <table>
+      <tr><th>端</th><th>模块</th><th>标准版 H5 路径（ejs.m7.bidding.v3）</th><th>个性化要点</th></tr>
+      <tr><td rowspan="7">中心</td><td>工作台</td><td>pages/center/workbench/workbench_index、_detail</td><td>对照 PC 改列表 SQL 和筛选条件；节点和 PC 不一致时，检查 PC 的 ztb.properties 里有没有 <code>WorkbenchPackages</code>，App 同步配置</td></tr>
+      <tr><td>待办事宜</td><td>pages/center/todo/todo_index</td><td>一般配上标准页就行；审批页走 FMUI（见上一节）</td></tr>
+      <tr><td>招标文件</td><td>pages/center/biddoc/…</td><td>对照 PC 调 SQL、排序、字段；预览需要 officeweb</td></tr>
+      <tr><td>交易信息 / 政策法规 / 通知公告</td><td>pages/center/deal/deal_index、policy/policy_list</td><td>在 ztb.properties 的 <code>WEBDB_CATEGROY</code> 里配网站栏目号；<b>网站改了栏目号，公告就会空白</b></td></tr>
+      <tr><td>今日开标</td><td>pages/center/today/today_index</td><td>数据和 PC 一致；标准版没有搜索</td></tr>
+      <tr><td>代理库 / 投标人库</td><td>pages/center/hylib/agentlib_*、bidderlib_*</td><td>参考 PC 主体管理增减字段</td></tr>
+      <tr><td>邮件 / 日程 / 通讯录</td><td>OA 模块</td><td>需要部署 oarest9 并接入移动端 SSO；即时通讯用织语或融云（收费）</td></tr>
+      <tr><td rowspan="4">会员（投标人）</td><td>我要投标</td><td>—</td><td>后台本质是一个 datagrid：对齐 PC 的 SQL 和查询条件，以及按钮（下载、报名）的渲染</td></tr>
+      <tr><td>我的项目 / 已中标</td><td>同一个后台，用 url 参数区分</td><td>项目环节在 <code>bdinfo.json</code>（新版 <code>bdinfo_new.json</code>）里配，参考 PC 配置节点和实现类</td></tr>
+      <tr><td>交易信息</td><td>pages/bidding/dealinfo</td><td>改栏目号和默认栏目，调通接口</td></tr>
+      <tr><td>登录</td><td>—</td><td>扫码绑定（适用于插锁登录、没有 loginid 的用户）、标证通跳转登录、扫脸（虹软 SDK 和标证通冲突，<b>不建议做</b>）、短信（收费）</td></tr>
+      <tr><td>专家</td><td colspan="3">在线考试 / 练习、评委请假、视频学习</td></tr>
+    </table>
+    <h3>接口规范 V7（新写 Rest 接口必须遵守）</h3>
+<pre><code>请求  { "params": { "userguid": "…", "token": "匿名接口才需要传" } }   ← 参数名一律小写
+响应  { "status": { "code": 1, "text": "失败时的描述" }, "custom": { … } }   ← code=1 表示成功
+token 生成 / 校验：TokenUtils.createToken("emp8userext") / TokenUtils.validateToken(token)
+接口文档要写：名称、地址、请求示例、参数说明、返回示例、注意事项（给三方用的文档需要经过产品评审）</code></pre>
+    <p class="note">跨域：本地开发用 nginx 把页面和接口代理到同一个域名；或者服务端在 web.xml 里打开 CORSFilter（cors-filter-2.5），放在第一个 filter。接口需要 token 时，supportedHeaders 里要加 <code>Authorization</code>；用 M8 的染色请求时，还要允许 <code>User-Token</code>、<code>MobileFrame-Info</code>。</p>
+  </div>
+</section>
+
+<section id="gaps">
+  <h2>查漏补缺：之前漏了什么，现在补上了什么</h2>
+  <div class="card">
+    <table>
+      <tr><th>之前（只看 APK + M8 文档）</th><th>补上后</th></tr>
+      <tr><td>只知道有「EMP8 后台」</td><td>完整的服务端拓扑：EMP8（转调网关）+ SSO / SOA + tpframe / tpbidder（8.0）或 EpointMobileService（7.x）+ H5 资源 + 开标大厅、OA、officeweb</td></tr>
+      <tr><td>以为页面全是 H5</td><td><b>还有 FMUI + Action 模式</b>：待办审批页由 PC 页面转换而来，复用 PC 的 Action，并在工作流活动里配置移动端地址</td></tr>
+      <tr><td>菜单配置的界面「待确认」</td><td>应用中心（应用 / 卡片）、首页管理（首页 / Tab / 门户）、角色、外部用户扩展、APP 参数，都已明确</td></tr>
+      <tr><td>不知道 H5 地址和接口地址从哪来</td><td>来自 APP 参数 <code>ejs_h5-pageurl</code> / <code>ejs_business-rest-url</code>，由 EMP8 下发</td></tr>
+      <tr><td>不知道接口规范</td><td>V7：<code>params</code> 进，<code>status</code> + <code>custom</code> 出；用 TokenUtils 生成和校验 token；处理跨域</td></tr>
+      <tr><td>不知道版本差异</td><td>8.0 / 9.5 合并到 PC；业务 ≥ 7.1.40.3、框架 ≥ 9.4.2-sp1 用 M8 基座；「M8」有两个意思</td></tr>
+      <tr><td>只关注写代码</td><td>项目对接流程：立项 → 资源和账号 → PC 先完善 → UIUE → 接口 → H5 → 上线（应用商店 / 备案 / 隐私协议）</td></tr>
+      <tr><td>—</td><td>门户和角色体系（中心 / 甲方 / 乙方 / 代理 / 专家）、<code>portal_role_relation</code>、消息订阅勾选 APP</td></tr>
+      <tr><td>—</td><td>微信小程序：需要 https 备案域名，<code>EpointMBXcx.properties</code>（APPID、SECRET），<code>appletmodule.json</code> 按角色配置常用应用</td></tr>
+    </table>
+    <h3>仍然缺的（需要向团队要）</h3>
+    <ul class="warn">
+      <li><s>H5 调用自定义 EJS 模块的写法</s> → 已解决：<code>ejs.callApi({mudule,name,data})</code>（来自 ejsv4 源码）</li>
+      <li>标准版 H5 工程 <code>ejs.m7.bidding.v3</code> 和 EMP8 部署包的源码：在内网 git <code>192.168.0.200/dzjy/apps/byt/…</code></li>
+      <li><s>8.0 版移动端接口放在哪</s> → 已明确：<b>和 PC 一样，以 jar 包的形式放在 tpframe / tpbidder 的 lib 里</b>，个性化方式也和 PC 一样</li>
+      <li>文档里的截图（docx 内嵌图片）这次没有提取</li>
+    </ul>
+  </div>
+</section>
+
+<section id="shell">
+  <h2>App 壳是什么？为什么不全部写原生？</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>壳就是这个 APK 里用 Java 写的原生部分，本身就运行在 Android 系统上。</b>之所以叫“壳”，是因为它自己几乎不含交易业务，主要负责把 H5 业务页面装进来运行。<b>H5 是网页，不能直接跑在 Android 系统上</b>，需要浏览器内核，壳里的 WebView 就充当这个内置浏览器。</p>
+<pre><code>Android 系统  ─运行→  APK（壳：原生能力 + WebView/EJS）  ─装载→  H5（交易业务）</code></pre>
+    <div class="grid">
+      <div>
+        <h3>为什么不全部用原生开发</h3>
+        <table>
+          <tr><th>对比</th><th>全原生</th><th>壳 + H5</th></tr>
+          <tr><td>改一个页面</td><td>重新打包、用户重装</td><td><b>H5 发布到服务器，用户无感更新</b></td></tr>
+          <tr><td>多平台</td><td>Android/iOS/鸿蒙 各写一遍</td><td><b>H5 写一份</b>，各平台各做一个壳</td></tr>
+          <tr><td>加菜单</td><td>改代码、发版</td><td><b>EMP8 后台配置</b></td></tr>
+          <tr><td>体验</td><td>最好</td><td>稍差，但业务页面够用</td></tr>
+        </table>
+      </div>
+      <div>
+        <h3>为什么不用手机浏览器直接打开 H5</h3>
+        <ul class="warn">
+          <li><b>CA 证书签名、解密</b>：要调用手机盾 SDK</li>
+          <li><b>开标实时消息</b>：MQTT 要在后台常驻连接</li>
+          <li><b>推送、扫码、直播、录音</b></li>
+          <li><b>统一登录</b>：token 由壳统一管理，所有 H5 共享</li>
+        </ul>
+        <p class="note">这些能力只有原生代码能调用，所以由壳通过 EJS 接口开放给 H5，例如 <code>mobileShieldNewApi.signData</code>、<code>bjmejsapi.startMqttService</code>。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="menu">
+  <h2>菜单为什么在 EMP8 后台配置（源码已核实）</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>App 里的菜单不是写在代码里的，而是登录后从 EMP8 后台拉下来的。</b>你在后台配好一个“应用”，填上 H5 地址，App 就会多出一个入口，点进去用 EJS 打开这个 H5。<b>加菜单不用改 App、不用重新打包。</b></p>
+<pre><code> EMP8 后台：① 新建「应用」(名称/图标/H5地址 或 Android入口 或 小程序)  ② 挂到 Tab/门户/卡片  ③ 给角色授权
+        │ 登录后拉取（前缀 platform_url = …/emp831_cs/rest/mobile/）
+        ▼
+   system/tablist            → 底部 Tab
+   system/getportal          → 门户 / 工作台
+   system/getcardbyprotalguid → 首页卡片
+   appcenter/getmyapplicationfornative → 我的应用            （接口定义：c/e/a/w/f.java）
+        ▼
+   ApplicationBean { applicationname, imgurl, h5url, android, minih5, params }
+        ▼ 用户点击  c/e/a/z/m.java  d() 按顺序判断：
+     ├─ 有 h5url   → EJS 打开 WebView 加载 H5        ← 交易业务基本都走这条
+     ├─ 有 android → "/activity/xxx" 走 PageRouter；或按类名打开原生页面
+     └─ 有 minih5  → EPH5 小程序</code></pre>
+    <p class="note">菜单不出现时，先怀疑这三点：没授权给当前用户的角色 / Tab 缓存没刷新（缓存键 <code>tab_list_&lt;登录名&gt;</code>，重新登录即可）/ 挂错了门户。后台界面上的具体菜单名以飞书文档「研发流程说明」为准，待补充。</p>
+  </div>
+</section>
+
+<section id="m8">
+  <h2>H5 是怎么写的：M8 移动前端跨端框架（来自官方离线文档）</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>H5 不是随便写的网页，而是用新点的 <code>M8 移动前端跨端框架</code>（Vue + uni-app）开发。</b>一套代码可以构建成 H5、H5-EJS（在 App 里跑）、钉钉、微信小程序、支付宝小程序、新点小程序。框架核心以 npm 包形式提供：<code>@epoint-mrc/em-components</code>（UI 组件）、<code>@epoint-mrc/ejsv4</code>（EJS JSSDK，就是 H5 端的 <code>ejs.xxx</code>）、<code>@epoint-mrc/utils</code>（<code>Util.ajax</code> 等工具）。</p>
+    <p class="note">文档来源：<code>~/workspace/knowledge/knowledge-main/技术笔记/010-M8移动框架离线文档/</code>（m8mpdoc 框架文档 + ejs4mpdoc 的 148 个 EJS API）</p>
+    <img src="M8跨端架构图.png" alt="M8移动前端框架跨端架构图（官方）" style="width:100%;border-radius:8px;border:1px solid var(--line);margin:6px 0 10px">
+
+    <div class="grid">
+      <div>
+        <h3>工程结构（ejs.m8.mobileframe）</h3>
+<pre><code>src/
+ ├─ pages/
+ │   └─ &lt;模块名&gt;/            ← 一个业务模块一个文件夹
+ │        ├─ list.vue         页面（Vue 单文件）
+ │        ├─ detail.vue
+ │        ├─ router.js        页面清单（构建时合并进 pages.json）
+ │        ├─ store.js         状态（可选）
+ │        └─ mock.js          模拟数据（可选）
+ ├─ components/custom_components/  业务组件
+ ├─ shared/config.js          全局配置：serverUrl / env / ajax / token
+ ├─ shared/boot.js            公共资源
+ ├─ static/                   静态资源（不编译）
+ ├─ manifest.json · pages.json</code></pre>
+      </div>
+      <div>
+        <h3>命令</h3>
+<pre><code># 环境：Node 22（M8.4）或 16（M8.3），建议用 nvm、pnpm
+#       VSCode 以管理员身份安装，并装 EPOINT TOOLS 插件
+#       npm install 需在公司内网（私有 npm 仓库）
+npm install
+npm run dev:h5                     # 本地调试，浏览器 F12
+npm run dev -- --moduleName=xxx    # 直接打开指定模块
+npm run build                      # 产物在 dist/build/h5
+# 新点小程序（会对应菜单里的 minih5 入口）
+npm run build -- --moduleType=mp-epoint \
+   --moduleName=xxx --buildType=build|debug|upload</code></pre>
+        <p class="note">框架获取：GitLab <code>epoint-mrc-fe/ejs.mp.mobileframe/ejs.m8.mobileframe</code> 的 releases，或 SVN <code>epointjframerelease/mobileframedev/tags/M8移动前端跨端框架</code>（都在内网）。</p>
+      </div>
+    </div>
+
+    <h3>最小可用代码（照官方「列表详情」案例改写）</h3>
+<pre><code>// src/pages/zbgg/router.js     路由只写 path 和 style，不用 import
+export default [
+  { path: 'pages/zbgg/list',   style: { navigationBarTitleText: '招标公告' } },
+  { path: 'pages/zbgg/detail', style: { navigationBarTitleText: '公告详情' } },
+];
+
+&lt;!-- src/pages/zbgg/list.vue --&gt;
+&lt;template&gt;
+  &lt;view class="container"&gt;
+    &lt;!-- em- 开头的组件按 easycom 自动引入，不用 import --&gt;
+    &lt;em-minirefresh :url="url" :page-size="10" :init-page-index="0"
+                    :request-data="dataRequest" :change-data="dataChange"&gt;
+      &lt;template v-slot:default="{ listData }"&gt;
+        &lt;em-cell v-for="(item,i) in listData" :key="i" :title="item.title" @click="open(item)"/&gt;
+      &lt;/template&gt;
+    &lt;/em-minirefresh&gt;
+  &lt;/view&gt;
+&lt;/template&gt;
+&lt;script&gt;
+export default {
+  data() { return { url: `${Config.serverUrl}/rest/zbgg/list` }; },
+  methods: {
+    dataRequest(page, size) {                   // 请求参数统一包在 params 里
+      return { params: JSON.stringify({ currentpageindex: page, pagesize: size }) };
+    },
+    dataChange(res) {                           // 新点标准返回：status.code === 1，数据在 custom 里
+      return res && res.status && res.status.code === 1 ? res.custom.infolist : [];
+    },
+    open(item) {                                // 跳转页面用 ejs.page，不要用 vue-router
+      ejs.page.open({ pageUrl: './detail', data: { guid: item.guid } });
+    }
+  }
+};
+&lt;/script&gt;
+
+// 调用原生能力：EJS JSSDK 统一用 success/error 回调
+ejs.auth.getToken({ success(r) { /* r.access_token */ }, error(e) {} });
+// 用 Util.ajax 请求时会自动带上 token（Config.ajax.isAutoProxy，请求头 User-Token），一般不用手动取</code></pre>
+    <p class="note"><code>ejs.page.open</code> 的参数名请对照 <code>ejs4mpdoc/pages/api_page/api_page.md</code>。案例原文见 <code>m8mpdoc/003-典型案例/003-列表详情.md</code>。</p>
+
+    <h3>文档和 APK 源码互相印证（说明两边理解一致）</h3>
+    <table>
+      <tr><th>官方文档（H5 端）</th><th>APK 反编译（原生端）</th></tr>
+      <tr><td><code>ejs.auth.refreshToken({isForce, isAutoLogout})</code></td><td>SSO 插件 <code>c/e/r/b/c.java</code> 读取 <code>isforce</code>、<code>isautologout</code></td></tr>
+      <tr><td>EJS 模块 audio/auth/device/event/io/navigator/page/runtime/storage/stream/ui/util…</td><td><code>com/epoint/ejs/api/*Api.java</code> 逐个对应</td></tr>
+      <tr><td>能力矩阵里的 Auth（需授权）列</td><td><code>JSApiEnable</code> + <code>public_exposed_api</code> 白名单</td></tr>
+      <tr><td><code>Config.configReady</code> → <code>ejs.config({ jsApiList })</code>：key 是模块名，value 是原生类的包名</td><td><code>JSBridgeAuth.register(name, Class)</code> 动态注册自定义 API</td></tr>
+      <tr><td><code>Config.env = 'native_uni'</code>：在 App 里加载 ejs.native 版 JSSDK</td><td>WebView <code>onJsPrompt</code> 拦截 <code>EpointJSBridge://</code></td></tr>
+      <tr><td>构建 <code>--moduleType=mp-epoint</code>（新点小程序）</td><td>菜单项 <code>minih5</code> 入口 → EPH5 小程序</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="devflow">
+  <h2>⭐ 交易开发步骤图</h2>
+  <div class="card">
+    <svg class="diagram" viewBox="0 0 1000 300" role="img" aria-label="交易开发步骤">
+      <defs><marker id="a4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <g font-size="12.5" fill="var(--ink)">
+        <rect x="10" y="20" width="180" height="200" rx="10" fill="var(--panel)" stroke="var(--line)"/>
+        <text x="26" y="46" font-size="14.5" font-weight="700" fill="var(--muted)">第0步 需求分类</text>
+        <text x="26" y="72">纯页面 → H5</text>
+        <text x="26" y="94">缺原生能力 → EJS 接口</text>
+        <text x="26" y="116">必须原生 → Activity</text>
+        <text x="26" y="138">实时 → MQTT</text>
+        <text x="26" y="160">签章 → 手机盾</text>
+        <text x="26" y="196" fill="var(--muted)" font-size="12">90% 的需求是 H5</text>
+
+        <rect x="220" y="20" width="240" height="200" rx="10" fill="var(--l1)" stroke="var(--l1b)"/>
+        <text x="236" y="46" font-size="14.5" font-weight="700" fill="var(--l1b)">第1步 M8 写 H5</text>
+        <text x="236" y="72">pages/模块/ 写 router.js + .vue</text>
+        <text x="236" y="94">Util.ajax 调业务接口</text>
+        <text x="236" y="116">ejs.xxx 调原生能力</text>
+        <text x="236" y="138">npm run dev:h5 用 F12 调试</text>
+        <text x="236" y="160">npm run build → dist/build/h5</text>
+        <text x="236" y="196" fill="var(--muted)" font-size="12">交付人员部署后得到 H5 URL</text>
+
+        <rect x="490" y="20" width="240" height="200" rx="10" fill="var(--l3)" stroke="var(--l3b)"/>
+        <text x="506" y="46" font-size="14.5" font-weight="700" fill="var(--l3b)">第2步 EMP8 后台配菜单</text>
+        <text x="506" y="72">新建应用，填 H5 地址</text>
+        <text x="506" y="94">挂到 Tab / 门户 / 卡片</text>
+        <text x="506" y="116">给角色授权</text>
+        <text x="506" y="138">业务参数放 params</text>
+        <text x="506" y="196" fill="var(--muted)" font-size="12">不用改 App、不用发版</text>
+
+        <rect x="760" y="20" width="230" height="200" rx="10" fill="var(--l2)" stroke="var(--l2b)"/>
+        <text x="776" y="46" font-size="14.5" font-weight="700" fill="var(--l2b)">第3步 App 验证</text>
+        <text x="776" y="72">退出后重新登录</text>
+        <text x="776" y="94">（Tab 有缓存）</text>
+        <text x="776" y="116">点菜单 → EJS 打开 H5</text>
+        <text x="776" y="138">验证原生能力调用</text>
+        <text x="776" y="196" fill="var(--muted)" font-size="12">切换环境：ChangeEnvActivity</text>
+      </g>
+      <g stroke="var(--accent)" stroke-width="2" marker-end="url(#a4)">
+        <line x1="190" y1="120" x2="218" y2="120"/><line x1="460" y1="120" x2="488" y2="120"/><line x1="730" y1="120" x2="758" y2="120"/>
+      </g>
+      <rect x="220" y="240" width="510" height="50" rx="10" fill="var(--l4)" stroke="var(--l4b)" stroke-dasharray="5 4"/>
+      <text x="236" y="262" font-size="13" font-weight="700" fill="var(--l4b)">分支（少数情况）：H5 需要壳里没有的原生能力</text>
+      <text x="236" y="281" font-size="12.5" fill="var(--ink)">→ 写 IBridgeImpl → AppApplication.l() 里注册 → 加入白名单 → <b>App 需要重新打包发版</b></text>
+      <line x1="340" y1="220" x2="340" y2="238" stroke="var(--l4b)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#a4)"/>
+    </svg>
+    <h3>完整步骤清单（新人照着做）</h3>
+    <table>
+      <tr><th>#</th><th>做什么</th><th>具体操作</th><th>依据</th></tr>
+      <tr><td>前置</td><td>项目条件</td><td>PC 端功能先完善并测试通过；确认业务版本（≥7.1.40.3，或 8.0）和建设模式（落地 / 专区 / 三方）；部署好 EMP8、SSO 等应用并开通外网</td><td>对接及常见问题.pdf</td></tr>
+      <tr><td>0</td><td>准备环境（只需一次）</td><td>Node（M8.4 用 22.x，M8.3 用 16）+ nvm、pnpm，VSCode 以管理员身份安装并装 EPOINT TOOLS，连公司内网</td><td>m8mpdoc/0001-前期准备</td></tr>
+      <tr><td>1</td><td>拿框架、建模块</td><td>从 GitLab / SVN 拿 <code>ejs.m8.mobileframe</code> → <code>npm install</code> → 新建 <code>src/pages/&lt;模块&gt;/router.js</code> 和 <code>.vue</code>。<b>先确认是 M8.3 还是 M8.4</b></td><td>002-框架获取、004-开始开发</td></tr>
+      <tr><td>2</td><td>写页面、联调</td><td>在 <code>config.js</code> 里设置 <code>serverUrl</code> 和 <code>env='native_uni'</code>；用 <code>Util.ajax</code> 调接口；用 <code>ejs.*</code> 调原生能力；先用 mock，再 <code>npm run dev:h5</code> 联调</td><td>007-Config、003-典型案例、ejs4mpdoc</td></tr>
+      <tr><td>3</td><td>构建、部署</td><td><code>npm run build</code> → 把 <code>dist/build/h5</code> 交给交付人员上传服务器，得到 URL；如果做成新点小程序，用 <code>--moduleType=mp-epoint</code></td><td>010-构建、011-发布</td></tr>
+      <tr><td>4</td><td>EMP8 后台配菜单</td><td><b>应用中心 - 应用管理</b>：新建应用（类型 H5，地址填页面 URL，设置权限）→ <b>卡片管理 / 首页管理</b>：挂到首页卡片、Tab、门户 → 给角色授权；新接口如果走 <code>rest/frameztbv8/</code>，确认 EMP8 的转调配置</td><td>EMP应用相关配置说明；APK c/e/a/w/f.java</td></tr>
+      <tr><td>5</td><td>App 验证</td><td>重新登录 → 点菜单 → 检查页面、token、原生能力；用 <code>Config.isDebugPanel</code> 在手机上看日志</td><td>007-Config</td></tr>
+      <tr><td>分支</td><td>待办审批页</td><td>不写 H5：用转换工具把 PC 页面转成 FMUI → 复用 PC Action → 放进 tpframe / tpbidder → 在工作流活动的「应用程序配置」里选 APP 并填地址</td><td>审批页开发指南、对接 PDF 第 7 章</td></tr>
+      <tr><td>分支</td><td>缺原生能力</td><td>写 <code>IBridgeImpl</code> → 注册（<code>registerApi</code>，或 H5 端用 <code>ejs.config({jsApiList})</code> 动态注册）→ 白名单 → App 重新发版</td><td>APK：TBEJSApi、JSBridgeAuth</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="arch">
+  <h2>整体架构（源码分层）</h2>
+  <div class="card">
+  <svg class="diagram" viewBox="0 0 1040 640" role="img" aria-label="分层架构图">
+    <defs>
+      <marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+        <path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/>
+      </marker>
+    </defs>
+    <!-- Layer 1 H5 -->
+    <rect x="10" y="10" width="1020" height="86" rx="10" fill="var(--l1)" stroke="var(--l1b)"/>
+    <text x="28" y="36" font-size="15" font-weight="700" fill="var(--l1b)">① H5 业务页面</text>
+    <text x="28" y="58" font-size="13" fill="var(--ink)">招标公告 · 投标 · 开标大厅 · 竞价 · 我的项目 ……（服务端下发 / 离线包，跑在 EJSWebView 里）</text>
+    <text x="28" y="80" font-size="12.5" fill="var(--muted)" font-family="monospace">prompt("EpointJSBridge://bjmejsapi:1001/startMqttService?{...}")</text>
+
+    <line x1="520" y1="96" x2="520" y2="118" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+    <line x1="560" y1="118" x2="560" y2="96" stroke="var(--muted)" stroke-width="1.5" stroke-dasharray="4 3" marker-end="url(#arr)"/>
+    <text x="574" y="112" font-size="11.5" fill="var(--muted)">JSBridge._handleMessageFromNative(...)</text>
+
+    <!-- Layer 2 EJS -->
+    <rect x="10" y="120" width="1020" height="150" rx="10" fill="var(--l2)" stroke="var(--l2b)"/>
+    <text x="28" y="146" font-size="15" font-weight="700" fill="var(--l2b)">② EJS 容器层  com.epoint.ejs</text>
+    <g font-size="12.5" fill="var(--ink)">
+      <rect x="28" y="158" width="190" height="46" rx="6" fill="var(--panel)" stroke="var(--l2b)"/>
+      <text x="40" y="177">WebChromeClient</text><text x="40" y="195" fill="var(--muted)">onJsPrompt 拦截</text>
+      <rect x="238" y="158" width="190" height="46" rx="6" fill="var(--panel)" stroke="var(--l2b)"/>
+      <text x="250" y="177">JSBridgeAuth.callJava</text><text x="250" y="195" fill="var(--muted)">解析 URL / 鉴权</text>
+      <rect x="448" y="158" width="190" height="46" rx="6" fill="var(--panel)" stroke="var(--l2b)"/>
+      <text x="460" y="177">JSApiEnable</text><text x="460" y="195" fill="var(--muted)">白名单 canIUse</text>
+      <rect x="658" y="158" width="170" height="46" rx="6" fill="var(--panel)" stroke="var(--l2b)"/>
+      <text x="670" y="177">IBridgeImpl</text><text x="670" y="195" fill="var(--muted)">callMethod 分发</text>
+      <rect x="848" y="158" width="164" height="46" rx="6" fill="var(--panel)" stroke="var(--l2b)"/>
+      <text x="860" y="177">Callback</text><text x="860" y="195" fill="var(--muted)">回传结果给 H5</text>
+    </g>
+    <g stroke="var(--l2b)" stroke-width="1.4" marker-end="url(#arr)">
+      <line x1="218" y1="181" x2="236" y2="181"/><line x1="428" y1="181" x2="446" y2="181"/>
+      <line x1="638" y1="181" x2="656" y2="181"/><line x1="828" y1="181" x2="846" y2="181"/>
+    </g>
+    <text x="28" y="230" font-size="12.5" fill="var(--ink)">框架 API：ui · page · runtime · device · storage · io · auth · event · navigator · audio · stream · card · miniH5</text>
+    <text x="28" y="252" font-size="12.5" fill="var(--ink)">项目 API：<tspan fill="var(--l2b)" font-weight="600">tbejsapi · bjmejsapi · mobileShieldNewApi · JJEJSApi · BYTEJSApi · ZTBEJSApi</tspan></text>
+
+    <line x1="520" y1="270" x2="520" y2="292" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <!-- Layer 3 plugin -->
+    <rect x="10" y="294" width="1020" height="112" rx="10" fill="var(--l3)" stroke="var(--l3b)"/>
+    <text x="28" y="320" font-size="15" font-weight="700" fill="var(--l3b)">③ 插件层 + 服务总线</text>
+    <text x="300" y="320" font-size="12" fill="var(--muted)">arrays.xml: plugin_provider → 反射 ApplicationLogic.onCreate() → 注册 provider</text>
+    <g font-size="12.5" fill="var(--ink)">
+      <g transform="translate(28,334)">
+        <rect width="72" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="36" y="19" text-anchor="middle">app</text>
+        <rect x="80" width="72" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="116" y="19" text-anchor="middle">sso</text>
+        <rect x="160" width="72" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="196" y="19" text-anchor="middle">ui</text>
+        <rect x="240" width="80" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="280" y="19" text-anchor="middle">contact</text>
+        <rect x="328" width="84" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="370" y="19" text-anchor="middle">message</text>
+        <rect x="420" width="72" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="456" y="19" text-anchor="middle">ejs</text>
+        <rect x="500" width="72" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="536" y="19" text-anchor="middle">sm</text>
+        <rect x="580" width="72" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="616" y="19" text-anchor="middle">rongy</text>
+        <rect x="660" width="88" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="704" y="19" text-anchor="middle">baidumap</text>
+        <rect x="756" width="88" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="800" y="19" text-anchor="middle">handwrite</text>
+        <rect x="852" width="64" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="884" y="19" text-anchor="middle">push</text>
+        <rect x="922" width="68" height="28" rx="14" fill="var(--panel)" stroke="var(--l3b)"/><text x="956" y="19" text-anchor="middle">speech</text>
+      </g>
+    </g>
+    <text x="28" y="392" font-size="12.5" fill="var(--muted)" font-family="monospace">c.e.m.e.a.b().h(ctx, "sso.provider.serverOperation", {method:"getToken",...}, cb)   ← 按字符串调用，不需要编译期依赖</text>
+
+    <line x1="520" y1="406" x2="520" y2="428" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <!-- Layer 4 native -->
+    <rect x="10" y="430" width="1020" height="112" rx="10" fill="var(--l4)" stroke="var(--l4b)"/>
+    <text x="28" y="456" font-size="15" font-weight="700" fill="var(--l4b)">④ 原生功能层</text>
+    <text x="210" y="456" font-size="12" fill="var(--muted)">MVP：app/view(Activity) → app/presenter → Model · PageRouter @Route 路由</text>
+    <g font-size="12.5" fill="var(--ink)">
+      <g transform="translate(28,470)">
+        <rect width="150" height="56" rx="6" fill="var(--panel)" stroke="var(--l4b)"/><text x="12" y="22" font-weight="600">登录 / SSO</text><text x="12" y="42" fill="var(--muted)">密码 短信 手势 人脸</text>
+        <rect x="162" width="150" height="56" rx="6" fill="var(--panel)" stroke="var(--l4b)"/><text x="174" y="22" font-weight="600">MQTT 实时消息</text><text x="174" y="42" fill="var(--muted)">开标 / 竞价推送</text>
+        <rect x="324" width="150" height="56" rx="6" fill="var(--panel)" stroke="var(--l4b)"/><text x="336" y="22" font-weight="600">音视频</text><text x="336" y="42" fill="var(--muted)">LiteAV 直播 · FSP</text>
+        <rect x="486" width="150" height="56" rx="6" fill="var(--panel)" stroke="var(--l4b)"/><text x="498" y="22" font-weight="600">CA / 签章</text><text x="498" y="42" fill="var(--muted)">手机盾 · 标证通</text>
+        <rect x="648" width="150" height="56" rx="6" fill="var(--panel)" stroke="var(--l4b)"/><text x="660" y="22" font-weight="600">推送</text><text x="660" y="42" fill="var(--muted)">TPNS · HMS · vivo</text>
+        <rect x="810" width="174" height="56" rx="6" fill="var(--panel)" stroke="var(--l4b)"/><text x="822" y="22" font-weight="600">扫码 签名 定位 语音</text><text x="822" y="42" fill="var(--muted)">ScanKit 百度 讯飞</text>
+      </g>
+    </g>
+
+    <line x1="520" y1="542" x2="520" y2="564" stroke="var(--muted)" stroke-width="1.5" marker-end="url(#arr)"/>
+
+    <!-- Layer 5 platform -->
+    <rect x="10" y="566" width="1020" height="64" rx="10" fill="var(--l5)" stroke="var(--l5b)"/>
+    <text x="28" y="592" font-size="15" font-weight="700" fill="var(--l5b)">⑤ 平台层  com.epoint.platform / core</text>
+    <text x="28" y="616" font-size="12.5" fill="var(--ink)">ICommonInfoProvider · INetworkProvider · ISecurityProvider ｜ Retrofit + RxJava2 + OkHttp ｜ MMKV · WCDB ｜ Glide · QMUI · Lottie</text>
+  </svg>
+  <p class="note">图中的实线表示调用方向，虚线表示原生把结果回传给 H5。① 和 ② 是混合开发的核心；③ 让各模块可以独立开发、按需装配。</p>
+  </div>
+</section>
+
+<section id="bridge">
+  <h2>核心机制一：JSBridge（H5 调用原生）</h2>
+  <div class="card">
+    <h3 style="margin-top:0">调用协议</h3>
+<pre><code>EpointJSBridge://模块名:端口号/方法名?{json参数}
+例：EpointJSBridge://tbejsapi:1001/getToken?{"loginId":"xxx"}     // 端口号 = 回调 ID</code></pre>
+    <svg class="diagram" viewBox="0 0 1000 150" role="img" aria-label="JSBridge 时序">
+      <defs><marker id="a2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker></defs>
+      <g font-size="12.5" fill="var(--ink)">
+        <rect x="0" y="20" width="150" height="58" rx="8" fill="var(--l1)" stroke="var(--l1b)"/><text x="75" y="44" text-anchor="middle" font-weight="600">H5 prompt()</text><text x="75" y="64" text-anchor="middle" fill="var(--muted)">发起调用</text>
+        <rect x="210" y="20" width="150" height="58" rx="8" fill="var(--l2)" stroke="var(--l2b)"/><text x="285" y="44" text-anchor="middle" font-weight="600">onJsPrompt</text><text x="285" y="64" text-anchor="middle" fill="var(--muted)">c/e/i/l/e/g.java</text>
+        <rect x="420" y="20" width="150" height="58" rx="8" fill="var(--l2)" stroke="var(--l2b)"/><text x="495" y="44" text-anchor="middle" font-weight="600">callJava</text><text x="495" y="64" text-anchor="middle" fill="var(--muted)">parseUrl + canIUse</text>
+        <rect x="630" y="20" width="150" height="58" rx="8" fill="var(--l3)" stroke="var(--l3b)"/><text x="705" y="44" text-anchor="middle" font-weight="600">IBridgeImpl</text><text x="705" y="64" text-anchor="middle" fill="var(--muted)">callMethod(switch)</text>
+        <rect x="840" y="20" width="150" height="58" rx="8" fill="var(--l4)" stroke="var(--l4b)"/><text x="915" y="44" text-anchor="middle" font-weight="600">Callback</text><text x="915" y="64" text-anchor="middle" fill="var(--muted)">applySuccess/Fail</text>
+      </g>
+      <g stroke="var(--accent)" stroke-width="1.6" marker-end="url(#a2)">
+        <line x1="150" y1="49" x2="208" y2="49"/><line x1="360" y1="49" x2="418" y2="49"/><line x1="570" y1="49" x2="628" y2="49"/><line x1="780" y1="49" x2="838" y2="49"/>
+      </g>
+      <path d="M915,78 C915,130 75,130 75,80" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#a2)"/>
+      <text x="500" y="140" text-anchor="middle" font-size="12" fill="var(--muted)">主线程 evaluateJavascript("JSBridge._handleMessageFromNative({responseId, responseData})")</text>
+    </svg>
+
+    <h3>写一个 API（模板：<code>com/epoint/app/plugin/TBEJSApi.java</code>）</h3>
+<pre><code>public class TBEJSApi implements IBridgeImpl {
+    public static String RegisterName = "tbejsapi";              // H5 里用的模块名
+
+    public ArrayList&lt;String&gt; provideMethodNames() {             // 对外开放的方法白名单
+        return list("getToken", "login", "getCollections", ...);
+    }
+    public void callMethod(String m, b c, EJSWebView wv, JSONObject p, Callback cb) {
+        switch (m) { case "login": login(c, wv, p, cb); break; ... }
+    }
+    static void login(b c, EJSWebView wv, JSONObject p, Callback cb) {
+        PageRouter.getsInstance().build("/activity/loginaccount").navigation(wv.getContext());
+        cb.applySuccess();
+    }
+}
+// 注册：com/epoint/workarea/AppApplication.java:148
+JSBridge.registerApi(TBEJSApi.RegisterName, new TBEJSApi());</code></pre>
+
+    <h3>项目里自定义的 API</h3>
+    <table>
+      <tr><th>模块名</th><th>主要方法</th></tr>
+      <tr><td><code>tbejsapi</code></td><td>getToken · login · getCollections · saveCollections · delCollection · isCollection · startWXPay</td></tr>
+      <tr><td><code>bjmejsapi</code></td><td>startMqttService · stopMqttService · startMQEJSWebLoader · playWithURL · showPlayer · hidePlayer · switchToVideoWithRowguid · joinFspMeeting · openMobileshield · ZtbAppSwitchPortal · gohome</td></tr>
+      <tr><td><code>mobileShieldNewApi</code></td><td>applyEnterpriseCert · applyUserCert · genUserCSR · saveCert · signData · signDataP7 · pubKeyEncrypt · priKeyDecrypt · getCertList …</td></tr>
+      <tr><td>JJ / BYT</td><td>getToken · start/stopMqttService ｜ getDeviceInfo · cleanCache · switchUserType · switchUserIdentity</td></tr>
+    </table>
+    <p class="note">为什么用 prompt：<code>addJavascriptInterface</code> 在 Android 4.2 以下有反射漏洞；prompt 能同步返回值，也方便统一鉴权（<code>ejs_auth_enable</code>，本包为 0，即关闭）和打调用日志（<code>recordJsApiCalled</code>）。</p>
+  </div>
+</section>
+
+<section id="ejsloop">
+  <h2>⭐ EJS 全链路：JS 源码（ejsv4）↔ 原生源码（APK）完整对上了</h2>
+  <div class="card">
+    <p style="margin-top:0"><b>EJS 的功能都是在 App（原生）层实现的。</b><code>@epoint-mrc/ejsv4</code>（源码在 <code>dfx待分析/epoint-mrc-next-packages-ejsv4/packages/ejsv4</code>，版本 4.2.23）只是一层很薄的 JS 桥：把 <code>ejs.ui.alert(...)</code> 这样的调用拼成 URL 发给 App，App 里对应的 <code>UIApi.java</code> 才真正干活。所以，<b>壳里没实现的能力，H5 再怎么写也调不到</b>，新能力必须改 App 并发版。</p>
+<pre><code>H5   ejs.callApi({ mudule:'bjmejsapi', name:'startMqttService', data:{…}, success, error })
+      │  ejsv4 src/core/callnativeapi.ts → inner/triggerjsbridge.ts（生成回调 id，短期 / 长期）
+      │  ejsv4 src/core/nativejsbridge.ts  getUri():
+      │     EpointJSBridge://bjmejsapi:&lt;回调id&gt;/startMqttService?&lt;encodeURIComponent(JSON)&gt;
+      │     Android: window.prompt(uri)        （超过 5000 字符：拆块用 storage.setLongCache 传，再发 veryLongString）
+      │     iOS:     webkit.messageHandlers.WKWebViewJavascriptBridge.postMessage(uri)
+      │     iframe 里：自动带上 callbackFunc / callbackIframeUUid
+      ▼
+App  WebChromeClient.onJsPrompt (c/e/i/l/e/g.java) → JSBridgeAuth.callJava → parseUrl → canIUse → IBridgeImpl.callMethod
+      │  BJMEJSApi.startMqttService(...) 真正干活
+      ▼
+App  Callback.apply → evaluateJavascript("JSBridge._handleMessageFromNative({responseId, responseData})")
+      ▼
+H5   _handleMessageFromNative 按 responseId 找回调：responseData.code==0 → error(res)；否则 success(res.result)
+     长期回调（isLongCb:1）不删除，可以反复触发（下拉刷新、右上角按钮、MQTT 消息）</code></pre>
+    <h3>H5 调项目自定义模块：两种方式</h3>
+    <table>
+      <tr><th>原生端怎么注册</th><th>H5 怎么调</th><th>例子</th></tr>
+      <tr><td>App 启动时静态注册：<code>JSBridge.registerApi("bjmejsapi", new BJMEJSApi())</code>（AppApplication.l()）</td><td>直接调用：<code>ejs.callApi({ mudule:'bjmejsapi', name:'xxx', data, success, error })</code></td><td>本项目的 tbejsapi、bjmejsapi、mobileShieldNewApi 都属于这种</td></tr>
+      <tr><td>H5 动态注册：先在 <code>ejs.config({ jsApiList:[{ pay: ejs.os.ios ? 'EJSPayApi' : 'com.epoint.ejs.api.PayApi' }] })</code> 里声明，原生 <code>EventApi.config</code> 读到 jsApiList 后执行 <code>jsBridgeAuth.register(key, Class.forName(value))</code></td><td>在 <code>ejs.ready()</code> 之后用 <code>ejs.callApi({ mudule:'pay', … })</code> 调用</td><td>组件类 API；value 是原生类全名，Android 和 iOS 不同</td></tr>
+    </table>
+    <p class="note">⚠ 参数名是 <b><code>mudule</code></b>（源码里就是这样拼的，不是 module）。可选参数：<code>isLongCb:1</code> 长期回调，<code>appVersion:'x.y.z'</code> 校验容器最低版本。标准 API（ejs.ui.xxx 等）不要用 callApi 去调，因为标准 API 还带有兼容处理。非 EJS 环境（浏览器、小程序）下，要先用 <code>ejs.extendModule</code> 注册同名 API 才能调用。示例：<code>showcase/showcase/ejsv4/ejs_api_v4_callapi.html</code>。</p>
+  </div>
+</section>
+
+<section id="plugin">
+  <h2>核心机制二 / 三：插件服务总线 + PageRouter + MVP</h2>
+  <div class="grid">
+    <div class="card">
+      <h3 style="margin-top:0">插件加载（PluginApplication）</h3>
+      <ol class="steps">
+        <li>读取 <code>arrays.xml</code> 的 <code>plugin_provider</code>（12 个插件）</li>
+        <li>用 <code>Class.forName</code> 加载；<code>ejs</code> 立即初始化，其余插件稍后统一 <code>onCreate()</code></li>
+        <li>插件注册服务：<code>c.e.m.e.a.b().d("sso","provider",impl)</code></li>
+        <li>调用方按字符串调用：<code>"sso.provider.serverOperation"</code> + <code>{method:...}</code></li>
+        <li>平台服务注入：<code>c.e.l.c.a.a(ICommonInfoProvider.class)</code></li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">路由 + MVP</h3>
+      <ol class="steps">
+        <li>声明路由：<code>@Route(path="/activity/loginpassword")</code></li>
+        <li>编译期生成 <code>PageRouter_Root_*</code> / <code>Group_*</code> 路由表（50+ 个）</li>
+        <li>跳转：<code>PageRouter.getsInstance().build(path).navigation(ctx)</code></li>
+        <li>分层：View(Activity) → Presenter → Model → provider / Retrofit</li>
+        <li>定制：注册新路由覆盖（如 <code>/activity/mainActivity/new</code>），或替换 PresenterPool 里的 Presenter</li>
+      </ol>
+    </div>
+  </div>
+</section>
+
+<section id="flows">
+  <h2>典型业务链路</h2>
+  <div class="card">
+    <h3 style="margin-top:0">① 账号密码登录</h3>
+<pre><code>LoginPasswordActivity  (@Route /activity/loginpassword)
+ └ LoginPasswordPresenter.startLogin(pwd)
+    └ Model c.e.a.r.p.n()  {loginid, password, encrypttype, method:"getToken"}
+       └ 服务总线 "sso.provider.serverOperation"
+          └ SSO 插件 c.e.r.b.c.invoke()  getToken / refreshToken / cancelToken
+             └ Retrofit  POST mobileappclient/mobilelogin  (x-www-form-urlencoded)
+ ← 成功：getTabListAndRequestUserInfo() → "contact.provider.serverOperation" getuserinfo → 进入主页
+ ← 失败：code 1001 走特殊分支，其他情况提示错误</code></pre>
+    <h3>② 不见面开标：MQTT + 直播</h3>
+<pre><code>H5 → bjmejsapi.startMqttService({biaoduanguid, userguid, uri, username, pwd, projectguid})
+ └ bjm/service/MqttService   订阅 [标段guid_用户guid, projectguid, 标段guid]
+    └ 收到消息 → EventBus("LiveControl" | "11111111")
+       └ BJMMqEjsWebLoader.onReceiveMsg()  (主线程)
+          ├ webView.loadUrl("javascript:onReceiveMsg('msg','topic')")   → 推给 H5
+          └ LiveControl → 控制腾讯 LiteAV 播放器
+H5 → bjmejsapi.playWithURL / showPlayer / joinFspMeeting(好视通)</code></pre>
+    <h3>③ CA 签名（手机盾）</h3>
+    <p>H5 → <code>mobileShieldNewApi.applyUserCert / genUserCSR / saveCert / signDataP7 / priKeyDecrypt</code> → ccit mkeysdk。投标文件签名和开标解密都走这条路径。</p>
+  </div>
+</section>
+
+<section id="guide">
+  <h2>新人做交易 APP 开发：怎么上手</h2>
+  <div class="card">
+    <h3 style="margin-top:0">第一步：判断需求属于哪一类</h3>
+    <table class="decide">
+      <tr><th>需求</th><th>做法</th></tr>
+      <tr><td>普通业务页面（公告列表、投标表单、项目详情）</td><td><b>写 H5</b>，通过 EJS 调用原生能力，原生代码不用动</td></tr>
+      <tr><td>H5 需要一个新的原生能力</td><td><b>新增 / 扩展 <code>IBridgeImpl</code></b> → 注册 → 加入白名单</td></tr>
+      <tr><td>必须原生实现的页面（登录、主框架、直播、扫码）</td><td><b>Activity + <code>@Route</code> + MVP</b></td></tr>
+      <tr><td>跨模块调用（token、用户信息）</td><td><b>provider 总线 / <code>ICommonInfoProvider</code></b>，不要直接 import</td></tr>
+      <tr><td>实时业务（开标、竞价、解密进度）</td><td><b>MQTT Service → EventBus → 推给 H5</b>（参考 BJM）</td></tr>
+      <tr><td>CA / 签章 / 加解密</td><td><b>复用 <code>mobileShieldNewApi</code> / 标证通</b>，不要自己写</td></tr>
+    </table>
+  </div>
+
+  <div class="grid" style="margin-top:14px">
+    <div class="card">
+      <h3 style="margin-top:0">任务 A：给 H5 加一个原生能力</h3>
+      <ol class="steps">
+        <li>新建 <code>XxxEJSApi implements IBridgeImpl</code>，定义 <code>RegisterName</code></li>
+        <li>在 <code>provideMethodNames()</code> 里列出方法，在 <code>callMethod()</code> 里用 switch 分发</li>
+        <li>耗时操作放子线程，完成后调用 <code>applySuccess/applyFail</code>（内部会切回主线程）</li>
+        <li>在 <code>AppApplication.l()</code> 里 <code>JSBridge.registerApi(...)</code></li>
+        <li>开启鉴权时，需要在 <code>public_exposed_api</code> / 后台放开这个方法</li>
+        <li>H5 端：<code>ejs.callApi({ mudule:'xxxejsapi', name:'method', data:{…}, success, error })</code>。静态注册的模块直接调用；动态注册的模块要先在 <code>ejs.config({ jsApiList })</code> 里声明，在 ready 之后再调用（见「EJS 全链路」一节）</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">任务 B：新增一个原生页面</h3>
+      <ol class="steps">
+        <li>Activity <b>继承 <code>FrmBaseActivity</code></b>（Callback 只认这类 Context）</li>
+        <li>加 <code>@Route(path="/activity/xxx")</code></li>
+        <li>写 <code>IXxx</code> 契约接口 + Presenter + Model</li>
+        <li>Model 通过 provider 总线 / Retrofit 请求 <code>platform_url</code></li>
+        <li>在 Manifest 注册；跳转统一用 PageRouter</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="grid" style="margin-top:14px">
+    <div class="card">
+      <h3 style="margin-top:0">踩坑清单（源码里读出来的）</h3>
+      <ul class="warn">
+        <li>Bridge URL <b>不能带 <code>#</code></b>；port 不能为空；核心版本 ≥ 7.3.0</li>
+        <li>Activity finish 之后回调会被丢弃，WebView 是弱引用持有</li>
+        <li>多次回调用 <code>JSBridgeParamForCallback://</code> 参数传</li>
+        <li>iframe 调用要带 <code>callbackFunc</code> / <code>callbackIframeUUid</code></li>
+        <li>MQTT Service 的 start / stop 要配对，否则会重复订阅、耗电</li>
+        <li>provider 的 method 名改了，编译期不会报错，要全局搜索调用方</li>
+        <li><code>platform_url</code> 现在是测试环境，<b>发版前要确认</b></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3 style="margin-top:0">调试方法</h3>
+      <ul class="warn">
+        <li>H5：Chrome <code>chrome://inspect</code>（debug 包需开启 WebView 调试）</li>
+        <li>日志：<code>adb logcat</code>，过滤 <code>epoint</code> / <code>[epoint-mqtt]</code></li>
+        <li>切换环境：<code>ChangeEnvActivity</code></li>
+        <li>卡片 / 小程序：<code>Epth5CardDebugActivity</code></li>
+        <li>对照源码：<code>~/devtools/jadx/bin/jadx-gui</code></li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:14px">
+    <h3 style="margin-top:0">学习路线（建议按顺序）</h3>
+    <ol class="steps">
+      <li><b>JSBridge</b>：H5 → prompt → callJava → IBridgeImpl → Callback → H5</li>
+      <li><b>插件和总线</b>：PluginApplication、plugin_provider、"xx.provider.yy"</li>
+      <li><b>登录链路</b>：LoginPasswordPresenter → c.e.a.r.p → SSO 插件 → Retrofit</li>
+      <li><b>实时业务</b>：BJMEJSApi.startMqttService → MqttService → BJMMqEjsWebLoader</li>
+      <li><b>定制套路</b>：app/project/*、Jy*、BYT*（继承 + 覆盖路由 / Presenter 工厂）</li>
+      <li><b>H5 端以 M8 离线文档为准</b>（<code>~/workspace/knowledge/.../010-M8移动框架离线文档</code>），配合 skill <code>m8-mobile-cross-platform</code>；EMP8 后台操作再向团队要文档</li>
+    </ol>
+  </div>
+</section>
+
+<section id="files">
+  <h2>关键文件索引 <span class="tag">~/workspace/cs0822-src/sources/</span></h2>
+  <div class="card">
+  <table>
+    <tr><th>文件</th><th>作用</th></tr>
+    <tr><td><code>com/epoint/ejs/jsbridge/JSBridge.java</code></td><td>API 注册表、URL 解析、方法分发</td></tr>
+    <tr><td><code>com/epoint/ejs/jsbridge/JSBridgeAuth.java</code></td><td>callJava 主流程、鉴权、调用日志</td></tr>
+    <tr><td><code>com/epoint/ejs/jsbridge/Callback.java</code></td><td>原生 → H5 回传结果</td></tr>
+    <tr><td><code>com/epoint/ejs/jsbridge/JSApiEnable.java</code></td><td>API 白名单 / 可用性判断</td></tr>
+    <tr><td><code>c/e/i/l/e/g.java</code></td><td>WebChromeClient.onJsPrompt 拦截入口</td></tr>
+    <tr><td><code>com/epoint/plugin/application/PluginApplication.java</code></td><td>插件加载</td></tr>
+    <tr><td><code>com/epoint/workarea/AppApplication.java</code></td><td>项目 Application：注册 API、初始化路由</td></tr>
+    <tr><td><code>com/epoint/app/plugin/TBEJSApi.java</code></td><td>自定义 API 模板</td></tr>
+    <tr><td><code>com/epoint/app/project/plugin/BJMEJSApi.java</code></td><td>不见面开标 API</td></tr>
+    <tr><td><code>com/epoint/app/bjm/service/MqttService.java</code></td><td>开标 MQTT 服务</td></tr>
+    <tr><td><code>com/epoint/app/bjm/view/BJMMqEjsWebLoader.java</code></td><td>MQTT 消息推给 H5、直播控制</td></tr>
+    <tr><td><code>com/epoint/app/presenter/LoginPasswordPresenter.java</code></td><td>密码登录</td></tr>
+    <tr><td><code>c/e/r/b/c.java</code> · <code>c/e/r/d/a.java</code></td><td>SSO provider · Retrofit 登录接口</td></tr>
+    <tr><td><code>resources/res/values/arrays.xml</code></td><td>plugin_provider · public_exposed_api</td></tr>
+    <tr><td><code>resources/res/values/strings.xml</code></td><td>platform_url · ejs_* 配置</td></tr>
+  </table>
+  </div>
+</section>
+</main>
+</body>
+</html>

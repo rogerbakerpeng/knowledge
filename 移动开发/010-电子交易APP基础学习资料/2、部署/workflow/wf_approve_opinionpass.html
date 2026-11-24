@@ -1,0 +1,457 @@
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8"/>
+    <title>审批</title>
+    <!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no"/>
+    <!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+    <meta name="format-detection" content="telephone=no, email=no"/>
+    <script src='../frame/fmui/js/cssboot.js'></script>
+    <script>
+        SrcBoot.output([
+            'workflow/css/workflow_submit.css'
+        ]);
+    </script>
+    <style>
+        .person-box {
+            display: inline-block;
+            width: 100px;
+            height: 29px;
+            border-radius: 29px;
+            background: #ccc;
+            color: #fff;
+            text-align: center;
+            line-height: 29px;
+            float: left;
+            margin: 5px 6px;
+
+        }
+
+        .person-box.active {
+            background: #3774fa;
+        }
+    </style>
+
+</head>
+
+<body>
+<div class="mui-content">
+    <!--当前步骤-->
+    <ul class=" em-todo-table-view mui-table-view em-todo-step">
+        <li class="mui-table-view-cell">
+            <div>当前步骤<span class="activityname" id="curr_step"></span></div>
+        </li>
+        <li class="mui-table-view-cell">
+            <div>当前操作<span class="operationname" id="curr_op"></span></div>
+        </li>
+        <li class="mui-table-view-cell split-select-options">
+            <a class="mui-navigate-right" href='#ztbactionsheetbackgen'>
+                <div>当前分支<span class="splitname" id="steplist"></span></div>
+            </a>
+        </li>
+    </ul>
+
+    <!--人员选择-->
+    <div class="target-activity-person">
+        <ul class="em-todo-table-view mui-table-view em-isshowselectuser">
+            <li class="mui-table-view-cell em-todo-amount" id="selectuser">
+						<span>送下一步处理人<span class="em-todo-branch-name"></span>
+						</span>
+                <div class="select" data-ripple="ripple">
+                    <span class="order">0</span>
+                    <img src="img/img_addperson.png" alt="" class="em-editable"/>
+                </div>
+            </li>
+            <li class="mui-table-view-cell em-todo-people">
+                <div class="em-todo-people-wrapper selectpersonlist" id="personlist">
+
+                </div>
+            </li>
+
+        </ul>
+    </div>
+
+
+    <!--签署意见-->
+    <p class="em-todo-p">签署意见</p>
+    <div class="em-todo-opinion">
+        <textarea id="opinioncontent" name="" rows="" cols="" placeholder="请**审批"></textarea>
+        <div id="commonTemple" class="temple-item mui-hidden" data-ripple="ripple">
+            <img src="img/img_plus.png" alt=""/>
+            <span>公共模板</span>
+        </div>
+        <div id="personTemple" class="temple-item mui-hidden" data-ripple="ripple">
+            <img src="img/img_plus.png" alt=""/>
+            <span>个人模板</span>
+        </div>
+    </div>
+    <!--短信提醒-->
+    <div class="em-todo-message mui-hidden" id="message">
+        <span>短信提醒</span>
+        <div class="mui-switch mui-switch-mini sendsms" id="sms_check" value="一般">
+            <div class="mui-switch-handle"></div>
+            <textarea class="sms-content hidden" id="smscontent"></textarea>
+        </div>
+    </div>
+</div>
+<!--当前分支选择-->
+<div class="split-select-tips">
+    <ul>
+        <div class="select-tips-title">
+            <span>请选择当前分支</span>
+        </div>
+        <div id="stepselectlist"></div>
+    </ul>
+</div>
+<!--快捷反馈-->
+<div class="em-mask"></div>
+<footer class="footer" id="submitbtn">提交</footer>
+<!-- 选人模板 -->
+<script type="text/x-templ-mustache" id="persontmpl">
+    <span class="person-box {{active}}" guid="{{userguid}}">{{username}}</span>
+</script>
+<!-- 当前分支选择模板 -->
+<script type="text/x-templ-mustache" id="stepselecttmpl">
+    <li stepguid="{{stepguid}}">{{stepname}}</li>
+</script>
+<script>SrcBoot.output(["frame/fmui/js/jsboot.js"])</script>
+
+<script>
+    //<![CDATA[
+    //初始化页面
+    var $smscontent = $('#smscontent'),
+        $steplist = $("#steplist"),
+        $opinioncontent = $("#opinioncontent"),
+        $sms_check = $('#sms_check'),
+        $order = $('.order');
+    var handlerlist = {};
+    var texts = [],
+        values = [];
+    var transitionguid = "";
+    var contactText = localStorage.getItem('contactText');
+    var contactValue = localStorage.getItem('contactValue');
+
+    epointm.initPage("commonoperationhandleaction", null, function (data) {
+        localStorage.removeItem('contactValue');
+        localStorage.removeItem('contactText');
+        if (data.smsvisible && data.smsvisible == "0") {
+            $('#message').hide();
+        }
+        transitionguid = data.transitionguid;
+        initpagedata();
+        $("#submitbtn").on('click', saveform);
+        //用于渲染已选人员
+        var html = "";
+        var userlist = "";
+        if (contactText && contactText.length > 0) {
+            userlist = contactText.split(";");
+        }
+
+        var persontmpl = document.getElementById("persontmpl").innerHTML;
+        for (let i = 0; i < userlist.length; i++) {
+            var username = {};
+            username.username = userlist[i];
+            html += Mustache.render(persontmpl, username);
+        }
+        document.querySelector('.selectpersonlist').innerHTML = html;
+        document.querySelector('.order').innerText = userlist.length;
+    });
+
+
+    function initpagedata() {
+        // 初始化页面
+        var isnotinitdata = localStorage.getItem('notinitdata');
+        if(isnotinitdata!="true"){
+            initpersondata();
+
+        }
+        localStorage.removeItem('notinitdata');
+        //初始化人员选择
+        epointm.execute('initPage', null, null, function (data) {
+            // 当前步骤 所有页面
+            var data = epm.decodeJson(data);
+            var $currstep = $("#curr_step"),
+                $currop = $("#curr_op");
+            //初始化当前分支
+            if ($steplist.length > 0) {
+                if (!data.nextsteplist || !data.nextsteplist.data) {
+                    epointm.alert('没有可选择步骤！', '提示', function () {
+                        epointm.closeDialog();
+                    });
+                    return;
+                }
+                var steplist = data.nextsteplist.data;
+                var stepdata = {};
+                var html = '';
+                var template = document.getElementById("stepselecttmpl").innerHTML;
+                $steplist.text(steplist[0].stepname);
+                $steplist.val(steplist[0].stepguid);
+                for (var i = 0, l = steplist.length; i < l; i++) {
+                    stepdata.stepname = steplist[i].stepname;
+                    stepdata.stepguid = steplist[i].stepguid;
+                    html += Mustache.render(template, stepdata);//模板
+
+                }
+                document.getElementById("stepselectlist").innerHTML = html;
+            }
+
+            if ($currstep.length > 0 && data.activityname)
+                $currstep.text(data.activityname);
+            if ($currop.length > 0 && data.operationname)
+                $currop.text(data.operationname);
+            //初始化短信区域
+            if ($smscontent.length > 0 && data.smscontext)
+                $smscontent.text(data.smscontext);
+
+
+            // 初始化意见区域
+            if ($opinioncontent && data.opinion) {
+                $opinioncontent.val(data.opinion.text);
+            } else {
+                $opinioncontent.attr("required", data.opinion.required);
+                $opinioncontent.attr("requiredErrorText", "请签署意见！");
+            }
+            //选择人员，对应pc端拼接json
+            $('#personlist').on('tap', 'span', function (e) {
+                if (this.classList.contains('active')) {
+                    this.classList.remove('active');
+                    texts.remove(this.innerHTML);
+                    values.remove(this.getAttribute("guid"));
+
+                } else {
+                    this.classList.add('active');
+                    texts.push(this.innerHTML);
+                    values.push(this.getAttribute("guid"));
+                }
+                handlerlist.texts = texts.join(',');
+                handlerlist.values = values.join(',');
+                localStorage.setItem('notinitdata', true);
+            });
+            //特殊情的页面放这边初始化，因为js异步执行
+            ztbphone.phonesubmitpageinit();
+        });
+    }
+
+    //初始化默认选取的人员
+    function initpersondata() {
+        // 初始化页面
+        epointm.execute('getStepInfo', null, [], function (data) {
+            localStorage.setItem('notinitdata', "false");
+            var data = epm.decodeJson(data);
+            console.log(data);
+            var allPeople = data.handlerlist;
+            var html = '';
+            var order = 0;
+            var template = document.getElementById("persontmpl").innerHTML;
+            for (var i = 0, l = allPeople.length; i < l; i++) {
+                var acdata = {};
+                acdata.username = allPeople[i].handlername;
+                acdata.userguid = allPeople[i].handlerguid;
+                order++;
+                html += Mustache.render(template, acdata);//模板
+                texts.push(allPeople[i].handlername)
+                values.push(allPeople[i].handlerguid)
+                handlerlist.texts = texts.join(',');
+                handlerlist.values = values.join(',');
+            }
+            $order.text(order);
+            document.getElementById("personlist").innerHTML = html;
+
+        });
+    }
+
+    //保存,点击确认提交后触发
+    function saveform() {
+        var urlparams = Util.getUrlParams(),
+            smscheck = false;
+        var params = {
+            'workitemguid': urlparams.workItemGuid,
+            'operationguid': urlparams.operationGuid
+        }, flag = true;
+        // 判断时候必须填写意见，并拼接意见字段
+        if ($opinioncontent) {
+
+            if (!epointm.validate()) {
+                return false;
+            }
+            if (!$opinioncontent.val()) {
+                epointm.alert('请签署意见！', '提示');
+                return false;
+            } else
+                params['opinion'] = $opinioncontent.val();
+        } else if (parent.workflowopinioncontent) {
+            params['opinion'] = parent.workflowopinioncontent;
+        }
+        // 判断是否勾选后续步骤，并拼接步骤信息
+        if ($steplist.length > 0) {
+            var stepguid = $steplist.val();
+            var nextsteplist = {}
+            if (!stepguid) {
+                ztbphone.alert('请选择步骤！', '提示');
+                return false;
+            }
+            //遍历所有选中的处理人，获取guid和name
+            /*mui("#personlist span").each(function () {
+                texts.push(this.innerHTML);
+                values.push(this.getAttribute("guid"));
+                handlerlist.texts=texts.join(',');
+                handlerlist.values=values.join(',');
+
+            });*/
+            var value = contactValue ? contactValue.split(";") : [];
+            var text = contactText ? contactText.split(";") : [];
+            for (var i = 0; i < value.length; i++) {
+                values.push(value[i]);
+                handlerlist.values = values.join(',');
+            }
+            for (var i = 0; i < text.length; i++) {
+                texts.push(text[i]);
+                handlerlist.texts = texts.join(',');
+            }
+            if (!handlerlist.texts || !handlerlist.values) {
+                ztbphone.alert('请选择处理人！', '提示');
+                return false;
+            }
+            localStorage.removeItem('contactValue');
+            localStorage.removeItem('contactText');
+            params['nextsteplist'] = [];
+            nextsteplist.handlerlist = handlerlist;
+            nextsteplist.stepguid = stepguid;
+            params.nextsteplist.push(nextsteplist);
+
+        }
+
+        //判断是否勾选短信提醒，并拼接短信提醒内容
+        var isActive = document.getElementById("sms_check").classList.contains("mui-active");
+        params['sendsms'] = isActive;
+        params['smscontext'] = $smscontent.text();
+        //短信级别
+        params['sendsms_jjdd'] = $sms_check.attr('value');
+        console.log(params);
+        // 是否执行action方法
+        epointm.execute('btnsubmit', null, epm.encodeUtf8(epm.encodeJson(params)), function (data) {
+            if (data.message) {
+                epointm.closeDialog(data.message);
+            }
+        });
+    }
+
+    // 选取当前分支
+    mui('.mui-content').on('tap', '.split-select-options', function () {
+        document.querySelector('.em-mask').style.display = "block";
+        document.querySelector('.split-select-tips').style.display = "block";
+    });
+
+
+    mui('#stepselectlist').on('tap', 'li', function () {
+        $steplist.text(this.innerHTML);
+        $steplist.val(this.getAttribute("stepguid"));
+        document.querySelector('.em-mask').style.display = "none";
+        document.querySelector('.split-select-tips').style.display = "none";
+    });
+
+
+    //模板意见选取，0：公共模板   1:个人模板
+    mui('.em-todo-opinion').on("tap", '.temple-item', function () {
+        var tempItem = this.innerText.trim();
+        var pageUrl = "";
+        switch (tempItem) {
+            case "公共模板":
+                pageUrl = Util.addUrlParams("workflow/wf_opinion_template?type=0", Util.getUrlParams());
+                break;
+            case "个人模板":
+                pageUrl = Util.addUrlParams("workflow/wf_opinion_template?type=1", Util.getUrlParams());
+                break;
+            default:
+                break;
+        }
+
+        ztbphone.openPage(pageUrl, '', function (result) {
+            console.log(result);
+            $("#opinioncontent").val(result);
+        });
+
+    });
+
+    //选人事件
+    mui(".target-activity-person").on('tap', '.em-editable', function () {
+        //所有可选处理人
+        var workItemGuid = Util.getUrlParams("workItemGuid");
+        var processVersionInstanceGuid = Util.getUrlParams("processVersionInstanceGuid");
+        var operationGuid = Util.getUrlParams("operationGuid");
+        epointm.openDialog("选人", epm.getRightUrl('workflow/pickpage/select?workItemGuid=' + workItemGuid + '&processVersionInstanceGuid=' + processVersionInstanceGuid + '&operationGuid=' + operationGuid
+            + '&transitionGuid=' + transitionguid), function (ret) {
+            console.log(ret)
+            localStorage.setItem('notinitdata', "true");
+            location.reload();
+        }, {id: 'wfoppass'})
+    });
+
+    // 每一项选人监听事件
+    /*mui(".target-activity-person").on('tap', '.em-editable', function() {
+            // 人员列表模块
+        var persontmpl = document.getElementById("persontmpl").innerHTML;
+        // 默认目标活动列表临时数组
+        var  targetActivityListArray = [];
+        var _this = this.parentNode.parentNode.parentNode;
+         // 送下一步目标活动Guid
+        var activityguid = _this.getAttribute("activityguid");
+        // 去重索引值
+        var index = _this.getAttribute("index");
+        //=============修改当前选中的人员===============
+        var userguids = getUserguidsByDom(_this);
+        console.log(userguids);
+        // 调用选人组件
+        ejs.contact.choose({
+            userguids: userguids,
+            success: function(result) {
+
+                this.tmpUserInfo = result.resultData;
+                // 选择人数
+                var selectCounts = this.tmpUserInfo.length;
+                var html = '';
+                // 送签发
+                var touserguidlist = "";
+                mui.each(this.tmpUserInfo, function(key, value) {
+                    console.log(value);
+                    html += Mustache.render(persontmpl, value);
+                    touserguidlist += value.userguid + ";";
+                });
+                // 删除重复项，再插入数据，防止每次累加选择
+                   targetActivityListArray.splice(index, 1, {
+                    // 送下一步目标活动Guid
+                    "activityguid": activityguid,
+                    // 对应目标活动处理人，可以有多个,以“;”隔开
+                    "handleperson": touserguidlist,
+                });
+                //ejs.ui.showDebugDialog(JSON.stringify(self.targetActivityListArray));
+                // 刷新选择人数以及选择人员模板
+                console.log(html);
+                _this.querySelector('.selectpersonlist').innerHTML = html;
+                _this.querySelector('.order').innerText = selectCounts;
+            }
+        });
+    })
+
+    function getUserguidsByDom(_this){
+        var userguids = [];
+        var items = _this.querySelector(".selectpersonlist").querySelectorAll(".em-person-item");
+
+        if(items && items.length > 0) {
+
+            mui.each(items, function(index, el) {
+                var userguid = el.getAttribute("guid");
+                var username = el.innerText.trim();
+                userguids.push(userguid);
+            });
+        }
+        return userguids;
+       }*/
+
+    //]]>
+</script>
+</body>
+
+</html>

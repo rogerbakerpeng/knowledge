@@ -1,0 +1,328 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/09/05
+        版本: [3.0, 2017/09/05 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  contact 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <!-- 移动端的响应式特性 -->
+    <meta
+      name="viewport"
+      content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <title>contact模块</title>
+    <script src="./_common/vue.min.js"></script>
+    <script>
+      document.write(
+        "<script src='../../js/cssboot.js?" +
+          Math.random() +
+          "'></scr" +
+          "ipt>"
+      );
+    </script>
+    <script>
+      SrcBoot.output(["./_common/common.css"]);
+    </script>
+  </head>
+
+  <body>
+    <div class="mui-content pt0" id="ejs-app"></div>
+    <script>
+      document.write(
+        "<script src='../../js/jsboot.js?" +
+          Math.random() +
+          "'></scr" +
+          "ipt>"
+      );
+    </script>
+
+    <script>
+      "use strict";
+
+      var userguids = [
+        {
+          userguid: "ddf347c2-ba4a-41fc-8367-fa74794d230d",
+          displayname: "曹",
+          // photourl: "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=ddf347c2-ba4a-41fc-8367-fa74794d230d&isMobile=true&md5=b6caaa28319c5e26d6f57ea2efc58800",
+        },
+        {
+          userguid: "48799ec6-beb5-4f61-a2c1-71f1db8f467a",
+          displayname: "黄素龙",
+          // photourl: "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=48799ec6-beb5-4f61-a2c1-71f1db8f467a&isMobile=true&md5=25d7f323f347fcfb61dfa55ed0aacce7",
+        },
+        {
+          userguid: "3248760a-e4a3-430e-837e-11519d56090f",
+          displayname: "黄素龙",
+        },
+      ];
+      var select = [
+        {
+          ouguid: "ffa0252c-4bba-4bd6-8d0c-3bc6340a6605",
+        },
+        {
+          ouguid: "1353dfc7-c3bc-4bc3-bf65-3c0611bcb3a9",
+        },
+      ];
+      var recentContacts = [
+        {
+          userguid: "ddf347c2-ba4a-41fc-8367-fa74794d230d",
+          loginid: "lubin",
+          displayname: "曹立斌",
+          username: "曹立斌",
+          ordernumber: 200,
+          baseouname: "",
+          title: "董事长",
+          photourl:
+            "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=ddf347c2-ba4a-41fc-8367-fa74794d230d&isMobile=true&md5=b6caaa28319c5e26d6f57ea2efc58800",
+          sequenceid: "2215",
+          ccworksequenceid: "4081455881791684",
+        },
+        {
+          userguid: "48799ec6-beb5-4f61-a2c1-71f1db8f467a",
+          loginid: "hlong",
+          displayname: "黄素龙",
+          username: "黄素龙",
+          ordernumber: 190,
+          baseouname: "",
+          title: "总经理",
+          photourl:
+            "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=48799ec6-beb5-4f61-a2c1-71f1db8f467a&isMobile=true&md5=25d7f323f347fcfb61dfa55ed0aacce7",
+          sequenceid: "2214",
+          ccworksequenceid: "4081455881788868",
+        },
+        {
+          baseouname: "",
+          ccworksequenceid: "4081455881788293",
+          displayname: "杨晓杰",
+          username: "杨晓杰",
+          loginid: "yangxj",
+          ordernumber: 70,
+          photourl:
+            "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=2b540caa-2571-4062-a608-683325743f18&isMobile=true&md5=60f5e34d897312c4d89ad213934a82e1",
+          sequenceid: "2419",
+          title: "副总经理",
+          userguid: "2b540caa-2571-4062-a608-683325743f18",
+        },
+      ];
+      var selectedous = [
+        {
+          fullouname: "新点软件-总部职能部门",
+          haschildou: "7",
+          haschilduser: "0",
+          ordernum: 99988,
+          ouguid: "ffa0252c-4bba-4bd6-8d0c-3bc6340a6605",
+          ouname: "总部职能部门",
+          parentouguid: "00c4ab1e-dfb6-4227-97cd-4e4064a2b68d",
+          usercount: 162,
+        },
+        {
+          fullouname: "新点软件-营销和交付服务部-客户服务中心-客服1部",
+          haschildou: "0",
+          haschilduser: "60",
+          ordernum: 910,
+          ouguid: "1353dfc7-c3bc-4bc3-bf65-3c0611bcb3a9",
+          ouname: "客服1部",
+          parentouguid: "491c9e1f-77c9-4e9e-b724-f9d0df1f3e78",
+          usercount: 60,
+        },
+      ];
+      var custom = {
+        ounum: "",
+        oulist: [
+          {
+            ouguid: "491c9e1f-77c9-4e9e-b724-f9d0df1f3e78",
+            ouname: "客户服务中心",
+            parentouguid: "root",
+            haschildou: "1",
+            haschilduser: "1",
+            userlist: [
+              {
+                userguid: "2b540caa-2571-4062-a608-683325743f18",
+                username: "张三",
+                ouguid: "491c9e1f-77c9-4e9e-b724-f9d0df1f3e78",
+                photourl:
+                  "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=2b540caa-2571-4062-a608-683325743f18&isMobile=true&md5=60f5e34d897312c4d89ad213934a82e1",
+              },
+            ],
+            oulist: [
+              {
+                ouguid: "1353dfc7-c3bc-4bc3-bf65-3c0611bcb366",
+                ouname: "客服1部不不不不不不啵啵啵啵啵啵啵啵啵啵啵啵",
+                parentouguid: "root2",
+                haschildou: "0",
+                haschilduser: "1",
+                oulist: [
+                  {
+                    ouguid: "1353dfc7-c3bc-4bc3-bf65-3c0611bcb3a9",
+                    ouname: "客服1部",
+                    parentouguid: "root2",
+                    haschildou: "0",
+                    haschilduser: "1",
+                  },
+                ],
+                userlist: [
+                  {
+                    userguid: "3248760a-e4a3-430e-837e-11519d56090f",
+                    username: "李四",
+                    ouguid: "1353dfc7-c3bc-4bc3-bf65-3c0611bcb3a9",
+                    photourl:
+                      "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=3248760a-e4a3-430e-837e-11519d56090f&isMobile=true&md5=203c4f0bb3efea12bfbbcfca16039487",
+                  },
+                  {
+                    userguid: "00611fb7-90ef-42f2-ba86-c87a3db3f33c",
+                    username: "王五",
+                    ouguid: "1353dfc7-c3bc-4bc3-bf65-3c0611bcb3a9",
+                    photourl:
+                      "rest/readpictureaction/getUserPicture?isCommondto=true&userGuid=00611fb7-90ef-42f2-ba86-c87a3db3f33c&isMobile=true&md5=726a9557bc6ece9ed917ef5efdf8de3c",
+                  },
+                ],
+              },
+            ],
+          },
+          {
+            ouguid: "d07d4916-ed90-47d0-82f6-4313bcbf7725",
+            ouname: "现金管理部",
+            parentouguid: "root",
+            haschildou: "0",
+            haschilduser: "0",
+          },
+        ],
+        userlist: [
+          {
+            userguid: "ddf347c2-ba4a-41fc-8367-fa74794d230d",
+            username: "曹六",
+            ouguid: "root",
+            photourl:
+              "lest/readpictureaction/getUserPicture?isCommondto=true&userGuid=ddf347c2-ba4a-41fc-8367-fa74794d230d&isMobile=true&md5=b6caaa28319c5e26d6f57ea2efc58800",
+          },
+        ],
+      };
+
+      var chooseUserguids = [
+        "ddf347c2-ba4a-41fc-8367-fa74794d230d",
+        "48799ec6-beb5-4f61-a2c1-71f1db8f467a",
+      ];
+      Util.loadJs(
+        "./_common/bizlogic_common_ready.js",
+        'js/widgets/sortable/Sortable.js',
+        'js/widgets/selectperson/m7/selectperson.js',
+        // './_common/mui/mui.js',
+        // './_common/mui/mui.css',
+        function () {
+          Util.bizlogic.ready(initPage);
+        }
+      );
+
+      function imgError() {
+        console.log("终极尝试");
+      }
+
+      function initPage() {
+        mui("body").on("tap", ".topleft-text", function () {
+          console.log("...");
+        });
+        var litemplate = new Util.litemplate.listLitemplate({
+          isIndex: false,
+          title: "contact模块",
+          ejsApi: [
+            {
+              id: "choose",
+              text: "choose(原生的通讯录选人功能)",
+              evn: "ejs",
+              runCode: function () {
+                ejs.contact.choose({
+                  userguids: chooseUserguids,
+                  success: function (result) {
+                    console.log(result);
+                    litemplate.showTips(JSON.stringify(result));
+                    chooseUserguids = [];
+                    for (var i = 0; i < result.resultData.length; i++) {
+                      chooseUserguids.push(result.resultData[i].userguid);
+                    }
+                  },
+                  error: function (error) {
+                    litemplate.showTips("失败:" + JSON.stringify(error));
+                  },
+                });
+              },
+            },
+            {
+              id: "selectperson0",
+              text: "select(ejs选择人员)",
+              evn: "ejs_h5",
+              runCode: function () {
+                ejs.contact.select({
+                  url: "http://124.70.210.90:8086/oarest9/rest/oa9/",
+                  selectedusers: [],
+                  unableselectusers: [],
+                  issingle: "0",
+                  // isouonly: '1',
+                  token: "f3fc7dc48fccb6638bcab36ad513df88",
+                  maxchoosecount: 500,
+                  success: function (result) {
+                    console.log("返回ejs结果");
+                    console.log(result);
+                    litemplate.showTips(JSON.stringify(result));
+                  },
+                  error: function (error) {
+                    litemplate.showTips("失败:" + JSON.stringify(error));
+                  },
+                });
+              },
+            },
+            {
+              id: "selectperson2",
+              text: "select(h5选人只选部门)",
+              evn: "ejs_h5",
+              runCode: function () {
+                ejs.contact.select({
+                  url: "http://124.70.210.90:8086/oarest9/rest/oa9/",
+                  token: "ff34f5688423c43d13e0dd2a3133f5d2",
+                  isouonly: "1",
+                  searchOuUrl:
+                    "http://124.70.210.90:8086/oarest9/rest/oagxh/address_searchoubycondition_v7",
+                  success: function (result) {
+                    console.log("返回结果");
+                    console.log(result);
+                  },
+                  error: function (error) {
+                    litemplate.showTips("失败:" + JSON.stringify(error));
+                  },
+                });
+              },
+            },
+            {
+              id: "selectperson3",
+              text: "select(h5选人选择范围)",
+              evn: "ejs_h5",
+              runCode: function () {
+                ejs.contact.select({
+                  url: "http://218.4.136.114:8899/oarest9/",
+                  token: "f86ddf0e9d75a2bd01778ae9700005a7",
+                  // selectedusers: userguids,
+                  unableselectusers: userguids,
+                  issingle: "0",
+                  isouonly: "0",
+                  // selectedous: select,
+                  custom: custom,
+                  success: function (result) {
+                    console.log("返回结果");
+                    console.log(result);
+                    litemplate.showTips(JSON.stringify(result));
+                  },
+                  error: function (error) {
+                    litemplate.showTips("失败:" + JSON.stringify(error));
+                  },
+                });
+              },
+            },
+          ],
+        });
+      }
+    </script>
+  </body>
+</html>

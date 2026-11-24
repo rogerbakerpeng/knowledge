@@ -1,0 +1,183 @@
+
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="utf-8"/>
+		<title>审批</title>
+		<!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no"/>
+		<!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<script src='../frame/fmui/js/cssboot.js'></script>
+		<script>
+			SrcBoot.output([
+				'workflow/css/workflow_submit.css'
+			]);
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--当前步骤-->
+			<ul class=" em-todo-table-view mui-table-view em-todo-step">
+				<li class="mui-table-view-cell">
+					<div>当前步骤<span class="activityname" id="curr_step"></span></div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div>当前操作<span class="operationname" id="curr_op"></span></div>
+				</li>
+				<li class="mui-table-view-cell split-select-options">
+					<a class="">
+						<div>当前分支<span class="splitname" id="steplist"></span></div>
+					</a>
+				</li>
+			</ul>		
+
+			<!--签署意见-->
+			<p class="em-todo-p">签署意见</p>
+			<div class="em-todo-opinion">
+				<textarea id="opinioncontent" name="" rows="" cols="" placeholder="请**审批"></textarea>
+				<div id="commonTemple" class="temple-item" data-ripple="ripple">
+					<img src="img/img_plus.png" alt="" />
+					<span>公共模板</span>
+				</div>
+				<div id="personTemple" class="temple-item" data-ripple="ripple">
+					<img src="img/img_plus.png" alt="" />
+					<span>个人模板</span>
+				</div>
+			</div>
+			<!--短信提醒-->
+			<div class="em-todo-message" id="message">
+				<span>短信提醒</span>
+				<div class="mui-switch mui-switch-mini sendsms" id="sms_check" value="一般">
+					<div class="mui-switch-handle"></div>
+					<textarea class="sms-content hidden" id="smscontent"></textarea>
+				</div>
+			</div>
+		</div>
+		 <footer class="footer" id="submitbtn">提交</footer>
+    
+    
+		<script>SrcBoot.output(["frame/fmui/js/jsboot.js"])</script>
+		<script>
+		//<![CDATA[ 
+		    var $smscontent=$('#smscontent'),
+			$steplist = $("#steplist"),
+			$opinioncontent =$("#opinioncontent"),
+			$sms_check=$('#sms_check'),
+			$currstep = $("#curr_step"),
+			$currop = $("#curr_op");
+		    //初始化页面
+			epointm.initPage("ztbCommonOperationHandleF9Action", null, function(data) {
+				if(data.smsvisible && data.smsvisible == "0")
+				{					
+					$('#message').hide();
+				}				
+				initpagedata();				
+			});
+		    function initpagedata(){		
+				// 初始化页面
+				epointm.execute('initPage',null, null,function(data) {
+					// 当前步骤 、当前操作初始化
+					var data = epm.decodeJson(data);
+					if ($currstep.length > 0 && data.activityname)
+						$currstep.text(data.activityname);
+					if ($currop.length > 0 && data.operationname)
+						$currop.text(data.operationname);
+					//初始化短信区域 
+					if ($smscontent.length > 0 && data.smscontext)
+						$smscontent.text(data.smscontext);
+					// 初始化意见区域
+					if ($opinioncontent && data.opinion) {
+						if (parent.workflowopinioncontent)
+							$opinioncontent.val(parent.workflowopinioncontent);
+						else{						
+							$opinioncontent.val(data.opinion.text);												
+							$opinioncontent.attr("required",data.opinion.required);
+							$opinioncontent.attr("requiredErrorText","请签署意见！");
+						}						
+					}
+					//初始化当前分支	
+					if ($steplist.length > 0) {
+						if(!data.nextsteplist || !data.nextsteplist.data){
+							epointm.alert('没有可选择步骤！', '提示', function() {
+								ztbphone.closePage();
+							});
+							return;
+						}
+						var steplist = data.nextsteplist.data;
+						for(var i = 0, l = steplist.length; i < l; i++) {
+							$steplist.text(steplist[i].stepname);
+						}
+					}
+					
+					//特殊情的页面放这边初始化，因为js异步执行
+					ztbphone.phonesubmitpageinit();
+				});								
+			}
+		  //保存,点击确认提交后触发
+			mui('body').on('tap','#submitbtn',function(){
+				var urlparams = Util.getUrlParams();			
+				var params = {
+						'workitemguid' : urlparams.workItemGuid,
+						'operationguid' : urlparams.operationGuid,
+						'pviguid' : urlparams.processVersionInstanceGuid
+					}, flag = true;
+					// 判断时候必须填写意见，并拼接意见字段
+					 if ($opinioncontent) {
+						
+						if (!epoint.validate()) {
+							return false;
+						}
+						if (!$opinioncontent.val()) {
+							epointm.alert('请签署意见！', '提示');
+							return false;
+						} else
+							params['opinion'] = $opinioncontent.val();
+									
+					} else if (parent.workflowopinioncontent) {
+						params['opinion'] = parent.workflowopinioncontent;
+					} 
+					//判断是否勾选短信提醒，并拼接短信提醒内容
+						var isActive = document.getElementById("sms_check").classList.contains("mui-active");
+						params['sendsms']=isActive;
+						params['smscontext']=$smscontent.text();							
+						//短信级别
+						params['sendsms_jjdd']=$sms_check.attr('value');
+					console.log(params);	
+				// 是否执行action方法
+				    epointm.execute('btnsubmit',null, epm.encodeUtf8(epm.encodeJson(params)),				
+					function(data) {
+						if (data.message) {
+							ztbphone.closePage(data.message);
+						}
+				});  
+			});
+
+			  //模板意见选取，0：公共模板   1:个人模板
+			mui('.em-todo-opinion').on("tap", '.temple-item', function() {				
+				var tempItem = this.innerText.trim();
+				var pageUrl = "";
+				switch(tempItem) {
+					case "公共模板":
+						pageUrl = "workflow/wf_opinion_template?type=0";
+						break;
+					case "个人模板":
+						pageUrl = "workflow/wf_opinion_template?type=1";
+						break;
+					default:
+						break;
+				} 
+				
+				ztbphone.openPage(pageUrl,'',function(result){
+					$("#opinioncontent").val(result);
+				});
+				
+			});
+	
+			//]]>
+		</script>
+	</body>
+
+</html>

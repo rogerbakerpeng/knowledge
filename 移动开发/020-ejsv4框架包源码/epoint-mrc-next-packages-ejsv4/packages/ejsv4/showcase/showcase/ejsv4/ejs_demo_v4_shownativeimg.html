@@ -1,0 +1,130 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/06/01
+        版本: [3.0, 2017/06/01 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  util 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <!-- 移动端的响应式特性 -->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>显示原生路径的图片</title>
+
+        <script>
+            document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            SrcBoot.output([
+                './_common/common.css'
+            ]);
+        </script>
+
+    </head>
+
+    <body>
+        <img id="img-native" />
+        <div class="mui-content pt0" id="ejs-app">
+
+        </div>
+        <script>
+            document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            "use strict";
+            
+            var imgNative = document.getElementById('img-native');
+            var imgPath;
+
+            Util.loadJs(
+                './_common/bizlogic_common_ready.js',
+                function() {
+                    Util.bizlogic.ready(initPage);
+                });
+
+            function initPage() {
+                var litemplate = new Util.litemplate.listLitemplate({
+                    isIndex: false,
+                    title: 'util模块',
+                    ejsApi: [{
+                        'id': 'selectImage',
+                        'text': 'selectImage(选择图片)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            ejs.util.selectImage({
+                                // 图片数量
+                                photoCount: 9,
+                                // 是否显示gif图片，1：显示；0：不显示
+                                showGif: 0,
+                                // 是否允许预览，1：允许，0：不允许
+                                previewEnabled: 1,
+                                // 已选图片，json数组格式，item为元素本地地址
+                                selectedPhotos: [],
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                    if (result && result.resultData) {
+                                        imgPath = result.resultData[0];
+                                    }
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'cameraImage',
+                        'text': 'cameraImage(拍照)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            ejs.util.cameraImage({
+                                // 宽度
+                                width: 720,
+                                // 压缩质量
+                                quality: 70,
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                    if (result && result.resultData) {
+                                        imgPath = result.resultData;
+                                    }
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'setImg',
+                        'text': 'setImg(设置原生图片路径)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+                            var setImg = function() {
+                                if (!/^local:\/\//.test(imgPath)) {
+                                    imgPath = 'local://' + imgPath;
+                                }
+                                imgNative.setAttribute('src', imgPath);
+                                ejs.ui.toast('设置图片路径：' + imgPath);
+                            };
+                            
+                            if (!imgPath) {
+                                ejs.ui.alert({
+                                    title: "缺少图片路径",
+                                    message: "请先选择图片",
+                                    buttonName: "确定"
+                                });
+                                return;
+                            } else {
+                                setImg();
+                            }
+
+                        }
+                    }]
+                });
+            }
+        </script>
+
+    </body>
+
+</html>

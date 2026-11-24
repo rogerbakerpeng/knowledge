@@ -1,0 +1,129 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/07/28
+        版本: [3.0, 2017/07/28 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  支付
+-->
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <!-- 移动端的响应式特性 -->
+        <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <title>支付API</title>
+
+        <script>
+            document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            SrcBoot.output([
+                './_common/common.css'
+            ]);
+        </script>
+
+    </head>
+
+    <body>
+        <div class="mui-content pt0" id="ejs-app">
+
+        </div>
+        <script>
+            document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+        <script>
+            "use strict";
+
+            Util.loadJs(
+                './_common/bizlogic_common_ready.js',
+                function() {
+                    Util.bizlogic.ready(true, function() {
+                        var listAndroid = [{
+                            'pay': 'com.epoint.pay.bridge.EpointPayBridegeImpl'
+                        }];
+                        var listIOS = [{
+                            'pay': 'EpointPayBridgeImp'
+                        }];
+                        var list = ejs.os.android ? listAndroid : listIOS;
+
+                        ejs.error(function(error) {
+                            ejs.ui.alert("ejs错误提示:" + JSON.stringify(error));
+                        });
+
+                        ejs.config({
+                            jsApiList: list
+                        });
+                        ejs.ready(initPage);
+                    });
+
+                });
+
+            function initPage() {
+                var litemplate = new Util.litemplate.listLitemplate({
+                    isIndex: false,
+                    title: '支付API调用',
+                    // 实际中请不要这样调用标准API，这里仅作为示例
+                    // 因为标准API除了调用外还有可能有其它的兼容处理，直接callApi无法达到那个目的
+                    ejsApi: [{
+                        'id': 'payZhifubao',
+                        'text': 'pay(支付宝支付)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+
+                            ejs.callApi({
+                                name: "epointPay",
+                                mudule: 'pay',
+                                data: {
+                                    payType: '1',
+                                    payData: {
+                                        orderInfo: 'app_id=2017041206663452&timestamp=2016-07-29+16%3A55%3A53&biz_content=%7B%22timeout_express%22%3A%2230m%22%2C%22product_code%22%3A%22QUICK_MSECURITY_PAY%22%2C%22total_amount%22%3A%220.01%22%2C%22subject%22%3A%221%22%2C%22body%22%3A%22%E6%88%91%E6%98%AF%E6%B5%8B%E8%AF%95%E6%95%B0%E6%8D%AE%22%2C%22out_trade_no%22%3A%22072421091329230%22%7D&method=alipay.trade.app.pay&charset=utf-8&version=1.0&sign_type=RSA2&sign=SK5yOl4xyStO3J81wa1s489HvxyQS1Pm%2FEEslXgSx%2FeAuXHFtnNc4f9Sn3LrPYhUiBaSS9vKAkDeenx0IPhOOpVDxu3bYq8ooZNXRqXuYgUwlc7aJlCkkYuO7Kfzt6C8Ia1FNkiZzDy8auArMLN%2Fjs43eEWE8S6wMdSiRfM1VVA%3D',
+                                    }
+                                },
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }, {
+                        'id': 'payWeixin',
+                        'text': 'pay(微信支付)',
+                        'evn': 'ejs',
+                        'runCode': function() {
+
+                            ejs.callApi({
+                                name: "epointPay",
+                                mudule: 'pay',
+                                data: {
+                                    payType: '2',
+                                    payData: {
+                                        orderInfo: {
+                                            "appId": "wx14af47ab474a0991",
+                                            "partnerId": "1415675302",
+                                            "prepayId": "wx201707242115139df7129d070874680875",
+                                            "packageValue": "prepay_id=wx201707242115139df7129d070874680875",
+                                            "nonceStr": "58ec72df0caca51df569d0b497c33805",
+                                            "sign": "1500902114",
+                                            "timeStamp": "37c666b68923605c42417f14c0cb651d"
+                                        }
+                                    }
+                                },
+                                success: function(result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function(error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }]
+                });
+            }
+        </script>
+
+    </body>
+
+</html>

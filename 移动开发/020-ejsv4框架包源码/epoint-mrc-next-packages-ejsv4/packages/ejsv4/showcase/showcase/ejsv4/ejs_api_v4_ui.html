@@ -1,0 +1,601 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/05/31
+        版本: [3.0, 2017/05/31 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  ui模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>ui模块</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <!-- <script src="https://g.alicdn.com/dingding/dingtalk-jsapi/2.10.3/dingtalk.open.js"></script> -->
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+            //     ejs.config();
+            //   ejs.ready(function () {
+                // const href = window.location.href;
+
+                // localPath = href.slice(0, href.lastIndexOf('/') + 1);
+
+                Util.bizlogic.ready(initPage);
+            //   });
+                // Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'ui模块',
+                ejsApi: [
+                    {
+                        'id': 'toast',
+                        'text': 'toast(提示窗)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.toast({
+                                message: 'sd#ddd测试',
+                                h5UI: false,
+                                success: function () {
+                                    var i = 0,a=0;
+                                    for(;i <= 0; i++){a=1;}
+                                    console.log(a);
+                                    console.log('toast调用成功2')
+                                }
+                            }).then(function (resolve) {
+                                console.log('resolve')
+                            });
+                            // ejs.ui.toast('sd#ddd测试');
+                        }
+                    },
+                    {
+                        'id': 'alert',
+                        'text': 'alert(弹出窗)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.alert({
+                                title: '提示',
+                                message: '内容',
+                                cancelable: 0,
+                                h5UI: false,
+                                success: function (result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            }).then(function (resolve) {
+                                console.log('resolve')
+                            });
+                            // ejs.ui.alert('sd#ddd测试', 'title');
+                        }
+                    },
+                    {
+                        'id': 'showDebugDialog',
+                        'text': 'showDebugDialog(弹出的可复制窗)',
+                        'evn': 'ejs_h5',
+                        'runCode': function () {
+                            ejs.ui.showDebugDialog({
+                                'debugInfo': '内容',
+                                h5UI: false
+                            });
+                            // ejs.ui.showDebugDialog('sd#ddd测试');
+                        }
+                    },
+                    {
+                        'id': 'confirm',
+                        'text': 'confirm(确认窗)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.confirm({
+                                title: "提示",
+                                message: '内容',
+                                // buttonLabels: ['取消', '确定'],
+                                cancelable: 0,
+                                h5UI: false,
+                                success: function (result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            }).then(function (resolve) {
+                                console.log('resolve')
+                            });
+                        }
+                    },
+                    {
+                        'id': 'prompt',
+                        'text': 'prompt(输入窗)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.prompt({
+                                title: "标题",
+                                hint: "提示",
+                                text: '文本',
+                                lines: 1,
+                                maxLength: 10000,
+                                // buttonLabels: ['取消', '确定'],
+                                // 默认可取消
+                                cancelable: 1,
+                                h5UI: false,
+                                success: function (result) {
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            }).then(function (resolve) {
+                                console.log('resolve')
+                                console.log(resolve)
+                            });
+                        }
+                    },
+                    {
+                        'id': 'actionSheet',
+                        'text': 'actionSheet(操作列表)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.actionSheet({
+                                items: ['远野贵树', '篠原明里', '澄田花苗', '立花泷', '宫水三叶'],
+                                // 默认可取消
+                                cancelable: 1,
+                                h5UI: false,
+                                success: function (result) {
+
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'showWaiting',
+                        'text': 'showWaiting(显示等待框，2秒关闭)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.showWaiting({
+                                message: '正在加载',
+                                h5UI: false,
+                                success: function (result) {
+                                    setTimeout(function () {
+                                        ejs.ui.closeWaiting();
+                                    }, 2000);
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'pickDate',
+                        'text': 'pickDate(选择日期)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.pickDate({
+                                // title: '',
+                                // datetime: '2016-12-05',
+                                // minDate: '2000',
+                                // maxDate: '2010',
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'pickTime',
+                        'text': 'pickTime(选择时间)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.pickTime({
+                                // title: 'pickTime',
+                                // datetime: '10:20',
+                                minHour: 0,
+                                maxHour: 23,
+                                minMinute: 0,
+                                maxMinute: 59,
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'pickDateTime',
+                        'text': 'pickDateTime(选择日期时间)',
+                        'evn': 'ejs_dd_h5',
+                        'runCode': function () {
+                            ejs.ui.pickDateTime({
+                                // title1: '选择日期',
+                                // title2: '选择时间',
+                                // title: '选择日期时间',
+                                datetime: '2021-12-05 10:20',
+                                minDate: '2021-07-26',
+                                maxDate: '2022-12-10',
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    console.log(error);
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'pickMonth',
+                        'text': 'pickMonth(选择月份)',
+                        'evn': 'h5',
+                        'runCode': function () {
+                            ejs.ui.pickMonth({
+                                // title: '选择月份',
+                                datetime: '2017-06',
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'popPicker',
+                        'text': 'popPicker(一级选择)',
+                        'evn': 'h5',
+                        'runCode': function () {
+                            ejs.ui.popPicker({
+                                layer: 1,
+                                data: [{
+                                    value: 'value1',
+                                    text: 'text1'
+                                }, {
+                                    value: 'value2',
+                                    text: 'text2'
+                                }],
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'popPicker2',
+                        'text': 'popPicker(二级联动选择)',
+                        'evn': 'h5',
+                        'runCode': function () {
+                            ejs.ui.popPicker({
+                                layer: 2,
+                                data: [{
+                                    value: 'value111',
+                                    text: 'text111',
+                                    children: [{
+                                        value: 'value11',
+                                        text: 'text11',
+                                    }, {
+                                        value: 'value12',
+                                        text: 'text12',
+                                    }]
+                                }, {
+                                    value: 'value222',
+                                    text: 'text222',
+                                    children: [{
+                                        value: 'value21',
+                                        text: 'text21',
+                                    }, {
+                                        value: 'value22',
+                                        text: 'text22',
+                                    }]
+                                }],
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'popPicker3',
+                        'text': 'popPicker(三级联动选择)',
+                        'evn': 'h5',
+                        'runCode': function () {
+                            ejs.ui.popPicker({
+                                layer: 3,
+                                data: [{
+                                    value: '110000',
+                                    text: '北京市',
+                                    children: [{
+                                        value: "110101",
+                                        text: "北京市",
+                                        children: [{
+                                            value: "110101",
+                                            text: "东城区"
+                                        }, {
+                                            value: "110102",
+                                            text: "西城区"
+                                        }, {
+                                            value: "110103",
+                                            text: "崇文区"
+                                        }, {
+                                            value: "110104",
+                                            text: "宣武区"
+                                        }, {
+                                            value: "110105",
+                                            text: "朝阳区"
+                                        }, {
+                                            value: "110106",
+                                            text: "丰台区"
+                                        }, {
+                                            value: "110107",
+                                            text: "石景山区"
+                                        }, {
+                                            value: "110108",
+                                            text: "海淀区"
+                                        }, {
+                                            value: "110109",
+                                            text: "门头沟区"
+                                        }, {
+                                            value: "110111",
+                                            text: "房山区"
+                                        }, {
+                                            value: "110112",
+                                            text: "通州区"
+                                        }, {
+                                            value: "110113",
+                                            text: "顺义区"
+                                        }, {
+                                            value: "110114",
+                                            text: "昌平区"
+                                        }, {
+                                            value: "110115",
+                                            text: "大兴区"
+                                        }, {
+                                            value: "110116",
+                                            text: "怀柔区"
+                                        }, {
+                                            value: "110117",
+                                            text: "平谷区"
+                                        }, {
+                                            value: "110228",
+                                            text: "密云县"
+                                        }, {
+                                            value: "110229",
+                                            text: "延庆县"
+                                        }, {
+                                            value: "110230",
+                                            text: "其它区"
+                                        }]
+                                    }]
+                                }, {
+                                    value: '120000',
+                                    text: '天津市',
+                                    children: [{
+                                        value: "120100",
+                                        text: "天津市",
+                                        children: [{
+                                            value: "120101",
+                                            text: "和平区"
+                                        }, {
+                                            value: "120102",
+                                            text: "河东区"
+                                        }, {
+                                            value: "120103",
+                                            text: "河西区"
+                                        }, {
+                                            value: "120104",
+                                            text: "南开区"
+                                        }, {
+                                            value: "120105",
+                                            text: "河北区"
+                                        }, {
+                                            value: "120106",
+                                            text: "红桥区"
+                                        }, {
+                                            value: "120107",
+                                            text: "塘沽区"
+                                        }, {
+                                            value: "120108",
+                                            text: "汉沽区"
+                                        }, {
+                                            value: "120109",
+                                            text: "大港区"
+                                        }, {
+                                            value: "120110",
+                                            text: "东丽区"
+                                        }, {
+                                            value: "120111",
+                                            text: "西青区"
+                                        }, {
+                                            value: "120112",
+                                            text: "津南区"
+                                        }, {
+                                            value: "120113",
+                                            text: "北辰区"
+                                        }, {
+                                            value: "120114",
+                                            text: "武清区"
+                                        }, {
+                                            value: "120115",
+                                            text: "宝坻区"
+                                        }, {
+                                            value: "120116",
+                                            text: "滨海新区"
+                                        }, {
+                                            value: "120221",
+                                            text: "宁河县"
+                                        }, {
+                                            value: "120223",
+                                            text: "静海县"
+                                        }, {
+                                            value: "120225",
+                                            text: "蓟县"
+                                        }, {
+                                            value: "120226",
+                                            text: "其它区"
+                                        }]
+                                    }]
+                                }],
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'select',
+                        'text': 'select(选择列表)',
+                        'evn': 'ejs_h5',
+                        'runCode': function () {
+                            ejs.ui.select({
+                                // title: '单选列表',
+                                items: ['远野贵树', '篠原明里', '澄田花苗', '立花泷', '宫水三叶', 'b不会后悔', '消除清单', '消除一大', '消除清大', '大噶好'],
+                                // 默认可取消
+                                cancelable: 1,
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            }).then(function (resolve) {
+                                console.log('resolve')
+                                console.log(resolve)
+                            });
+                        }
+                    },
+                    {
+                        'id': 'selectMulti',
+                        'text': 'selectMulti(多选)',
+                        'evn': 'ejs_h5',
+                        'runCode': function () {
+                            // 多选时必须如果有chooseArray，必须一一对应，如果少了，会报错
+                            ejs.ui.select({
+                                // title: '多选',
+                                items: ['远野贵树', '篠原明里', '澄田花苗', '立花泷', '宫水三叶'],
+                                choiceState: ['0', '0', '0', '1', '1'],
+                                isMultiSelect: 1,
+                                // 默认可取消
+                                cancelable: 1,
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                    {
+                        'id': 'selectSingleSP',
+                        'text': 'select(单选九宫格)',
+                        'evn': 'ejs_h5',
+                        'runCode': function () {
+                            // 多选时必须如果有chooseArray，必须一一对应，如果少了，会报错
+                            ejs.ui.select({
+                                // title: '九宫格选择',
+                                items: ['远野贵树', '篠原明里', '澄田花苗', '立花泷', '宫水三叶'],
+                                // 样式类型，默认为0。 0：单列表样式；1：九宫格样式(目前只支持单选)
+                                type: 1,
+                                columns: 2,
+                                // 默认可取消
+                                cancelable: 1,
+                                h5UI: false,
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    },
+                     {
+                        'id': 'popWindow',
+                        'text': 'popWindow(弹出窗口)',
+                        'evn': 'ejs',
+                        'runCode': function () {
+                            var iconSrc = 'http://app.epoint.com.cn/staticResource/img_head.png';
+                            ejs.ui.popWindow({
+                                titleItems: ['立花泷', '宫水三叶'],
+                                iconItems: [iconSrc, './images/testgallery1.jpg'],
+                                success: function (result) {
+                                    console.log('成功回调', result);
+                                    litemplate.showTips(JSON.stringify(result));
+                                },
+                                error: function (error) {
+                                    litemplate.showTips('失败:' + JSON.stringify(error));
+                                }
+                            });
+                        }
+                    }]
+            });
+        }
+
+    </script>
+
+</body>
+
+</html>

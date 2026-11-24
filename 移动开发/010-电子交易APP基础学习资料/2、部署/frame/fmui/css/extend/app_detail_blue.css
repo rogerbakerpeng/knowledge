@@ -1,0 +1,463 @@
+/**
+* 作者： 冯轶群
+* 创建时间： 2018年06月09日 09:09:42
+* 版本： [1.0, 2018年06月09日 09:09:42]
+* 版权： 江苏国泰新点软件有限公司
+* 描述： 项目详情
+*/
+.mui-scroll-wrapper{
+	overflow: scroll;
+}
+
+.mui-control-content {
+    background-color: white;
+    min-height: calc(100vh - 40px);
+}
+.mui-control-content .mui-loading {
+    margin-top: 50px;
+}
+
+#slider {
+    background: #fff;
+}
+
+/* 选项卡标记样式 */
+.mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+    color: #3774fa;
+    border-bottom: 2px solid #3774fa;
+    background: none;
+}
+
+.mui-segmented-control.mui-segmented-control-inverted~.mui-slider-progress-bar {
+    background-color: #3774fa;
+}
+
+/* 主体 */
+.content {
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+}
+
+.em-table-view {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    background-color: #fff;
+}
+
+.em-table-view.individuation {
+    margin-left: 15px;
+}
+
+.em-table-view.individuation::before {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    width: 4px;
+    content: '';
+    background-color: #d4daf5;
+}
+
+.em-table-view-cell {
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    -webkit-touch-callout: none;
+    font-size: 16px;
+    color: #000;
+}
+
+.file-title::after,
+.card-head::after,
+.em-table-view-cell::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.mui-table-view-cell:last-child:before, 
+.mui-table-view-cell:last-child:after {
+    height: 0;
+}
+
+.em-table-view-card:first-child {
+    margin-top: 0;
+}
+
+.card-head {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    background: #fff;
+}
+
+.card-title {
+    position: relative;
+    display: inline-block;
+    padding-left: 5px;
+    border-left: 2px solid #3774fa;
+    font-size: 15px;
+    color: #3774fa;
+}
+
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    /* border: 1px solid #999; */
+    border-radius: 50%;
+    color: #999;
+}
+
+.card-content {
+    background: #fff;
+}
+
+.card-content p {
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+.content-title {
+    display: inline-block;
+    width: 240px;
+    font-size: 15px;
+    color: #666;
+    vertical-align: top;
+}
+
+.content-txt {
+    display: inline-block;
+    width: calc(100% - 110px);
+    word-wrap: break-word;
+    text-align:right;
+    color: #333;
+}
+
+.content-txt2 {
+    width: calc(100% - 250px)!important ;
+	text-align:right;   
+	color: #333;
+}
+
+.content-txt3 {
+	width: calc(100% - 150px)!important;
+	text-align:right;   
+	color: #333;
+}
+
+.footer {
+    position: absolute;
+    z-index: 99;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 50px;
+}
+
+.footer button {
+    flex: 1;
+    height: 100%;
+    background: #3774fa;
+    border: 0;
+    color: #fff;
+    border-radius: 0;
+}
+
+.footer .btn-true {
+    margin-right: 1px;
+}
+
+.footer .liuhzuan{
+    flex: 1;
+    height: 100%;
+    background: #3774fa00;
+    border: 0;
+    color: #888892 !important;
+    border-radius: 0;
+    border: 1px solid #bcbcc3;
+    font-size: 18px;
+}
+
+/* 附件 */
+.file-content {
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.file-title {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    width: 100%;
+    font-size: 15px;
+    color: #333;
+}
+
+.file-name {
+    width: 245px;
+    color: black;
+}
+
+.icon-box {
+    display: flex;
+    justify-content: space-around;
+    padding-left: 20px;
+    width: calc(100% - 245px);
+}
+
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.icon.icon-download {
+    background: url(images_blue/download.png);
+    background-size: 100% 100%;
+}
+
+.icon.icon-more {
+    background: url(images_blue/more.png);
+    background-size: 100% 100%;
+}
+
+/* 处理历史 */
+.timeline_title {
+    display: inline-block;
+    min-width: 64px;
+    color: #999;
+    margin-right: 20px;
+}
+
+.timeline_name {
+    display: inline-block;
+    color: #333;
+}
+
+.em-timeline-content .em-table-view-cell:last-child::after {
+    height: 0;
+}
+
+/* 标段（包）信息 */
+.base-info {
+    margin: 10px;
+    background-color:#fff;
+    box-shadow: 0 0 5px #ececec;
+}
+.base-info .base-info-div{
+    margin-bottom: 15px;
+    background-color:white;
+    box-shadow: 0 0 5px #ececec;
+}
+
+.base-info .baseinfo-li {
+    display: flex;
+    font-size: 14px;
+    padding: 8px 10px;
+    
+}
+
+.base-info .baseinfo-li::after {
+    content: none;
+}
+
+.baseinfo-li>.tit {
+    width: 40%;
+    color: #666;
+    border-right: 1px solid #e6e6e6;
+    padding-left: 25px;
+    text-align: left;
+    margin: auto;
+}
+
+.baseinfo-li>.con {
+    width: 60%;
+    padding-left: 10px;
+    word-wrap:break-word;
+}
+
+.iconnum {
+    background: url('./images_blue/icon_tit.png') no-repeat left center;
+    background-size: 15px;
+}
+
+.iconname {
+    background: url('./images_blue/icon_name.png') no-repeat left center;
+    background-size: 15px;
+}
+
+.iconway {
+    background: url('./images_blue/icon_way.png') no-repeat left center;
+    background-size: 15px;
+}
+
+.iconmoney {
+    background: url('./images_blue/icon_money.png') no-repeat left center;
+    background-size: 15px;
+}
+
+/* 水平线 */
+.card-hr{
+	
+	height:1px;
+	border:none;
+	border-top:1px solid  #ddd;
+	margin-left:15px;
+}
+
+/* (工作流提交框上的按钮或者工作控件按钮的样式) */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 46px;
+}
+
+.footer .footer-handle {
+    flex: 1;
+    height: 100%;
+    background: #3774fa;
+    border: 0;
+    color: #fff;
+    border-radius: 0;
+}
+.footer .footer-sure {
+    margin-right: 1px;
+}
+
+
+
+/**
+ * 作者: 袁凯忻、郭天琦
+ * 时间: 2017-04-25 09:46:41
+ * 描述: 时间轴 (工作流处理历史)
+ */
+
+.em-timeline {
+	padding: 10px;
+}
+
+.em-timeline-date span {
+    line-height: 40px;
+}
+
+.em-timeline-node {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+    top: 15px;
+    left: 5px;
+    width: 20px;
+    height: 20px;
+    background-color: #3774fa;
+    border-radius: 50%;
+    border: 2px solid #3774fa;
+    color: #fff;
+}
+
+.em-timeline-date {
+    float: left;
+    width: 20%;
+    text-align: right;
+    margin-top: 25px;
+    color: #666;
+    font-size: 12px;
+}
+
+.em-timeline-inner {
+    position: relative;
+    float: left;
+    color: #fff;
+    margin-top: 10px;
+    width: 80%;
+}
+
+.em-timeline-panel {
+	margin-top: 10px;
+    margin-left: 35px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #999;
+}
+
+.em-timeline-inner:before {
+	position: absolute;
+    top: 0;
+    bottom: -10px;
+    width: 0;
+    margin: 0 14px;
+    content: '';
+    border: 1px solid #3774fa;
+}
+
+.em-timeline-item:last-child .em-timeline-inner:before {
+	bottom: 10px;
+}
+
+.em-timeline-title {
+    padding: 10px 0;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    line-height: 27px;
+    width: 100%;
+    border-bottom: 1px solid #fff;
+    background-color: #3774fa;
+}
+
+.em-timeline-content {
+	display: inline-block;
+	width: 100%;
+    line-height: 30px;
+    font-size: 14px;
+    background: #fffbf2;
+}
+
+/* 待处理 */
+.em-timeline-item.active .em-timeline-node {
+    background: url(images_blue/img_waiting.png);
+    background-size: 100% 100%;
+    background-color: #b3b3b3;
+    border-radius: 50%;
+    border: 2px solid #b3b3b3;
+}
+
+.em-timeline-item.active .em-timeline-inner:before {
+    border: 1px solid #b3b3b3;
+}
+
+.em-timeline-item.active .em-timeline-title {
+    background-color: #b3b377;
+}
+.mui-outputtext{
+	 display: inline-block;
+    width: calc(100% - 0px);
+    word-wrap: break-word;
+    text-align:right;
+    color: #333;
+}
+
+.redfont{
+	color:red !important;
+}
+

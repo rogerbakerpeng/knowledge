@@ -1,0 +1,121 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/05/31
+        版本: [3.0, 2017/05/31 ]
+        版权: 江苏国泰新点软件有限公司
+        描述： ejs v4的测试页面 
+-->
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="pragma" content="no-cache" />
+    <meta http-equiv="cache-control" content="no-cache" />
+    <meta http-equiv="expires" content="0" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1,maximum-scale=5,user-scalable=yes"
+    />
+    <title>测试页面</title>
+    <script>
+      document.write(
+        "<script src='../../js/cssboot.js?" +
+          Math.random() +
+          "'></scr" +
+          "ipt>"
+      );
+    </script>
+    <script>
+      SrcBoot.output(["./_common/common.css"]);
+    </script>
+  </head>
+
+  <body>
+    <div class="mui-content pt0" id="ejs-app"></div>
+
+    <script>
+      document.write(
+        "<script src='../../js/jsboot.js?" +
+          Math.random() +
+          "'></scr" +
+          "ipt>"
+      );
+    </script>
+    <script>
+      "use strict";
+
+      Util.loadJs("./_common/bizlogic_common_ready.js", function () {
+        Util.bizlogic.ready(initPage);
+      });
+
+      /**
+       * 生成一个列表模板，顺带监听
+       */
+      function initPage() {
+        var litemplate = new Util.litemplate.listLitemplate({
+          isIndex: false,
+          title: "测试页面",
+          ejsApi: [
+            {
+              id: "close",
+              text: "关闭本页面(并穿参数)",
+              runCode: function () {
+                // 传过去会自动转为字符串
+                ejs.page.close({
+                  resultData: {
+                    key1: "value2",
+                  },
+                });
+              },
+            },
+            {
+              id: "close2",
+              text: "关闭本页面(兼容传参1)",
+              runCode: function () {
+                // 只允许字符串
+                ejs.page.close(
+                  JSON.stringify({
+                    key1: "value2",
+                  })
+                );
+              },
+            },
+            {
+              id: "close3",
+              text: "关闭本页面(兼容传参2)",
+              runCode: function () {
+                // 传过去会自动转为字符串
+                ejs.page.close("value2");
+              },
+            },
+            // {
+            //   id: "sxqp",
+            //   text: "打开手写签批测试",
+            //   runCode: function () {
+            //     // 传过去会自动转为字符串
+            //     ejs.util.invokePluginApi({
+            //       path: "epointhandwrite.provider.openNewPage",
+            //       dataMap: {
+            //         method: "goHandWritePage",
+            //         requestcode: "1",
+            //       },
+            //       success: function (result) {
+            //           ejs.ui.toast(JSON.stringify(result));
+            //         console.log(result.path);
+
+            //         // getBase64(result.path);
+            //       },
+            //       error: function (err) {
+            //         ejs.ui.toast(JSON.stringify(err));
+            //         // err 错误信息
+            //         console.log(err)
+            //       },
+            //     });
+            //   },
+            // },
+          ],
+        });
+      }
+    </script>
+  </body>
+</html>

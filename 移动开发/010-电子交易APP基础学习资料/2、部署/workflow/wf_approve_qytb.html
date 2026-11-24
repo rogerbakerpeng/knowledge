@@ -1,0 +1,125 @@
+<!-- 
+        作者：孙尊路
+        创建时间：2017-08-28 10:00
+        版本： [1.0, 2017/08/28]
+        版权： 江苏国泰新点软件有限公司
+        描述：通用工作流---审批页面
+-->
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+<head>
+<meta charset="UTF-8" />
+<title>审批</title>
+<!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+<meta name="viewport"
+	content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+<!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+<meta name="format-detection" content="telephone=no, email=no" />
+<script src='../frame/fmui/js/cssboot.js'></script>
+<script>
+	SrcBoot.output([ 'workflow/css/workflow_approve.css' ]);
+</script>
+</head>
+
+<body>
+	<div class="mui-content">
+		<div class="noisAuto">
+			<div class="em-todo-p">限上审核岗配置</div>
+			<div class="nohaslimitpost">
+				<!-- 无需向上级报批  -->
+				<div class="ep-mui-outputtext" bind="nolimitpostprompt"></div>
+			</div>
+
+			<div class="haslimitpost">
+				<button class="ep-mui-combobox" bind="limimtpostPerson"
+					action="getLimimtpostList" />
+			</div>
+			<div class="haslimitpost">
+				<!-- 是否向上级单位报批  -->
+				<div class="em-todo-p">
+					<span class="ep-mui-outputtext" bind="xsglabel"></span>
+					<div class="bpRight" style="float: right">
+						<div class="ep-mui-switch" id="splist" bind="ifbp"
+							action="sfspList" ></div>
+						<div class="nobpRight em-todo-p">必须报批</div>
+					</div>
+				</div>
+				<div id="nospreason" class="em-todo-p" style="display: none">
+					<div class="mui-outputtext">不审批理由 :</div>
+					<button class="ep-mui-combobox" bind="bbpyy" action="bbpyyList" />
+				</div>
+			</div>
+
+		</div>
+		<p class="em-todo-p">签署意见</p>
+		<div class="em-todo-opinion">
+			<textarea class="ep-mui-textarea" bind='txtOpinion' id="opinion"
+				placeholder="请输入审批意见"></textarea>
+		</div>
+	</div>
+	<script>SrcBoot.output(["frame/fmui/js/jsboot.js"])</script>
+	<script>
+		//<![CDATA[ 
+		//初始化页面
+		epointm.initPage("qycommonopiniontbaction", null, function(date) {
+			if (date.isauto) {
+				$('.noisAuto').hide();
+			} else {
+				if (date.haslimitpost) {
+					$(".haslimitpost").show();
+					$(".nohaslimitpost").hide();
+				} else {
+					$(".haslimitpost").hide();
+					$(".nohaslimitpost").show();
+				} 
+				if (date.bpRight) {
+					$(".bpRight").show();
+					$(".nobpRight").hide();
+				} else {
+					$(".bpRight").hide();
+					$(".nobpRight").show();
+				}
+			}
+
+			mui('#splist .mui-switch')[0].addEventListener('toggle', function(event) {
+				if (event.detail.isActive) {
+					$("#nospreason").hide();
+				} else {
+					$("#nospreason").show();
+				}
+			});
+			ztbphone.phonesubmitpageinit(saveform);
+		});
+
+		function AfterSave(type, message) {
+			if (type == "99")
+				epointm.alert(message);
+			else {
+				//ejs.nativeUI.toast('提交成功');
+				//回传数据代表要关闭detail.
+				ztbphone.closePage(message);
+			}
+		}
+
+		//保存
+		function saveform() {
+			mui.trigger(document.getElementById('opinion'), 'change');
+			if(!$("#opinion").val()){
+				epointm.alert("请输入意见");
+				return;
+			}
+			epointm.execute("save", null, function(date) {
+				var ret = JSON.parse(date);
+				var type = ret.Type;
+				var msg = ret.message;
+				AfterSave(type[0], msg[0]);
+			});
+
+		}
+
+		//]]>
+	</script>
+</body>
+
+</html>

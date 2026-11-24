@@ -1,0 +1,477 @@
+/**
+ * 作者：冯轶群
+ * 创建时间：2018/05/11
+ * 版本：[1.0, 2018/05/11]
+ * 版权：江苏国泰新点软件有限公司
+ * 描述：招投标APP跨平台V7 中心端 待办详情
+ */
+.mui-scroll-wrapper{
+	overflow: scroll;
+}
+
+.mui-control-content {
+    min-height: calc(100vh - 44px);
+}
+
+.mui-control-content .mui-loading {
+    margin-top: 50px;
+}
+
+#slider {
+    background: #fff;
+}
+
+/* 选项卡标记样式 */
+.control-item {
+    color: #999 !important;
+}
+
+.control-item.mui-active {
+    color: #000 !important;
+}
+
+.bottom-line {
+    width: 50%;
+    display: inline-block;
+    height: 2px;
+    background-color: #4162ff;
+    position: absolute;
+    left: 50%;
+    margin-left: -25%;
+}
+
+/* 主体 */
+.custom-scroll {
+    bottom: 50px;
+    overflow-y: auto;
+}
+/* 主体 */
+.content {
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+    background-color: #efeff4 !important;
+}
+.em-table-view,.base-info-div {
+    position: relative;
+    margin-top: 0;
+    margin-bottom: 0;
+    padding-left: 0;
+    list-style: none;
+    background-color: #fff;
+}
+
+.base-info-div{
+    margin-left: 15px;
+}
+
+.base-info-div::before {
+    position: absolute;
+    top: 10px;
+    bottom: 10px;
+    left: 0;
+    width: 4px;
+    content: '';
+    background-color: #d4daf5;
+}
+
+.em-table-view-cell,.mui-table-view-cell {
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    -webkit-touch-callout: none;
+    font-size: 16px;
+    color: #000;
+}
+.ep-mui-ywscanfilelist .em-table-view-cell{
+	display: flex;
+}
+
+.em-table-view-cell::after {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 15px;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+
+.em-table-view-cell:last-child:after {
+    height: 0;
+}
+
+.em-table-view-card {
+    margin: 5px 0;
+}
+
+.em-table-view-card:first-child {
+    margin-top: 0;
+}
+
+.card-head {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 15px;
+    background: #fff;
+}
+
+.card-head::after {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    content: '';
+    -webkit-transform: scaleY(.5);
+    transform: scaleY(.5);
+    background-color: #c8c7cc;
+}
+.card-title {
+    position: relative;
+    display: inline-block;
+    padding-left: 5px;
+    font-size: 15px;
+    text-indent: 5px;
+}
+.card-title::before {
+    content: '';
+    position: absolute;
+    top: 4px;
+    bottom: 3px;
+    left: 0;
+    width: 3px;
+    background-color: #4162ff;
+    border-radius: 1px;
+}
+.circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+    border-radius: 50%;
+    color: #999;
+}
+
+
+.card-content {
+    background: #fff;
+}
+.base-info {
+	background: #fff !important;
+}
+.card-content p {
+    padding: 5px;
+    margin-bottom: 0;
+}
+
+.content-title,.baseinfo-li>.tit {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 15px;
+    color: #999;
+}
+
+.green {
+    color: #3eba3b;
+}
+
+.blue {
+    color: #427bfa;
+}
+
+.yellow {
+    color: #ff7e33;
+}
+
+.black {
+    color: #000;
+}
+
+.bg-gray {
+    background-color: #efeff4;
+}
+.mui-slider-item.mui-control-content{
+	background-color: #efeff4;
+}
+.mui-table-view{
+	background-color: #efeff4;
+}
+/* 底部 */
+.footer {
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 50px;
+    z-index: 999;
+    background: #fff;
+    border-top: 1px solid #e0e0e0;
+}
+
+.footer .footer-handle {
+    flex: 1;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 10px;
+    font-size: 15px;
+    color: #666;
+}
+
+.footer-handle.footer-handle-agree {
+    height: 100%;
+    color: #fff;
+    background: #3eba3b;
+}
+
+.footer-handle.footer-handle-disagree {
+    height: 100%;
+    color: #fff;
+    background: #427bfa;
+}
+
+/* 附件 */
+.file-content {
+    max-height: calc(100vh - 40px);
+    overflow-y: auto;
+}
+
+.file-title {
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    padding: 11px 15px;
+    width: 100%;
+    font-size: 15px;
+    color: #333;
+}
+
+.file-name {
+    width: 245px;
+    color: black;
+    /* 文件名字过长不换行，显示为...  */
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.icon-box {
+    display: flex;
+    justify-content: space-around;
+    padding-left: 20px;
+    width: calc(100% - 245px);
+}
+
+.icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+}
+
+.icon.icon-download {
+    background: url(images_blue/download.png);
+    background-size: 100% 100%;
+}
+
+.icon.icon-more {
+    background: url(images_blue/more.png);
+    background-size: 100% 100%;
+}
+
+/* 处理历史 */
+.timeline_title {
+    display: inline-block;
+    min-width: 64px;
+    color: #999;
+    margin-right: 20px;
+}
+
+.timeline_name {
+    display: inline-block;
+    color: #333;
+}
+
+.em-timeline-content .em-table-view-cell:last-child::after {
+    height: 0;
+}
+/* 水平线 */
+.card-hr{
+	
+	height:1px;
+	border:none;
+	border-top:1px solid  #ddd;
+	margin-left:15px;
+}
+
+/* (工作流提交框上的按钮或者工作控件按钮的样式) */
+.footer {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 46px;
+}
+
+.footer .footer-handle {
+    flex: 1;
+    height: 100%;
+    background: #3774fa;
+    border: 0;
+    color: #fff;
+    border-radius: 0;
+}
+.footer .footer-sure {
+    margin-right: 1px;
+}
+
+.footer .liuhzuan{
+    flex: 1;
+    height: 100%;
+    background: #3774fa00;
+    border: 0;
+    color: #888892 !important;
+    border-radius: 0;
+    border: 1px solid #bcbcc3;
+    font-size: 18px;
+}
+
+/**
+ * 作者: 袁凯忻、郭天琦
+ * 时间: 2017-04-25 09:46:41
+ * 描述: 时间轴 (工作流处理历史)
+ */
+
+.em-timeline {
+	padding: 10px;
+}
+
+.em-timeline-date span {
+    line-height: 40px;
+}
+
+.em-timeline-node {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+	position: absolute;
+    top: 15px;
+    left: 0px;
+    width: 20px;
+    height: 20px;
+    background-color: #3774fa;
+    border-radius: 50%;
+    border: 2px solid #3774fa;
+    color: #fff;
+}
+
+.em-timeline-date {
+    float: left;
+    /* width: 20%; */
+    text-align: right;
+    /* margin-top: 25px; */
+    color: #666;
+    font-size: 12px;
+}
+
+.em-timeline-inner {
+    position: relative;
+    float: left;
+    color: #fff;
+    margin-top: 10px;
+    width: 100%;
+}
+
+.em-timeline-panel {
+	margin-top: 10px;
+    margin-left: 35px;
+    margin-bottom: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 5px #999;
+    padding: 0;
+}
+
+.em-timeline-inner:before {
+	position: absolute;
+    top: 0;
+    bottom: -10px;
+    width: 0;
+    margin: 0 9px;
+    content: '';
+    border: 1px solid #3774fa;
+}
+
+.em-timeline-item:last-child .em-timeline-inner:before {
+	bottom: 10px;
+}
+
+.em-timeline-title {
+    padding: 10px 0;
+    font-size: 14px;
+    text-align: center;
+    display: inline-block;
+    line-height: 27px;
+    width: 100%;
+    border-bottom: 1px solid #fff;
+    background-color: #3774fa;
+    color: white;
+    }
+
+.em-timeline-content {
+	display: inline-block;
+	width: 100%;
+    line-height: 30px;
+    font-size: 14px;
+    background: #fffbf2;
+}
+
+/* 待处理 */
+.em-timeline-item.active .em-timeline-node {
+    background: url(images_blue/img_waiting.png);
+    background-size: 100% 100%;
+    background-color: #b3b3b3;
+    border-radius: 50%;
+    border: 2px solid #b3b3b3;
+}
+
+.em-timeline-item.active .em-timeline-inner:before {
+    border: 1px solid #b3b3b3;
+}
+
+.em-timeline-item.active .em-timeline-title {
+    background-color: #b3b377;
+}
+.mui-outputtext{
+	 display: inline-block;
+    width: calc(100% - 0px);
+    word-wrap: break-word;
+    text-align:right;
+    color: #333;
+}
+
+.redfont{
+	color:red !important;
+}
+.em-table-view-cell>.ep-mui-outputtext{
+	text-align: left;
+	display: inline;
+}
+/*编号的样式*/
+.serial {
+	color: #427bfa !important;
+}
+/*金额的样式*/
+.number {
+	color: #ff7e33 !important;
+}
+/*单行显示2个字段,间隔200px*/
+.fieldsmore{
+	display:inline-block !important;
+	width:200px !important;
+}

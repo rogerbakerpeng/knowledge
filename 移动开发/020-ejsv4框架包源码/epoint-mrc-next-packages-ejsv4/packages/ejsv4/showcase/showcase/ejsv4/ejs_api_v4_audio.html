@@ -1,0 +1,118 @@
+<!--
+        作者：郭天琦
+        创建时间: 2018/05/04
+        版本: [3.0, 2018/05/04 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  卡片页面
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>卡片页面 api</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        var path = '';
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'audio模块',
+                // 实际中请不要这样调用标准API，这里仅作为示例
+                // 因为标准API除了调用外还有可能有其它的兼容处理，直接callApi无法达到那个目的
+                ejsApi: [{
+                    'id': 'startRecord',
+                    'text': 'startRecord(开始录制音频)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.audio.startRecord({
+                            minDuration: 1,
+                            maxDuration: 120,
+                            success: function (result) {
+                                
+                             },
+                            error: function (error) { }
+                        });
+                    }
+                }, {
+                    'id': 'stopRecord',
+                    'text': 'stopRecord(停止录制音频)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.audio.stopRecord({
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result))
+                                path = result.path;
+                            },
+                            error: function () { }
+                        });
+                    }
+                }, {
+                    'id': 'cancelRecord',
+                    'text': 'cancelRecord(取消音频录制)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.audio.cancelRecord({
+                            success: function () { },
+                            error: function () { }
+                        });
+                    }
+                }, {
+                    'id': 'startPlay',
+                    'text': 'startPlay(开始播放音频)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.audio.startPlay({
+                            path: path,
+                            success: function (result) {
+                            },
+                            error: function(error) {}
+                        });
+                    }
+                }, {
+                    'id': 'stopPlay',
+                    'text': 'stopPlay(停止播放音频文件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.audio.stopPlay({
+                            success: function () { },
+                            error: function () { }
+                        });
+                    }
+                }]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

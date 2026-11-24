@@ -1,0 +1,491 @@
+<!--
+        作者：戴荔春
+        创建时间: 2017/05/31
+        版本: [3.0, 2017/05/31 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  device 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=5,user-scalable=yes">
+    <title>device模块</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'device模块',
+                ejsApi: [{
+                    'id': 'setOrientation',
+                    'text': 'setOrientation(设置横屏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setOrientation({
+                            // 1表示竖屏，0表示横屏，其他表示跟随系统
+                            orientation: 0,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setOrientation2',
+                    'text': 'setOrientation(设置竖屏)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setOrientation({
+                            // 1表示竖屏，0表示横屏，其他表示跟随系统
+                            orientation: 1,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setOrientation3',
+                    'text': 'setOrientation(设置跟随系统)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setOrientation({
+                            // 1表示竖屏，0表示横屏，其他表示跟随系统
+                            orientation: 2,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getDeviceId',
+                    'text': 'getDeviceId(获取设备唯一ID)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        ejs.device.getDeviceId({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getMacAddress',
+                    'text': 'getMacAddress(获取Mac地址-仅Android)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.getMacAddress({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getScreenInfo',
+                    'text': 'getScreenInfo(获取屏幕像素信息)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.getScreenInfo({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getVendorInfo',
+                    'text': 'getVendorInfo(获取厂商信息)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.getVendorInfo({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'isTablet',
+                    'text': 'isTablet(判断是否是平板)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.isTablet({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getNetWorkInfo',
+                    'text': 'getNetWorkInfo(获取网络信息)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        ejs.device.getNetWorkInfo({
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'callPhone',
+                    'text': 'callPhone(打电话)',
+                    'evn': 'all',
+                    'runCode': function () {
+                        ejs.device.callPhone({
+                            phoneNum: '18262280461',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容
+                        // ejs.device.callPhone('18262280461');
+                    }
+                }, {
+                    'id': 'sendMsg',
+                    'text': 'sendMsg(发短信)',
+                    'evn': 'all',
+                    'runCode': function () {
+                        ejs.device.sendMsg({
+                            phoneNum: '18262280461',
+                            message: '测试短信',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容
+                        // ejs.device.sendMsg('18262280461', '测试');
+                    }
+                }, {
+                    'id': 'closeInputKeyboard',
+                    'text': 'closeInputKeyboard(关闭软键盘)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.closeInputKeyboard({
+
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'vibrate',
+                    'text': 'vibrate(震动)',
+                    'evn': 'ejs_dd',
+                    'runCode': function () {
+                        // 目前默认一秒
+                        ejs.device.vibrate({
+                            duration: 200,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'sendTo',
+                    'text': 'sendTo(发送到其它APP)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.sendTo({
+                            title: '测试标题',
+                            url: 'http://www.liantu.com/',
+                            imgBase64: '',
+                            imgURL: '',
+                            sdPath: '',
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    // ejs android有用
+                    'id': 'setZoomControl',
+                    'text': 'setZoomControl(设置缩放控件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setZoomControl({
+                            isShow: 1,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容
+                        // ejs.device.setZoomControl(1);
+                    }
+                }, {
+                    // ejs android有用
+                    'id': 'setZoomControl2',
+                    'text': 'setZoomControl(隐藏缩放控件)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setZoomControl({
+                            isShow: 0,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容
+                        // ejs.device.setZoomControl(0);
+                    }
+                }, {
+                    // ejs ios有用
+                    'id': 'setBounce',
+                    'text': 'setBounce(开启回弹)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setBounce({
+                            isEnable: 1,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容
+                        // ejs.device.setBounce(1);
+                    }
+                }, {
+                    // ejs ios有用
+                    'id': 'setBounce2',
+                    'text': 'setBounce(关闭回弹)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setBounce({
+                            isEnable: 0,
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容
+                        // ejs.device.setBounce(0);
+                    }
+                }, {
+                    'id': 'shakeEnable',
+                    'text': 'shakeEnable(监听摇一摇)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.shake.enable({
+                            success: function (result) {
+                                litemplate.showTips('摇一摇：' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+
+                    }
+                }, {
+                    'id': 'shakeDisable',
+                    'text': 'shakeDisable(关闭摇一摇)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.shake.disable({
+                            success: function (result) {
+                                litemplate.showTips('关闭摇一摇成果：' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'checkPermissions',
+                    'text': 'checkPermissions(检查权限是否存在(定位))',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.checkPermissions({
+                            permissionsType: 0,
+                            success: function (result) {
+                                if (result.permissionGranted == 1) {
+                                    ejs.ui.toast('有定位权限')
+                                } else {
+                                    ejs.ui.toast('没有定位权限')
+                                }
+                                /**
+                                 * {
+                                        permissionGranted: 1
+                                   }
+                                 */
+                            },
+                            error: function (error) { }
+                        });
+                    }
+                }, {
+                    'id': 'requestPermissions',
+                    'text': 'requestPermissions(申请特定权限(麦克风))',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.requestPermissions({
+                            permissionsType: 6,
+                            success: function (result) {
+                                if (result.resultData == 0) {
+                                    ejs.ui.toast('申请权限时点了允许(允许)')
+                                } else if (result.resultData == 1) {
+                                    ejs.ui.toast('申请权限时点了拒绝')
+                                } else if (result.resultData == 2) {
+                                    ejs.ui.toast('以前申请权限时点了拒绝并选择不再提示，所以默认拒绝')
+                                }
+                                /**
+                                 * {
+                                        permissionGranted: 1
+                                   }
+                                 */
+                            },
+                            error: function (error) { }
+                        });
+                    }
+                }, {
+                    'id': 'isHasVirtualPosApp',
+                    'text': 'isHasVirtualPosApp（检测手机上是否安装虚拟定位软件）',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.isHasVirtualPosApp({
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                ejs.ui.toast(JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'beep',
+                    'text': 'beep（调用蜂鸣功能）',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.beep({
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                ejs.ui.toast(JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'goAppSetting',
+                    'text': 'goAppSetting（跳转至应用的权限设置）',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.goAppSetting({
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                ejs.ui.toast(JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'setEnableShot',
+                    'text': 'setEnableShot（不允许系统截屏）',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.setEnableShot({
+                            isEnableShot: 0,
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                ejs.ui.toast(JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'getDeviceInfo',
+                    'text': 'getDeviceInfo（获取系统信息）',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.device.getDeviceInfo({
+                            success: function (result) {
+                                ejs.ui.toast(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                ejs.ui.toast(JSON.stringify(error));
+                            }
+                        });
+                    }
+                }]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

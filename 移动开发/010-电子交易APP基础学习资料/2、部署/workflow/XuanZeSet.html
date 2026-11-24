@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>选择审批路径</title>
+<meta charset="UTF-8" />
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+<script src="../frame/fmui/js/cssboot.js"></script>
+<script>
+	SrcBoot.output([ "css/ZTB_list.css", "frame/fmui/css/extend/app_search.css" ]);
+</script>
+</head>
+<body>
+	<div class="page-loading"></div>
+	<div class="common-input-row common-input-type1 search-area">
+		<div class="common-input">
+			<span class="btn-search mui-icon mui-icon-search"></span> <input id="input-searchName" type="text" class="ep-mui-textbox common-input-clear" bind="processversionname"
+				placeholder="搜索路径名称" />
+		</div>
+	</div>
+	<!-- 内容区域 -->
+	<div class="mui-content">
+		<ul id="listdata" class="ep-mui-list mui-table-view mui-table-view-chevron" idField="pvguid" extraId="input-searchName" action="dataModel" pageSize="10" defaultPage="0"
+			fields="processname"  skin="default" onitemclick="listItemClick">
+			<li class="mui-table-view-cell">{{processname}}</li>
+		</ul>
+	</div>
+	<script>
+		SrcBoot.output([ "frame/fmui/js/libs/Tools.PullToRefresh.Base.Default.js", "frame/fmui/js/libs/Tools.PullToRefresh.Impl.Default.js" ]);
+	</script>
+	<script>SrcBoot.output(["frame/fmui/js/jsboot.js"])</script>
+	<script>
+		document.getElementById('input-searchName').addEventListener('change', onSearch);
+
+		epointm.initPage('xuanZeSetAction', null, function(data) {
+			if (data.showsec == '1')
+				$('#msgtip').show();
+			else
+				$('#msgtip').hide();
+		});
+
+		window.listItemClick = function(e, id) {
+			ztbphone.closePage(id.pvguid);
+		};
+
+		function onSearch() {
+			//获取搜索控件
+			var pulltorefreshObj = epm.get('listdata');
+			pulltorefreshObj && pulltorefreshObj.pullToRefresh && pulltorefreshObj.pullToRefresh.refresh();
+		}
+	</script>
+</body>
+</html>

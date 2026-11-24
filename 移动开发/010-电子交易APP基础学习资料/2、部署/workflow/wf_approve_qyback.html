@@ -1,0 +1,92 @@
+
+<!DOCTYPE html >
+<html lang="zh-CN">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>审批</title>
+		<!-- H5页面窗口自动调整到设备宽度，并控制用户缩放页面 -->
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no" />
+		<!-- IOS中禁用将数字识别为电话号码/忽略Android平台中对邮箱地址的识别 -->
+		<meta name="format-detection" content="telephone=no, email=no" />
+		<script src='../frame/fmui/js/cssboot.js'></script>
+		<script>
+			SrcBoot.output([
+				'workflow/css/workflow_approve.css'
+			]);
+		</script>
+	</head>
+
+	<body>
+		<div class="mui-content">
+			<!--当前步骤-->
+			<ul class=" em-todo-table-view mui-table-view em-todo-step">
+				<li class="mui-table-view-cell">
+					<div>当前步骤<span class="activityname" id="curr_step"></span></div>
+				</li>
+				<li class="mui-table-view-cell">
+					<div>当前操作<span class="operationname" id="curr_op"></span></div>
+				</li>
+			</ul>
+			
+			<!--签署意见-->
+			<p class="em-todo-p">签署意见</p>
+			<div class="em-todo-opinion">
+				<textarea class="ep-mui-textarea" bind="txtOpinion" id="opinion" name="" rows="" cols="" placeholder="请**审批"></textarea>
+			</div>
+			<!--短信提醒-->
+			<div class="em-todo-message">
+				<span>短信提醒</span>
+				<div class="ep-mui-switch"  bind="smschecked"/>
+			</div>
+		</div>
+		<script>SrcBoot.output(["frame/fmui/js/jsboot.js"])</script>
+		<script>
+			epointm.initPage('qyHandleBackAction', null, function(data) {
+				epointm.execute("initPage", null, function(jsonString) {
+					var dataa = JSON.parse(jsonString);
+					if (!dataa) {
+						epointm.alert('数据为空,初始化页面失败！', '提示', function() {
+							ejs.page.closePage();
+						});
+						return;
+					}
+					// 当前步骤 所有页面
+					if (dataa.activityname) {
+						$("#curr_step").text(dataa.activityname);
+					}
+					if (dataa.operationname) {
+						$("#curr_op").text(dataa.operationname);
+					}
+				});
+				ztbphone.phonesubmitpageinit(saveform);
+			});
+	
+			//保存
+			function saveform() {
+				mui.trigger(document.getElementById('opinion'), 'change');
+				if(!$("#opinion").val()){
+					epointm.alert("请输入意见");
+					return;
+				}
+				epointm.execute("save", null, function(date) {
+					var ret = JSON.parse(date);
+					var type = ret.Type;
+					var msg = ret.message;
+					AfterSave(type[0], msg[0]);
+				});
+			}
+	
+			function AfterSave(type, message) {
+				if (type == "99")
+					epointm.alert(message);
+				else {
+					ztbphone.closePage(message);
+				}
+			}
+	
+
+		</script>
+	</body>
+
+</html>

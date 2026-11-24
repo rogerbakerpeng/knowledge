@@ -1,0 +1,188 @@
+<!-- 
+        作者：戴荔春
+        创建时间: 2017/05/31
+        版本: [3.0, 2017/05/31 ]
+        版权: 江苏国泰新点软件有限公司
+        描述：  page 模块的示例
+-->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <!-- 移动端的响应式特性 -->
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>page模块</title>
+
+    <script>
+        document.write("<script src='../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        SrcBoot.output([
+            './_common/common.css'
+        ]);
+    </script>
+
+</head>
+
+<body>
+    <div class="mui-content pt0" id="ejs-app">
+
+    </div>
+    <!-- <script src="https://g.alicdn.com/dingding/dingtalk-jsapi/2.10.3/dingtalk.open.js"></script> -->
+    <script>
+        document.write("<script src='../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+    </script>
+    <script>
+        "use strict";
+
+        Util.loadJs(
+            './_common/bizlogic_common_ready.js',
+            function () {
+                Util.bizlogic.ready(initPage);
+            });
+
+        function initPage() {
+            var litemplate = new Util.litemplate.listLitemplate({
+                isIndex: false,
+                title: 'page模块',
+                ejsApi: [{
+                    'id': 'open',
+                    'text': 'open(新窗口打开页面)',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        ejs.page.open({
+                            pageUrl: "./ejs_demo_v4_simple.html",
+                            pageTitle: '测试页面标题',
+                            // 横竖屏,默认为1表示竖屏
+                            orientation: '1',
+                            // 额外数据
+                            data: {
+                                key1: 'value1'
+                            },
+                            useRouter: false,
+                            success: function (result) {
+                                // 格式 {resultData:'可能是json，也可能是普通字符串，要看怎么传参的'}
+                                litemplate.showTips('页面关闭回传参数：' + JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容如下调用
+                        //                                  ejs.page.open("http://www.baidu.com/",{
+                        //                                      key1: 'value1'
+                        //                                  });
+                    }
+                }, {
+                    'id': 'openLocal',
+                    'text': 'openLocal(打开测试原生页面)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        var className = ejs.os.android ? 'com.epoint.baseapp.component.chooseperson.PersonChooseActivity' : 'EPTFileSelectViewController';
+                        ejs.page.openLocal({
+                            className: className,
+                            // 为1则是打开已存在的页面，会杀掉所有该页面上的页面
+                            isOpenExist: '0',
+                            // 额外数据，注意额外数据只能一层键值对形式，不能再包裹子json
+                            data: {
+                                key: 'value1'
+                            },
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'close',
+                    'text': 'close(关闭当前页面)',
+                    'evn': 'ejs_dd_h5',
+                    'runCode': function () {
+                        // 可以传json也可以传字符串，底层都会默认转成字符串的
+                        ejs.page.close({
+                            resultData: {
+                                key: 'value2'
+                            },
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                        // 兼容如下调用，兼容模式只允许传递字符串
+                        // ejs.page.close('value2');
+                    }
+                }, {
+                    'id': 'reload',
+                    'text': 'reload(重载当前页面)',
+                    'evn': 'ejs_h5',
+                    'runCode': function () {
+                        ejs.page.reload();
+                    }
+                }, {
+                    'id': 'showError',
+                    'text': 'showError(显示原生的错误提示控件)',
+                    'evn': 'ejs_h5',
+                    'runCode': function () {
+                        ejs.page.showError({
+                            type: ~~(Math.random() * 4),
+                            success: function (result) {
+                                litemplate.showTips(JSON.stringify(result));
+                            },
+                            error: function (error) {
+                                litemplate.showTips('失败:' + JSON.stringify(error));
+                            }
+                        });
+                    }
+                }, {
+                    'id': 'href',
+                    'text': 'href(href跳转到index页面)',
+                    'evn': 'ejs_h5',
+                    'runCode': function () {
+                        window.location.href = './index.html';
+                    }
+                }, {
+                    'id': 'replace',
+                    'text': 'replace(用index页面替换当前页面)',
+                    'evn': 'ejs_h5',
+                    'runCode': function () {
+                        ejs.page.replace({
+                            url: './index.html',
+                            success: function () {
+                            },
+                            error: function () {
+                            }
+                        })
+                    }
+                }, {
+                    'id': 'open2',
+                    'text': 'open(ejs_reserve_statusbar=1，ejs_wv_bgcolor=4169E1)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        
+                        ejs.page.open("./ejs_api_v4_navigator.html", {
+                            ejs_reserve_statusbar: 1,
+                            ejs_wv_bgcolor: '4169E1'
+                        });
+                    }
+                }, {
+                    'id': 'open3',
+                    'text': 'open(ejs_reserve_statusbar=2)',
+                    'evn': 'ejs',
+                    'runCode': function () {
+                        ejs.page.open("./ejs_api_v4_navigator.html", {
+                            ejs_reserve_statusbar: 2
+                        });
+                    }
+                },]
+            });
+        }
+    </script>
+
+</body>
+
+</html>

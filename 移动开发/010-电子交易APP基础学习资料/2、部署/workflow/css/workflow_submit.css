@@ -1,0 +1,444 @@
+/** 
+ * 作者： 孙尊路
+ * 创建时间：2017/08/28 10:22
+ * 版本： [1.0, 2017/08/28]
+ * 版权： 江苏国泰新点软件有限公司
+ * 描述： 请假和销假审批
+**/
+
+html,
+.mui-content {
+	background-color: #f5f5f5;
+	height: 100vh!important;
+}
+
+.mui-content>.em-todo-table-view.mui-table-view:first-child {
+	margin-top: 0;
+	margin-bottom: 12px;
+}
+
+.em-todo-table-view:before,
+.em-todo-table-view:after {
+	-webkit-transform: scaleY(1);
+	transform: scaleY(1);
+	background-color: #d9d9d9;
+}
+
+.em-todo-table-view .mui-table-view-cell {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+.em-todo-table-view .mui-table-view-cell:after {
+	left: 10px;
+	background-color: #e6e6e6;
+}
+
+.em-todo-table-view .mui-table-view-cell.mui-active {
+	background-color: #fff;
+}
+
+
+/*当前步骤*/
+
+.em-todo-step div,
+.em-todo-amount span {
+	font-size: 17px;
+	color: #666666;
+}
+
+.em-todo-step span {
+	margin-left: 22px;
+	color: #000000;
+}
+
+
+/*当前分支*/
+
+.em-todo-step .mui-table-view-cell>a:not(.mui-btn) {
+	margin: -11px -10px;
+}
+
+.mui-navigate-right:after,
+.mui-push-right:after {
+	right: 5px;
+	content: '\e583';
+	font-size: 28px;
+}
+
+
+/*人员选择*/
+
+.em-todo-amount,
+.em-todo-amount div {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.em-todo-amount .em-todo-branch-name {
+	font-size: 15px;
+}
+
+.em-todo-amount img {
+	margin-left: 10px;
+	width: 24px;
+	height: 24px;
+}
+
+.select .order {
+	border-radius: 12px;
+	width: 30px;
+	min-width: 30px;
+	height: 22px;
+	line-height: 23px;
+	color: #FFFFFF;
+	text-align: center;
+	background-color: #ff0000;
+}
+
+
+/*人员展示*/
+
+.em-todo-people.mui-table-view-cell {
+	padding: 0px 0px 0px 15px
+}
+
+.em-todo-people-wrapper{
+	/*暂无设置*/
+}
+.em-person-item{
+	display: inline-block;
+	padding: 3px 5px;
+	border-radius: 14px;
+	background-color: #cbe3ff;
+	margin-right: 5px;
+	margin-bottom: 5px;
+	margin-top: 5px;
+	margin-left: -5px;
+	color: #000000;
+	font-size: 13px;
+	border: 2px solid #38adff;
+}
+/*签署意见*/
+
+.em-todo-p {
+	margin: 20px 0 10px 10px;
+	font-size: 15px;
+	color: #666666;
+}
+
+.em-todo-opinion {
+	position: relative;
+}
+
+.em-todo-opinion textarea {
+	margin-bottom: 10px;
+	padding: 10px;
+	border: 0;
+	border-radius: 0;
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #d9d9d9;
+	height: 166px;
+}
+
+.em-todo-opinion textarea::-webkit-input-placeholder {
+	font-size: 17px;
+	color: #999999;
+}
+
+#commonTemple,
+#personTemple {
+	position: absolute;
+	bottom: 30px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #3c80e6;
+	border-radius: 6px;
+	width: 45.5%;
+	height: 35px;
+	font-size: 17px;
+	color: #3c80e6;
+}
+
+#commonTemple img,
+#personTemple img {
+	margin: -2px 10px 0 0;
+	width: 15px;
+	height: 15px;
+}
+
+#commonTemple {
+	left: 10px;
+}
+
+#personTemple {
+	right: 10px;
+}
+
+
+/*短信提醒*/
+
+.em-todo-message {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding-left: 10px;
+	padding-right: 10px;
+	border-top: 1px solid #d9d9d9;
+	border-bottom: 1px solid #d9d9d9;
+	height: 44px;
+	background-color: #FFFFFF;
+	margin-bottom: 45px;
+}
+
+.em-todo-message span {
+	font-size: 17px;
+	color: #000000;
+}
+
+/* 提交按钮 */
+.footer {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 45px;
+    background: #3774fa;
+    color: #fff;
+    font-size: 19px;
+}
+
+.splitname{
+	color: #3774fa !important;
+}
+
+/* 意见模板 */
+
+.mui-scroll-wrapper {
+	z-index: 0;
+	margin-bottom: 45px;
+}
+
+
+/*列表*/
+
+.mui-radio.mui-left input[type='radio'],
+.mui-radio.mui-left.em-todo-radio input[type='radio'] {
+	left: 0;
+}
+
+.mui-radio.mui-left label,
+.mui-radio.mui-left.em-todo-radio label {
+	padding-left: 35px;
+}
+
+.listdata:before,
+.listdata:after {
+	background-color: #e0e0e0;
+}
+
+.listdata .mui-table-view-cell:after {
+	left: 10px;
+	background-color: #e0e0e0;
+}
+
+.listdata .mui-table-view-cell {
+	padding: 2px 0 2px 10px;
+	font-size: 17px;
+	color: #333333;
+}
+
+.em-todo-radio input[type='radio']:checked:before {
+	content: '\e442';
+}
+
+.mui-radio input[type='radio']:checked:before,
+.mui-checkbox input[type='checkbox']:checked:before {
+	color: #3c80e6;
+}
+
+.listdata .em-todo-active {
+	color: #3c80e6;
+}
+
+
+/*新增模板*/
+
+.em-todo-add-temple {
+	position: fixed;
+	bottom: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-top: 1px solid #e0e0e0;
+	width: 100%;
+	height: 45px;
+	background-color: #fafafa;
+}
+
+.em-todo-add-temple:active {
+	/*background-color: #f5f5f5;*/
+}
+
+.em-todo-add-temple img {
+	margin-top: -2px;
+	width: 18px;
+	height: 16px;
+}
+
+.em-todo-add-temple p {
+	margin: 0 0 0 10px;
+	font-size: 17px;
+	color: #3c80e6;
+}
+
+* {
+	word-break: break-all;
+}
+
+
+/* 新增模板 */
+.em-tips {
+ 	display: none;
+ 	width: 250px;
+ 	height: 130px;
+ 	position: absolute;
+ 	top: 0px;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+ 	margin: auto;
+ 	padding: 10px;
+ 	text-align: center;
+ 	background: #ffffff;
+ 	z-index: 999;
+ 	border-radius: 10px;
+ 	border-color: #f5f5f5;
+ }
+ 
+ .em-tips textarea {
+ 	height: 60px;
+ }
+ /*遮罩*/
+ 
+ .em-mask {
+ 	display: none;
+ 	z-index: 11;
+ 	margin-top: 0px;
+ 	position: fixed;
+ 	top: 0;
+ 	bottom: 0;
+ 	left: 0;
+ 	right: 0;
+ 	background: #000;
+ 	opacity: 0.5;
+ }
+ /*按钮*/
+ 
+ .em-buttons {
+ 	display: flex;
+ 	justify-content: space-around;
+ 	margin-top: -10px;
+ }
+ 
+ .em-buttons button {
+ 	width: calc(100% - 20px) / 2;
+ 	height: 38px;
+ 	font-size: 16px;
+ 	/*text-align: center;*/
+ 	color: #FFFFFF;
+ 	border-radius: 5px;
+ }
+ 
+ .useYouXian1 input[type='button'],
+ .useYouXian1.mui-btn {
+ 	border: 1px solid gray;
+ 	background-color: gray;
+ }
+ 
+ .useYouXian1 input[type='button'],
+ .useYouXian1.mui-btn:enabled:active {
+ 	background-color: gray;
+ 	border: 1px solid gray;
+ }
+ 
+ .quickSendPrice input[type='button'],
+ .quickSendPrice.mui-btn {
+ 	border: 1px solid #3c80e6;
+ 	background-color: #3c80e6;
+ }
+ 
+ .quickSendPrice input[type='button'],
+ .quickSendPrice.mui-btn:enabled:active {
+ 	background-color: gray;
+ 	border: 1px solid gray;
+ }
+ 
+/*  个人模板底部按钮 */
+ .footerbtn {
+    position: absolute;
+    z-index: 99;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    height: 45px;
+}
+
+.footerbtn button {
+    flex: 1;
+    height: 100%;
+    background: #3774fa;
+    border: 0;
+    color: #fff;
+    border-radius: 0;
+}
+
+.footerbtn .btn-tpladd {
+    margin-right: 1px;
+}
+
+/* 选取当前分支 */
+.split-select-tips {
+ 	display: none;
+ 	width: 300px;
+ 	height: auto;
+ 	position: absolute; 	
+ 	left: 0;
+ 	right: 0;
+ 	margin: auto;
+ 	bottom:50%;
+ 	background: #ffffff;
+ 	z-index: 999;
+ 	border-radius: 10px;
+ 	border-color: #f5f5f5;
+ }
+ 
+.select-tips-title{
+	background-color:#efeff4;	
+	padding:10px 0px;
+	border-top-left-radius:10px;
+	border-top-right-radius:10px;
+}
+
+.select-tips-title span{
+	
+	padding-left:10px;
+	
+}
+.split-select-tips li{
+	padding:10px 0px;
+	padding-left:10px;
+	width:100%;
+}
+
+html,.mui-content{
+	height:100vh !important;
+}

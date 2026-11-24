@@ -12,7 +12,8 @@
 | [ClaudeCode](ClaudeCode/index.md) | Claude Code 使用、环境搭建与排查沉淀（代理链路、虚拟机等） |
 | [案例](案例/index.md) | 可复用的设计/方案案例库，没思路时来找思路 |
 | [产品逆向](产品逆向/index.md) | Epoint 产品反编译源码与分析报告（电子签章、CA签章等） |
-| [技能](skill/index.md) | 可安装的技能：脑爆调研、提示词与技能优化、招标范本结构化切分 |
+| [移动开发](移动开发/index.md) | EMP8/电子交易APP/M8跨端：官方学习包、ejsv4 源码、cs0822 架构分析 |
+| [技能](skill/index.md) | 可安装的技能：脑爆调研、提示词与技能优化、招标范本结构化切分、M8跨端、交易App移动端开发 |
 
 ## 快速入口
 
@@ -28,5 +29,6 @@
 - [Epoint 框架加解密工具排查手册](技术笔记/Epoint框架加解密工具排查手册.md)：共享版已移除具体凭据。
 - [M8 移动框架离线文档](技术笔记/010-M8移动框架离线文档/index.md)：M8 跨端框架 264 页 + EJS-JSSDK 15 模块 API 整站镜像（含图），离线替代仅内网可达的 epoint-mrc-mcp 文档服务；查 EM 组件 / Util / EJS API 直接翻目录。
 - [电子签章产品逆向](产品逆向/010-电子签章EpQzFileServer/index.md)：EpQzFileServer 签章引擎逆向分析——接入协议（token/SM4/同域部署）、云签流程、CA互认签名规则、接口清单、风险与整改清单、授权到期提醒；关键字：电子签章、CA签章、OFD、标证通、投标文件解密。
+- [交易APP移动端架构分析](移动开发/030-交易APP移动端架构分析/index.md)：cs0822.apk 反编译结论——EMP8/EJS/H5 三层关系、EJS 全链路（callApi→JSBridge→IBridgeImpl）、8.0 交付全景（tpframe/tpbidder）、FMUI+Action 与 H5+Rest 两种页面模式、V7 接口规范；关键字：EMP8、EJS、JSBridge、一网通办、不见面开标、标证通。
 
 最后更新：2026-11-24。

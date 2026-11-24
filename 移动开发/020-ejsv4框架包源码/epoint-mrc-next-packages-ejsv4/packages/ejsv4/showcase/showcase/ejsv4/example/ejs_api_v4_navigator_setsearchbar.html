@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <meta name="format-detection" content="telephone=no" />
+        <title>navigator.setSearchBar 测试页面</title>
+        <script>
+            document.write("<script src='../../../js/cssboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+
+        <style>
+            .container {
+                padding: 10px;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        <div class="container" id="container">
+            <button type="button" data-type="showSearchBar" class="mui-btn mui-btn-blue mui-btn-block">显示搜索栏，不可输入</button>
+            <button type="button" data-type="hideSearchBar" class="mui-btn mui-btn-green mui-btn-block">隐藏搜索栏</button>
+            <button type="button" data-type="placeholder" class="mui-btn mui-btn-yellow mui-btn-block">设置 placeholder，可输入内容</button>
+        </div>
+
+        <script>
+            document.write("<script src='../../../js/jsboot.js?" + Math.random() + "'></scr" + "ipt>");
+        </script>
+
+        <script>
+            'use strict';
+
+            Util.loadJs(function () {
+                document.getElementById('container').addEventListener('tap', function (e) {
+                    var target = e.target;
+
+                    switch (target.dataset.type) {
+                        case 'showSearchBar':
+                            setSearchBar({
+                                isShow: 1,
+                                isSearchable: 0,
+                                success: function(result) {
+                                    ejs.ui.toast(JSON.stringify(result));
+                                    console.log(JSON.stringify(result));
+                                }
+                            });
+                            break;
+
+                        case 'hideSearchBar':
+                            setSearchBar({
+                                isShow: 0
+                            });
+                            break;
+                            
+                        case 'placeholder':
+                            setSearchBar({
+                                isShow: 1,
+                                isSearchable: 1,
+                                placeholder: '搜索内容'
+                            });
+                            break;
+
+                        default:
+                            break;
+                    }
+                });
+            });
+
+            function setSearchBar(options) {
+                options = extend(options, {
+                    success: function (result) {
+                        ejs.ui.toast(JSON.stringify(result));
+                        console.log(JSON.stringify(result));
+                    },
+                    error: function (err) {
+                        console.error(err);
+                    }
+                });
+
+                ejs.navigator.setSearchBar(options);
+            }
+
+            function extend() {
+                var args = [].slice.call(arguments),
+                    result = args[0];
+
+                for (var i = 1, len = args.length; i < len; i++) {
+                    var item = args[i];
+
+                    for (var k in item) {
+                        if (result[k] === undefined) {
+                            result[k] = item[k];
+                        }
+                    }
+                }
+
+                return result;
+            }
+        </script>
+    </body>
+
+</html>

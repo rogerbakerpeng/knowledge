@@ -21,7 +21,9 @@
 
 - [产品逆向](产品逆向/index.md)：Epoint 产品反编译源码与分析报告并列入库（电子签章等），含关键字索引与源码导航。
 
-- [技能](skill/index.md)：yuan脑爆调研、yuanskill-pro提示词与技能优化、tender-template-structuring招标范本结构化切分，附Codex安装说明。
+- [移动开发](移动开发/index.md)：EMP8/电子交易APP/M8 跨端资料——官方学习包（部署/审批页/接口/中心端/会员端/小程序）、ejsv4 源码、cs0822.apk 架构分析。
+
+- [技能](skill/index.md)：yuan脑爆调研、yuanskill-pro提示词与技能优化、tender-template-structuring招标范本结构化切分、m8-mobile-cross-platform M8跨端开发、epoint-mobile-dev 交易App移动端开发，附Codex安装说明。
 
 ## 使用与维护
 
