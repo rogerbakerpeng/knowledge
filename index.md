@@ -26,6 +26,7 @@
 
 - [Epoint 新点应用启动技能](流程规范/010-Epoint应用启动/index.md)：Maven tomcat7:run、IDEA/JRebel、Redis、陈旧 JAR 排查、启动时间预期与成功判定。
 - [Epoint 框架加解密工具排查手册](技术笔记/Epoint框架加解密工具排查手册.md)：共享版已移除具体凭据。
+- [M8 移动框架离线文档](技术笔记/010-M8移动框架离线文档/index.md)：M8 跨端框架 264 页 + EJS-JSSDK 15 模块 API 整站镜像（含图），离线替代仅内网可达的 epoint-mrc-mcp 文档服务；查 EM 组件 / Util / EJS API 直接翻目录。
 - [电子签章产品逆向](产品逆向/010-电子签章EpQzFileServer/index.md)：EpQzFileServer 签章引擎逆向分析——接入协议（token/SM4/同域部署）、云签流程、CA互认签名规则、接口清单、风险与整改清单、授权到期提醒；关键字：电子签章、CA签章、OFD、标证通、投标文件解密。
 
-最后更新：2026-11-18。
+最后更新：2026-11-24。
