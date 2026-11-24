@@ -6,7 +6,7 @@
 | yuanskill-pro | 研究驱动的提示词与技能设计、优化和验证 | [技能定义](yuanskill-pro/SKILL.md) · [使用说明](yuanskill-pro/安装与使用说明.md) |
 | tender-template-structuring | 招标文件范本结构化切分：代理端招标菜单与标记埋点、投标菜单节点与html、扫描件清单；支持已批注/原始/换版三种场景 | [技能定义](tender-template-structuring/SKILL.md) · [使用说明](tender-template-structuring/使用说明.md) |
 | m8-mobile-cross-platform | M8.3(Vue2+Vuex)/M8.4(Vue3+Pinia+TS) 移动跨端页面开发、迁移与审查；第一步必须识别版本 | [技能定义](m8-mobile-cross-platform/SKILL.md) |
-| epoint-mobile-dev | 新点 EMP8 移动端/电子交易 App 需求开发助手：判断需求类型（H5/EJS/原生/菜单配置/MQTT/CA）并分步实现 | [技能定义](epoint-mobile-dev/SKILL.md) |
+| epoint-mobile-dev | 新点 EMP8 移动端/电子交易 App 需求开发助手：判断需求类型（H5/EJS/原生/菜单配置/MQTT/CA）并分步实现 | [技能定义](epoint-mobile-dev/SKILL.md) · [使用说明](epoint-mobile-dev/README.md) |
 
 2026-11-23 新增 tender-template-structuring（来源：微信文件，原始包在该技能目录 原始材料/ 下备查；尚未安装到本机 Codex，需要时按下方步骤复制）。
 
