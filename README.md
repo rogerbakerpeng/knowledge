@@ -23,7 +23,7 @@
 
 - [移动开发](移动开发/index.md)：EMP8/电子交易APP/M8 跨端资料——官方学习包（部署/审批页/接口/中心端/会员端/小程序）、ejsv4 源码、cs0822.apk 架构分析。
 
-- [素材](素材/index.md)：产品界面截图与图示素材（开评标系统辅助评标AI等），每条带画面要点导读与关键字，做方案/原型时找参考。
+- [素材](素材/index.md)：产品界面截图与图示素材（开评标系统辅助评标AI、陕西智能辅助评标形式评审等），每条带画面要点导读与关键字，做方案/原型时找参考。
 
 - [技能](skill/index.md)：yuan脑爆调研、yuanskill-pro提示词与技能优化、tender-template-structuring招标范本结构化切分、m8-mobile-cross-platform M8跨端开发、epoint-mobile-dev 交易App移动端开发，附Codex安装说明。
 
