@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Claude KYC 检查器",
+  "version": "1.0.0",
+  "description": "在已登录的 claude.ai 标签页中本地查询组织 KYC 状态。不读取 Cookie，不上传 sessionKey。",
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "检查 Claude KYC 状态",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "permissions": ["activeTab", "scripting"],
+  "host_permissions": ["https://claude.ai/*"]
+}

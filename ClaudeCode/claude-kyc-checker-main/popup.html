@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Claude KYC 检查器</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header class="header">
+    <div>
+      <h1>Claude KYC 检查器</h1>
+      <p class="subtitle">仅在本地 claude.ai 页面查询，不读取 Cookie</p>
+    </div>
+    <button type="button" id="refresh-btn" class="btn btn-secondary" hidden>刷新</button>
+  </header>
+
+  <main id="app">
+    <div id="status-line" class="status-line" role="status">正在检查当前标签页…</div>
+    <div id="open-panel" class="panel" hidden>
+      <p>请先打开并登录 <strong>claude.ai</strong>，再查询 KYC 状态。</p>
+      <button type="button" id="open-btn" class="btn btn-primary">打开 claude.ai</button>
+    </div>
+    <div id="error-panel" class="panel error-panel" hidden></div>
+    <div id="results" class="results" hidden></div>
+  </main>
+
+  <footer class="footer">
+    <button type="button" id="copy-btn" class="btn btn-secondary" hidden>复制结果</button>
+    <p class="privacy">本扩展不会读取 sessionKey 或 Cookie，也不会向第三方站点发送任何账号数据。</p>
+  </footer>
+
+  <script src="classify.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
